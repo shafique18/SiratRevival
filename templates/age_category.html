@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block title %}Posts for Age Group {{ group }}{% endblock %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Posts for Age Group: {{ group }}</h1>
+<div class="space-y-6">
+  {% for post in posts %}
+  <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
+    <h2 class="text-xl font-semibold mb-2">
+      <a href="{{ url_for('blog.post_view', id=post.id) }}" class="hover:text-blue-600">{{ post.title }}</a>
+    </h2>
+    <p class="text-gray-700">{{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}</p>
+  </div>
+  {% else %}
+  <p>No posts available in this category.</p>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Latest Posts</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for post in posts %}
+  <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
+    <h2 class="text-xl font-semibold mb-2">
+      <a href="{{ url_for('blog.post_view', id=post.id) }}" class="hover:text-blue-600">{{ post.title }}</a>
+    </h2>
+    <p class="text-gray-600 text-sm mb-4">Age Group: {{ post.age_group or 'All' }}</p>
+    <p class="text-gray-700 line-clamp-3">{{ post.content[:150] }}{% if post.content|length > 150 %}...{% endif %}</p>
+  </div>
+  {% else %}
+  <p>No posts yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}
