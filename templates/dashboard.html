@@ -1,7 +1,9 @@
 {% extends 'layout.html' %}
 {% block title %}Dashboard{% endblock %}
+
 {% block content %}
 <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+
 <a href="{{ url_for('blog.new_post') }}" class="inline-block mb-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">New Post</a>
 
 <table class="min-w-full bg-white shadow rounded">
@@ -10,17 +12,38 @@
       <th class="border px-4 py-2">Title</th>
       <th class="border px-4 py-2">Age Group</th>
       <th class="border px-4 py-2">Created At</th>
+      <th class="border px-4 py-2">Status</th>
+      <th class="border px-4 py-2">Actions</th>
     </tr>
   </thead>
   <tbody>
     {% for post in posts %}
     <tr class="hover:bg-gray-100">
-      <td class="border px-4 py-2"><a href="{{ url_for('blog.post_view', id=post.id) }}" class="text-blue-600 hover:underline">{{ post.title }}</a></td>
+      <td class="border px-4 py-2">
+        <a href="{{ url_for('blog.post_view', id=post.id) }}" class="text-blue-600 hover:underline">
+          {{ post.title }}
+        </a>
+      </td>
       <td class="border px-4 py-2">{{ post.age_group or 'All' }}</td>
       <td class="border px-4 py-2">{{ post.created_at.strftime('%Y-%m-%d') }}</td>
+      <td class="border px-4 py-2 capitalize">
+        <span class="px-2 py-1 rounded text-white {% if post.status == 'approved' %}bg-green-600{% elif post.status == 'rejected' %}bg-red-600{% else %}bg-yellow-500{% endif %}">
+          {{ post.status }}
+        </span>
+      </td>
+      <td class="border px-4 py-2 space-x-2">
+        {% if post.status != 'approved' %}
+        <a href="{{ url_for('admin.approve_post', post_id=post.id) }}"
+           class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-sm">Approve</a>
+        {% endif %}
+        {% if post.status != 'rejected' %}
+        <a href="{{ url_for('admin.reject_post', post_id=post.id) }}"
+           class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">Reject</a>
+        {% endif %}
+      </td>
     </tr>
     {% else %}
-    <tr><td colspan="3" class="text-center p-4">No posts found.</td></tr>
+    <tr><td colspan="5" class="text-center p-4">No posts found.</td></tr>
     {% endfor %}
   </tbody>
 </table>

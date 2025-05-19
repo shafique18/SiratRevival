@@ -18,16 +18,36 @@ def login():
         flash("Invalid credentials.")
     return render_template('login.html', form=form)
 
+
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        hashed = generate_password_hash(form.password.data)
-        user = User(username=form.username.data, email=form.email.data, password=hashed)
-        db.session.add(user)
-        db.session.commit()
-        flash("Account created.")
-        return redirect(url_for('auth.login'))
+        username=form.username.data
+        email=form.email.data
+        password = form.password.data
+
+        # Check if username or email already exists
+        existing_user = User.query.filter(
+            (User.username == username) | (User.email == email)
+        ).first()
+
+        if existing_user:
+            flash('Username or Email already exists. Please log in or use a different one.', 'danger')
+            return redirect(url_for('auth.register'))
+
+        # All good, create the user
+        hashed_password = generate_password_hash(password)
+        new_user = User(username=username, email=email, password=hashed_password)
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Registration successful! Please log in.', 'success')
+            return redirect(url_for('auth.login'))
+        except Exception as e:
+            db.session.rollback()
+            flash('An error occurred while creating your account. Please try again.', 'danger')
+            print(f"Error: {e}")
     return render_template('register.html', form=form)
 
 @auth_bp.route('/logout')

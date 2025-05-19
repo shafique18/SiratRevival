@@ -3,25 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{% block title %}Knowledge Platform{% endblock %}</title>
+  <title>{% block title %}Sirat Revival{% endblock %}</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
-  <nav class="bg-white shadow-md">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="{{ url_for('blog.index') }}" class="text-2xl font-bold text-blue-600">Knowledge Platform</a>
-      <div>
-        {% if current_user.is_authenticated %}
-          <a href="{{ url_for('blog.dashboard') }}" class="mr-4 hover:text-blue-600">Dashboard</a>
-          <a href="{{ url_for('auth.logout') }}" class="hover:text-red-500">Logout</a>
-        {% else %}
-          <a href="{{ url_for('auth.login') }}" class="mr-4 hover:text-blue-600">Login</a>
-          <a href="{{ url_for('auth.register') }}" class="hover:text-blue-600">Register</a>
-        {% endif %}
-      </div>
+<!-- Navigation Bar -->
+<nav class="bg-white shadow-md fixed top-0 w-full z-50">
+  <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <a href="{{ url_for('blog.index') }}" class="text-2xl font-bold text-black-600">Sirat Revival</a>
+    <div>
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('blog.dashboard') }}" class="mr-4 hover:text-blue-600">Dashboard</a>
+        <a href="{{ url_for('auth.logout') }}" class="hover:text-red-500">Logout</a>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}" class="mr-4 hover:text-blue-600">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="hover:text-blue-600">Register</a>
+      {% endif %}
     </div>
-  </nav>
+  </div>
+</nav>
+<!-- Full-width Image Banner (fully visible) -->
+<img src="{{ url_for('static', filename='images/banner.png') }}" 
+     alt="Islamic Banner" 
+     class="w-full h-[100px] object-contain" />
 
   <main class="flex-grow container mx-auto px-4 py-6">
     {% with messages = get_flashed_messages() %}
@@ -37,7 +42,8 @@
   </main>
 
   <footer class="bg-white shadow-inner py-4 text-center text-gray-500">
-    &copy; 2025 Knowledge Platform
+    &copy; 2025 Sirat Revival
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{{ url_for('contact.contact') }}" class="mr-4 hover:text-blue-600">Contact Us</a>
   </footer>
 
 </body>

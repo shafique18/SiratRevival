@@ -7,7 +7,7 @@ import markdown
 blog_bp = Blueprint('blog', __name__)
 
 @blog_bp.route('/')
-def index():
+def index(): 
     posts = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
     return render_template('index.html', posts=posts)
 

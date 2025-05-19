@@ -7,3 +7,4 @@ Flask-Migrate
 markdown
 email-validator
 markdown
+psycopg2
