@@ -8,3 +8,4 @@ markdown
 email-validator
 markdown
 psycopg2
+Flask-Babel

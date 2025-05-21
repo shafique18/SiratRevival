@@ -15,3 +15,6 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = 'shafiquekb.1@gmail.com'
     MAIL_PASSWORD = 'qweasd852'
+
+    LANGUAGES = ['en', 'ar', 'fr', 'ur','de','nl','hi','pt','es','tr']
+    BABEL_DEFAULT_LOCALE = 'en'
