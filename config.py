@@ -13,8 +13,8 @@ class Config:
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = 'shafiquekb.1@gmail.com'
-    MAIL_PASSWORD = 'qweasd852'
+    MAIL_USERNAME = ''
+    MAIL_PASSWORD = ''
 
     LANGUAGES = ['en', 'ar', 'fr', 'ur','de','nl','hi','pt','es','tr']
     BABEL_DEFAULT_LOCALE = 'en'
