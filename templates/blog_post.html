@@ -1,9 +1,0 @@
-{% extends 'layout.html' %}
-{% block title %}{{ post.title }}{% endblock %}
-{% block content %}
-<article class="max-w-3xl mx-auto bg-white p-8 rounded shadow">
-  <h1 class="text-4xl font-bold mb-4">{{ post.title }}</h1>
-  <p class="text-gray-600 mb-4">Age Group: {{ post.age_group or 'All' }}</p>
-  <div class="prose max-w-none" >{{ post_content_html | safe }}</div>
-</article>
-{% endblock %}
