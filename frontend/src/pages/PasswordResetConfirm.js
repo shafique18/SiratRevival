@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import Layout from '../components/Layout';
 
 const PasswordResetConfirm = () => {
   const [searchParams] = useSearchParams();
@@ -38,26 +39,37 @@ const PasswordResetConfirm = () => {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto", paddingTop: 60 }}>
-      <h2>Reset Your Password</h2>
-      <form onSubmit={handleSubmit}>
-        <label>New Password:</label>
-        <input
-          type="password"
-          required
-          value={newPassword}
-          onChange={e => setNewPassword(e.target.value)}
-          style={{ width: "100%", marginBottom: 10 }}
-        />
-
-        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-        {message && <p style={{ color: "green" }}>{message}</p>}
-
-        <button type="submit" style={{ width: "100%", padding: 10 }}>
-          Reset Password
-        </button>
-      </form>
-    </div>
+    <Layout>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4">
+        <div className="max-w-md w-full bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <h2 className="text-2xl font-semibold text-center mb-4 text-gray-900 dark:text-gray-100">
+            Reset Your Password
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block font-medium text-gray-800 dark:text-gray-200">
+                New Password
+              </label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded focus:ring-2 focus:ring-green-400 dark:focus:ring-green-500"
+              />
+            </div>
+            {errorMsg && <p className="text-red-600 text-sm">{errorMsg}</p>}
+            {message && <p className="text-green-600 text-sm">{message}</p>}
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
+            >
+              Reset Password
+            </button>
+          </form>
+        </div>
+      </div>
+    </Layout>
   );
 };
 

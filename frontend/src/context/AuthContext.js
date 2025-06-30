@@ -20,24 +20,35 @@ export const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
   );
+
   const [user, setUser] = useState(() =>
     localStorage.getItem("authTokens")
-      ? jwt_decode(JSON.parse(localStorage.getItem("authTokens")).access)
+      ? jwtDecode(JSON.parse(localStorage.getItem("authTokens")).access)
       : null
   );
 
   const [loading, setLoading] = useState(true);
 
   const login = async (email, password) => {
-    const response = await axios.post(`${baseURL}/auth/token`, {
-      username: email,
-      password,
-    });
+    if (!email || !password) return;
+    if (loading) return;
 
-    if (response.status === 200) {
-      setAuthTokens(response.data);
-      setUser(jwt_decode(response.data.access));
-      localStorage.setItem("authTokens", JSON.stringify(response.data));
+    setLoading(true);
+    try {
+      const response = await axios.post(`${baseURL}/auth/token`, {
+        username: email,
+        password,
+      });
+
+      if (response.status === 200) {
+        setAuthTokens(response.data);
+        setUser(jwtDecode(response.data.access));
+        localStorage.setItem("authTokens", JSON.stringify(response.data));
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,13 +68,15 @@ export const AuthProvider = ({ children }) => {
 
       if (response.status === 200) {
         setAuthTokens(response.data);
-        setUser(jwt_decode(response.data.access));
+        setUser(jwtDecode(response.data.access));
         localStorage.setItem("authTokens", JSON.stringify(response.data));
       } else {
         logout();
       }
     } catch (err) {
       logout();
+    } finally {
+      setLoading(false); // Make sure loading is cleared
     }
   };
 
@@ -72,25 +85,28 @@ export const AuthProvider = ({ children }) => {
 
     const interval = setInterval(() => {
       if (authTokens) {
-        const decoded = jwt_decode(authTokens.access);
-        const isExpired = dayjs.unix(decoded.exp).diff(dayjs()) < 30000; // less than 30s
+        const decoded = jwtDecode(authTokens.access);
+        const isExpired = dayjs.unix(decoded.exp).diff(dayjs()) < 30000;
 
         if (isExpired) updateToken();
       }
-    }, 60 * 1000); // every 1 min
+    }, 60 * 1000); // Refresh every 1 min
 
     return () => clearInterval(interval);
   }, [authTokens, loading]);
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      authTokens,
-      login,
-      logout,
-      isAuthenticated: !!user,
-      axiosInstance,
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        authTokens,
+        login,
+        logout,
+        isAuthenticated: !!user,
+        axiosInstance,
+        setUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -57,18 +57,29 @@ sirat-revival/
 ├── app/                         # Main application source code
 │   ├── api/                     # FastAPI routers per feature
 │   │   ├── auth/
+│   │   │   ├── __init__.py
 │   │   ├── users/
+│   │   │   ├── __init__.py
 │   │   ├── content/
+│   │   │   ├── __init__.py
 │   │   ├── ai_translations/
+│   │   │   ├── __init__.py
 │   │   ├── learning_paths/
+│   │   │   ├── __init__.py
 │   │   └── analytics/
+│   │   │   ├── __init__.py
 │   ├── core/                    # Core logic (auth, security, config)
 │   │   ├──cofig.py
-│   ├── models/                  # Pydantic + DB models
+│   ├── models/                  # Pydantic + DB models4
+│   │   ├── user_db.py
+│   │   ├── user.py
 │   ├── services/                # Business logic, background tasks
+│   │   ├── user_service.py
 │   ├── db/                      # DB session, migrations, schemas
+│   │   session.py
 │   └── utils/                   # Common utilities
 │       ├── email_sender.py
+│   │   ├── security.py
 │   ├── main.py
 │
 ├── worker/                     # Celery or RQ tasks
@@ -81,13 +92,34 @@ sirat-revival/
 │
 ├── frontend/                   # React/Next.js frontend app
 │   ├── public/
-│   ├── components/
-│   ├── screens/
-│   ├── static/
-│   │   ├── css
-│   │   ├── images
-│   │   ├── js
-│   └── pages/
+│   │   ├── index.htm
+│   ├── src/
+│   │   ├── components
+│   │   │   ├── Layout.js
+│   │   │   ├── Navbar.js
+│   │   │   ├── ProtectedRoute.js
+│   │   ├── context
+│   │   │   ├── AuthContext.js
+│   │   ├── pages
+│   │   │   ├── index.js
+│   │   │   ├── Login.js
+│   │   │   ├── PasswordResetConfirm.js
+│   │   │   ├── PasswordResetRequest.js
+│   │   │   ├── Profile.js
+│   │   │   ├── Register.js
+│   │   │   ├── VerifyEmail.js
+│   │   ├── screens
+│   │   ├── static
+│   │   │   ├── css
+│   │   │   ├── images
+│   │   │   ├── js
+│   │   ├── App.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── tailwind-output.css
+│   ├── package.json
+│   ├── postcss.config.js
+│   └── tailwind.config.js
 │
 ├── docker/                     # Docker configurations
 │   ├── .env

@@ -1,13 +1,14 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import Layout from '../components/Layout';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
-  const { login } = useContext(AuthContext);
+  const { login, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,6 +21,9 @@ const Login = () => {
       formData.append("grant_type", "password");
       formData.append("username", email);
       formData.append("password", password);
+      formData.append("scope", "");
+      formData.append("client_id", "");
+      formData.append("client_secret", "");
 
       const response = await fetch("http://localhost:8000/auth/token", {
         method: "POST",
@@ -35,54 +39,68 @@ const Login = () => {
       }
 
       const data = await response.json();
-      // Assuming JWT token and maybe user data in payload (if not, fetch user profile after login)
       login(data.access_token);
+
       const profileRes = await fetch("http://localhost:8000/auth/me", {
         headers: { Authorization: `Bearer ${data.access_token}` }
       });
-      if (profileRes.ok) setUser(await profileRes.json());
+
+      if (profileRes.ok) {
+        const profile = await profileRes.json();
+        setUser(profile);
+      }
 
       setLoading(false);
       navigate("/profile");
-    } catch {
+    } catch (error) {
+      console.log(error);
       setErrorMsg("Network error");
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto", paddingTop: 60 }}>
-      <h2>Login to SiratRevival</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Email:</label>
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{ width: "100%", marginBottom: 10 }}
-        />
-
-        <label>Password:</label>
-        <input
-          type="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ width: "100%", marginBottom: 10 }}
-        />
-
-        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-
-        <button type="submit" disabled={loading} style={{ width: "100%", padding: 10 }}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
-
-      <div style={{ marginTop: 20 }}>
-        <Link to="/register">Register</Link> | <Link to="/password-reset-request">Forgot Password?</Link>
+    <Layout>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 transition-colors duration-300">
+        <div className="max-w-md w-full bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+          <h2 className="text-2xl font-semibold text-center mb-4 text-gray-900 dark:text-gray-100">Login to SiratRevival</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block font-medium text-gray-700 dark:text-gray-200">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full p-3 mb-4 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block font-medium text-gray-700 dark:text-gray-200">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="mt-1 block w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+              />
+            </div>
+            {errorMsg && <p className="text-red-600 text-sm">{errorMsg}</p>}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold py-3 rounded"
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </form>
+          <div className="text-center mt-4 text-sm text-gray-700 dark:text-gray-300">
+            <Link to="/register" className="text-blue-500 hover:underline">Register</Link> |{" "}
+            <Link to="/password-reset-request" className="text-blue-500 hover:underline">Forgot Password?</Link>
+          </div>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import Layout from '../components/Layout';
 
 const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
@@ -36,11 +37,13 @@ const VerifyEmail = () => {
   }, [token]);
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto", paddingTop: 60 }}>
-      <h2>Email Verification</h2>
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-    </div>
+    <Layout>
+      <div className="max-w-md mx-auto mt-24 p-6 bg-white dark:bg-gray-800 rounded shadow">
+        <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Email Verification</h2>
+        {message && <p className="text-green-600 dark:text-green-400">{message}</p>}
+        {errorMsg && <p className="text-red-600 dark:text-red-400">{errorMsg}</p>}
+      </div>
+    </Layout>
   );
 };
 

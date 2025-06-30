@@ -15,6 +15,7 @@ app = FastAPI(title="SiratRevival API")
 origins = [
     "http://localhost:3000",  # your React frontend URL
     "http://127.0.0.1:8000"
+    "http://localhost:8000"
 ]
 
 app.add_middleware(
@@ -36,3 +37,4 @@ app.include_router(analytics_router, prefix="/analytics", tags=["Analytics"])
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
     return PlainTextResponse(str(exc), status_code=422)
+
