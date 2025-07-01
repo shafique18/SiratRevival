@@ -1,15 +1,17 @@
-import Head from 'next/head';
-import Layout from '../components/Layout';
+import Layout from '../components/Layout'
+import QuranVerseCard from '../screens/QuranVerseCard'
+import HadithCard from '../screens/HadithCard'
+import NewsFeed from '../screens/NewsFeed'
 
 export default function Home() {
   return (
     <Layout>
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-50 to-green-100 dark:from-gray-800 dark:to-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
-        <main className="text-center px-6">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Welcome to SiratRevival</h1>
-          <p className="text-lg">Your path to understanding Islam in every language.</p>
-        </main>
-      </div>
+      <div className="p-4 space-y-8 max-w-7xl mx-auto">
+        <QuranVerseCard />
+        <HadithCard />
+        <NewsFeed />
+      </div>   
     </Layout>
-  );
+  )
 }
+

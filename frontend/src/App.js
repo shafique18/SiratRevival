@@ -4,6 +4,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { LanguageProvider } from "./context/LanguageContext";
 
 import Login from "./pages/Login";
+import Home from "./pages/index";
 import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
@@ -17,6 +18,7 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
@@ -34,7 +36,7 @@ function App() {
             />
 
             {/* Default to login */}
-            <Route path="*" element={<Login />} />
+            <Route path="*" element={<Home />} />
           </Routes>
         </Router>
       </AuthProvider>

@@ -62,6 +62,8 @@ sirat-revival/
 │   │   │   ├── __init__.py
 │   │   ├── content/
 │   │   │   ├── __init__.py
+│   │   │   ├── quran_hadith_news.py
+│   │   │   ├── subscribe.py
 │   │   ├── ai_translations/
 │   │   │   ├── __init__.py
 │   │   ├── learning_paths/
@@ -73,6 +75,7 @@ sirat-revival/
 │   ├── models/                  # Pydantic + DB models4
 │   │   ├── user_db.py
 │   │   ├── user.py
+│   │   ├── content.py
 │   ├── services/                # Business logic, background tasks
 │   │   ├── user_service.py
 │   ├── db/                      # DB session, migrations, schemas
@@ -87,19 +90,30 @@ sirat-revival/
 ├── tests/                      # Pytest test suites
 │
 ├── scripts/                    # Management CLI and setup scripts
+│       ├── create_db.py
 │
 ├── docs/                       # Markdown docs for concept, API, roadmap
 │
 ├── frontend/                   # React/Next.js frontend app
 │   ├── public/
-│   │   ├── index.htm
+│   │   ├── index.html
+│   │   ├── locale
+│   │   │   ├── en
+│   │   │   │   ├── translation.json
+│   │   │   ├── es
+│   │   │   │   ├── translation.json
 │   ├── src/
 │   │   ├── components
 │   │   │   ├── Layout.js
 │   │   │   ├── Navbar.js
 │   │   │   ├── ProtectedRoute.js
+│   │   │   ├── translate.js
+│   │   │   ├── LaguageSwitcher.js
+│   │   │   ├── Footer.js
+│   │   │   ├── translate.js
 │   │   ├── context
 │   │   │   ├── AuthContext.js
+│   │   │   ├── LanguageContext.js
 │   │   ├── pages
 │   │   │   ├── index.js
 │   │   │   ├── Login.js
@@ -109,6 +123,9 @@ sirat-revival/
 │   │   │   ├── Register.js
 │   │   │   ├── VerifyEmail.js
 │   │   ├── screens
+│   │   │   ├── HadithCard.js
+│   │   │   ├── NewsFeed.js
+│   │   │   ├── QuranVerseCard.js
 │   │   ├── static
 │   │   │   ├── css
 │   │   │   ├── images
@@ -117,6 +134,7 @@ sirat-revival/
 │   │   ├── index.css
 │   │   ├── index.js
 │   │   ├── tailwind-output.css
+│   │   ├── i18n.js
 │   ├── package.json
 │   ├── postcss.config.js
 │   └── tailwind.config.js
