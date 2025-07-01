@@ -5,7 +5,7 @@ export default function QuranVerseCard() {
   const [verse, setVerse] = useState(null)
 
   useEffect(() => {
-    fetch('/api/content/quran-today')
+    fetch('/content/quran-today')
       .then(res => res.json())
       .then(setVerse)
   }, [])

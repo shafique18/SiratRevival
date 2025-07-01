@@ -1,5 +1,13 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
+import enum
+
+class AgeGroup(str, enum.Enum):
+    GROUP_0_5 = "GROUP_0_5"
+    GROUP_6_15 = "GROUP_6_15"
+    GROUP_16_25 = "GROUP_16_25"
+    GROUP_26_PLUS = "GROUP_26_PLUS"
+    ADMIN = "ADMIN"
 
 class UserBase(BaseModel):
     email: EmailStr
@@ -7,6 +15,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+    age_group: AgeGroup
 
 class User(UserBase):
     id: int

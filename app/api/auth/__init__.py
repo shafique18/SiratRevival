@@ -22,12 +22,13 @@ def authenticate_user(db: Session, email: str, password: str):
 
 @router.post("/register", response_model=User, status_code=status.HTTP_201_CREATED)
 def register(user: UserCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+    print(user)
     existing_user = db.query(UserDB).filter(UserDB.email == user.email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
 
     hashed_password = security.hash_password(user.password)
-    db_user = UserDB(email=user.email, full_name=user.full_name, hashed_password=hashed_password)
+    db_user = UserDB(email=user.email, full_name=user.full_name, hashed_password=hashed_password,age_group=user.age_group,)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -43,10 +44,6 @@ def register(user: UserCreate, background_tasks: BackgroundTasks, db: Session = 
     <p>This link will expire in 24 hours.</p>
     """
     background_tasks.add_task(email_sender.send_email, db_user.email, "Verify your SiratRevival email", body)
-
-    print(background_tasks)
-
-    print(db_user)
 
     return db_user
 

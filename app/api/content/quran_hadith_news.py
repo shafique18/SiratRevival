@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.models import QuranVerse, Hadith, NewsArticle
 
-router = APIRouter(prefix="/content", tags=["content"])
+router = APIRouter( tags=["content"])
 
 @router.get("/quran-today")
 def get_quran_today(db: Session = Depends(get_db)):

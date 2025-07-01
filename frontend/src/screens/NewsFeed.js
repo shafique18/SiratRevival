@@ -5,7 +5,7 @@ export default function NewsFeed() {
   const [news, setNews] = useState([])
 
   useEffect(() => {
-    fetch('/api/content/islamic-news')
+    fetch('/content/islamic-news')
       .then(res => res.json())
       .then(setNews)
   }, [])

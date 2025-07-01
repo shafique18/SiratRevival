@@ -2,15 +2,16 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { LanguageProvider } from "./context/LanguageContext";
-
-import Login from "./pages/Login";
 import Home from "./pages/index";
+import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordResetConfirm from "./pages/PasswordResetConfirm";
 import Profile from "./pages/Profile";
+import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from "./components/ProtectedRoute";
+
 
 function App() {
   return (
@@ -24,18 +25,8 @@ function App() {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/password-reset-request" element={<PasswordResetRequest />} />
             <Route path="/password-reset-confirm" element={<PasswordResetConfirm />} />
-
-            {/* Protected route example */}
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Default to login */}
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="*" element={<Home />} />
           </Routes>
         </Router>

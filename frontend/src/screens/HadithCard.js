@@ -5,7 +5,7 @@ export default function HadithCard() {
   const [hadith, setHadith] = useState(null)
 
   useEffect(() => {
-    fetch('/api/content/hadith-today')
+    fetch('/content/hadith-today')
       .then(res => res.json())
       .then(setHadith)
   }, [])
