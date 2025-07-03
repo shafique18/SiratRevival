@@ -22,7 +22,6 @@ def authenticate_user(db: Session, email: str, password: str):
 
 @router.post("/register", response_model=User, status_code=status.HTTP_201_CREATED)
 def register(user: UserCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
-    print(user)
     existing_user = db.query(UserDB).filter(UserDB.email == user.email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -64,7 +63,6 @@ def verify_email(token: str, db: Session = Depends(get_db)):
 
 @router.post("/token", response_model=Token)
 def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    print("*"*50)
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(status_code=401, detail="Incorrect email, password, or email not verified",
@@ -83,7 +81,6 @@ def read_users_me(token: str = Depends(oauth2_scheme), db: Session = Depends(get
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
-    print(user)
     return user
 
 @router.post("/password-reset/request")

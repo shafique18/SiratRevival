@@ -87,10 +87,10 @@ const Register = () => {
                 className="w-full px-3 py-2 border rounded bg-gray-50 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
               >
                 <option value="">Select Age Group</option>
-                <option value="teen">Teen (13–19)</option>
-                <option value="young_adult">Young Adult (20–35)</option>
-                <option value="adult">Adult (36–60)</option>
-                <option value="senior">Senior (60+)</option>
+                <option value="GROUP_0_5">Kid (0–5)</option>
+                <option value="GROUP_6_15">Young (06–15)</option>
+                <option value="GROUP_16_25">Adult (16–25)</option>
+                <option value="GROUP_26_PLUS">Adult (26+)</option>
               </select>
             </div>
 

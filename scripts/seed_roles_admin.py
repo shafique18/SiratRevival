@@ -17,11 +17,11 @@ def seed():
             db.add(Role(name=name, description=f"Role {name}"))
     
     # Seed admin user
-    admin_email = 'shafique18.18@gmail.com  '
+    admin_email = 'admin@sirat.com'
     if not db.query(UserDB).filter(UserDB.email == admin_email).first():
         admin = UserDB(
             email=admin_email,
-            hashed_password=hash_password('kuchNahi@1'),
+            hashed_password=hash_password('Admin123!'),
             age_group=AgeGroup.ADMIN
         )
         admin.roles = db.query(Role).filter(Role.name == AgeGroup.ADMIN.value).all()

@@ -32,26 +32,40 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const login = async (email, password) => {
-    if (!email || !password || loading) return;
+    if (!email || !password || loading) return null;
     setLoading(true);
 
     try {
-      const response = await axios.post(`${baseURL}/auth/token`, {
-        username: email,
-        password,
+      // Create form-urlencoded body
+      const formData = new URLSearchParams();
+      formData.append("username", email);
+      formData.append("password", password);
+
+      const response = await axios.post(`${baseURL}/auth/token`, formData.toString(), {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
       });
 
       if (response.status === 200) {
         setAuthTokens(response.data);
-        const decoded = jwtDecode(response.data.access);
-        setUser(decoded);
         localStorage.setItem("authTokens", JSON.stringify(response.data));
+
+        const profileRes = await axios.get(`${baseURL}/auth/me`, {
+          headers: { Authorization: `Bearer ${response.data.access}` },
+        });
+
+        if (profileRes.status === 200) {
+          setUser(profileRes.data);
+          return profileRes.data;  // return profile here!
+        }
       }
     } catch (error) {
       console.error("Login error:", error);
     } finally {
       setLoading(false);
     }
+    return null;
   };
 
   const logout = () => {
@@ -84,28 +98,29 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-  if (loading && authTokens) {
-    updateToken();
-  } else if (!authTokens) {
-    setLoading(false); // <-- allows public routes like Home to load
-  }
-
-  const interval = setInterval(() => {
-    if (authTokens) {
-      const decoded = jwtDecode(authTokens.access);
-      const isExpired = dayjs.unix(decoded.exp).diff(dayjs()) < 30000;
-
-      if (isExpired) updateToken();
+    if (loading && authTokens) {
+      updateToken();
+    } else if (!authTokens) {
+      setLoading(false); // <-- allows public routes like Home to load
     }
-  }, 60 * 1000);
 
-  return () => clearInterval(interval);
-}, [authTokens, loading]);
+    const interval = setInterval(() => {
+      if (authTokens) {
+        const decoded = jwtDecode(authTokens.access);
+        const isExpired = dayjs.unix(decoded.exp).diff(dayjs()) < 30000;
+
+        if (isExpired) updateToken();
+      }
+    }, 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [authTokens, loading]);
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         authTokens,
         login,
         logout,
