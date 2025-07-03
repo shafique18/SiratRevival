@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 import enum
+from typing import List
 
 class AgeGroup(str, enum.Enum):
     GROUP_0_5 = "GROUP_0_5"
@@ -8,6 +9,13 @@ class AgeGroup(str, enum.Enum):
     GROUP_16_25 = "GROUP_16_25"
     GROUP_26_PLUS = "GROUP_26_PLUS"
     ADMIN = "ADMIN"
+
+class Role(BaseModel):
+    name: str
+    description: Optional[str]
+
+    class Config:
+        orm_mode = True
 
 class UserBase(BaseModel):
     email: EmailStr
@@ -21,6 +29,8 @@ class User(UserBase):
     id: int
     is_active: bool
     is_verified: bool
+    age_group: AgeGroup
+    roles: List[Role] = []
 
     class Config:
         orm_mode = True

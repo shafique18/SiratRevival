@@ -3,5 +3,6 @@
   "Profile": "Perfil",
   "Login": "Iniciar sesión",
   "Welcome": "Bienvenido a SiratRevival",
-  "Logout": "Cerrar sesión"
+  "Logout": "Cerrar sesión",
+  "AdminDashboard":"Panel de administración "
 }

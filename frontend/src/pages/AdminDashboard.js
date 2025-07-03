@@ -2,20 +2,33 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Transition } from '@headlessui/react';
 import axios from 'axios';
 import AuthContext from "../context/AuthContext";
-
+import Layout from '../components/Layout';
 
 export default function AdminDashboard() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, authTokens } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [notify, setNotify] = useState('');
   const [search, setSearch] = useState('');
 
   const fetchUsers = async (q = '') => {
-    const res = await axios.get('http://localhost:8000/admin/users', {
-      params: { q },
-      headers: { Authorization: `Bearer ${user.token}` }
-    });
-    setUsers(res.data);
+    if (!authTokens) {
+      console.error("No auth token found. Please login.");
+      return;
+    }
+
+    try {
+      const res = await axios.get('http://localhost:8000/admin/users', {
+        params: { q },
+        headers: { Authorization: `Bearer ${authTokens.access_token}` }
+      });
+      setUsers(res.data);
+    } catch (error) {
+      console.error("Fetch users failed:", error);
+      if (error.response?.status === 401) {
+        setNotify("Unauthorized. Please login again.");
+        logout();
+      }
+    }
   };
 
   useEffect(() => {
@@ -23,26 +36,46 @@ export default function AdminDashboard() {
   }, []);
 
   const approve = async (id) => {
-    await axios.post(`http://localhost:8000/admin/users/${id}/approve`, {}, {
-      headers: { Authorization: `Bearer ${user.token}` }
-    });
-    setNotify('User approved!');
-    fetchUsers(search);
+    if (!authTokens) return;
+
+    try {
+      await axios.post(`http://localhost:8000/admin/users/${id}/approve`, {}, {
+        headers: { Authorization: `Bearer ${authTokens.access_token}` }
+      });
+      setNotify('User approved!');
+      fetchUsers(search);
+    } catch (error) {
+      console.error("Approve failed:", error);
+      if (error.response?.status === 401) {
+        setNotify("Unauthorized. Please login again.");
+        logout();
+      }
+    }
   };
 
   const [schedule, setSchedule] = useState({ title: '', content: '', visible_to: [] });
   const scheduleItem = async () => {
-    await axios.post('http://localhost:8000/admin/schedule', schedule, {
-      headers: { Authorization: `Bearer ${user.token}` }
-    });
-    setNotify('Content scheduled!');
+    if (!authTokens) return;
+
+    try {
+      await axios.post('http://localhost:8000/admin/schedule', schedule, {
+        headers: { Authorization: `Bearer ${authTokens.access_token}` }
+      });
+      setNotify('Content scheduled!');
+    } catch (error) {
+      console.error("Schedule failed:", error);
+      if (error.response?.status === 401) {
+        setNotify("Unauthorized. Please login again.");
+        logout();
+      }
+    }
   };
 
   return (
+    <Layout>
     <div className="max-w-5xl mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        <button onClick={logout} className="text-red-500">Logout</button>
       </div>
 
       <Transition show={!!notify} className="mb-4" enter="transition-opacity duration-300"
@@ -103,5 +136,6 @@ export default function AdminDashboard() {
         </button>
       </div>
     </div>
+    </Layout>
   );
 }

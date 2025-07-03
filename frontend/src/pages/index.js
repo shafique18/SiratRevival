@@ -1,7 +1,8 @@
-import Layout from '../components/Layout'
-import QuranVerseCard from '../screens/QuranVerseCard'
-import HadithCard from '../screens/HadithCard'
-import NewsFeed from '../screens/NewsFeed'
+import React from 'react';
+import Layout from '../components/Layout';
+import QuranVerseCard from '../screens/QuranVerseCard';
+import HadithCard from '../screens/HadithCard';
+import NewsFeed from '../screens/NewsFeed';
 
 export default function Home() {
   console.log("Home rendered");
@@ -13,6 +14,5 @@ export default function Home() {
         <NewsFeed />
       </div>   
     </Layout>
-  )
+  );
 }
-
