@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import PlainTextResponse
 from app.api.auth import router as auth_router
 from app.api.users import router as users_router
 from app.api.content import router as content_router
@@ -8,8 +10,7 @@ from app.api.learning_paths import router as learning_router
 from app.api.analytics import router as analytics_router
 from app.api.admin import router as admin_router
 from app.api.content.subscribe import router as subscribe_router
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import PlainTextResponse
+
 
 
 app = FastAPI(title="SiratRevival API")
