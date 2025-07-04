@@ -10,6 +10,7 @@ import json
 import pdfplumber
 import pytesseract
 from PIL import Image, ImageEnhance
+from playwright.sync_api import sync_playwright
 import cv2
 import numpy as np
 
@@ -222,6 +223,7 @@ def download_iqbal_books_pdf(scholar_dir, scholar):
 def crawl_archive_org(query, scholar_dir, scholar, max_results=5):
     base_url = f"https://archive.org/search.php?query={query.replace(' ', '+')}"
     print(f"Searching Archive.org for: {query}")
+    print(base_url)
 
     content = []
     try:
@@ -229,6 +231,7 @@ def crawl_archive_org(query, scholar_dir, scholar, max_results=5):
         response.raise_for_status()
         soup = BeautifulSoup(response.text, "html.parser")
         links = soup.select('div.C234 a[href^="/details/"]')
+        print(links)
 
         for link in links[:max_results]:
             item_url = urljoin("https://archive.org", link['href'])
@@ -258,6 +261,102 @@ def crawl_archive_org(query, scholar_dir, scholar, max_results=5):
 
     except Exception as e:
         print(f"Error searching Archive.org: {e}")
+
+
+# def crawl_archive_org(query, scholar_dir, scholar, max_results=5):
+#     content = []
+
+#     def get_archive_links(query, max_results=5):
+#         links = []
+
+#         with sync_playwright() as p:
+#             browser = p.chromium.launch(headless=True)
+#             page = browser.new_page()
+#             search_url = f"https://archive.org/search?query={query.replace(' ', '+')}"
+#             # https://archive.org/details/Maktaba-Mufti-Taqi-Usmani-Sahib
+#             print(f"Loading: {search_url}")
+#             page.goto('https://archive.org/details/Maktaba-Mufti-Taqi-Usmani-Sahib', timeout=60000)
+
+#             # Wait for main app to load
+#             page.wait_for_selector("app-root", timeout=20000)
+
+#             # Evaluate JavaScript in browser context to walk shadow DOM
+#             raw_links = page.evaluate(
+#                 """
+#                 () => {
+#                     function getDeepLinks(root = document) {
+#                         const results = [];
+
+#                         const traverse = (node) => {
+#                             if (!node) return;
+
+#                             if (node.shadowRoot) {
+#                                 traverse(node.shadowRoot);
+#                             }
+
+#                             const anchors = node.querySelectorAll?.('a[href^="/details/"]') || [];
+#                             anchors.forEach(a => results.push(a.href));
+
+#                             const children = node.children || [];
+#                             for (const child of children) {
+#                                 traverse(child);
+#                             }
+#                         };
+
+#                         traverse(root);
+#                         return [...new Set(results)]; // remove duplicates
+#                     }
+
+#                     return getDeepLinks();
+#                 }
+#                 """
+#             )
+#             print(raw_links)
+#             for url in raw_links:
+#                 if url.startswith("/details/"):
+#                     links.append(url)
+#                 if len(links) >= max_results:
+#                     break
+
+#             browser.close()
+
+#         return links
+
+    # try:
+    #     print(f"Searching Archive.org for: {query}")
+    #     item_links = get_archive_links(query)
+    #     print(item_links)
+
+    #     for item_url in item_links:
+    #         print(f"Processing: {item_url}")
+    #         try:
+    #             response = requests.get(item_url)
+    #             response.raise_for_status()
+    #             soup = BeautifulSoup(response.text, "html.parser")
+
+    #             file_links = soup.select('a[href$=".pdf"], a[href$=".mp3"], a[href$=".mp4"]')
+    #             for file_tag in file_links:
+    #                 file_href = file_tag.get('href')
+    #                 if not file_href:
+    #                     continue
+    #                 file_url = urljoin(item_url, file_href)
+    #                 print(f"Downloading: {file_url}")
+    #                 downloaded = download_file(file_url, scholar_dir)
+
+    #                 if downloaded.endswith(".pdf"):
+    #                     pdf_text = extract_text_from_pdf_with_ocr(downloaded)
+    #                     content.append({"type": "pdf", "text": pdf_text, "source": file_url})
+    #                 elif downloaded.endswith(".mp3"):
+    #                     transcription = transcribe_audio_whisper(downloaded)
+    #                     content.append({"type": "audio", "text": transcription, "source": file_url})
+    #         except Exception as e:
+    #             print(f"Error processing item {item_url}: {e}")
+
+    #     save_metadata(scholar, content)
+    #     print(f"Completed Archive.org crawl for {scholar}")
+
+    # except Exception as e:
+    #     print(f"Search failed: {e}")
 
 # =================== YouTube Downloader ===================
 
@@ -290,39 +389,39 @@ def download_youtube_playlist(playlist_url, scholar_dir, scholar):
 # =================== Scholar Map ===================
 
 scholars = {
-    "Allama Iqbal": {
-        "iqbal_books_pdf": True
-    },
+    # "Allama Iqbal": {
+    #     "iqbal_books_pdf": True
+    # },
     "Mufti Taqi Usmani": {
-        "archive_query": "Mufti Taqi Usmani",
+        "archive_query": "Maktaba Mufti Taqi Usmani Sahib",
     },
-    "Syed Abul A'la Maududi": {
-        "archive_query": "Syed Maududi",
-    },
-    "Molana Tariq Jameel": {
-        "youtube_playlist": "https://www.youtube.com/@TariqJamilOfficial",
-    },
-    "Maulana Abul Kalam Azad": {
-        "archive_query": "Abul Kalam Azad",
-    },
-    "Shah Waliullah Dehlawi": {
-        "archive_query": "Shah Waliullah",
-    },
-    "Dr. Zakir Naik": {
-        "youtube_playlist": "https://www.youtube.com/playlist?list=PL030C3752C881D069",
-    },
-    "Sheikh Bilal Philips": {
-        "youtube_playlist": "https://www.youtube.com/@DrBilalPhilips/videos",
-    },
-    "Shaykh Ahmad Didat": {
-        "youtube_playlist": "https://www.youtube.com/playlist?list=PLAEF70AC4231931E3",
-    },
-    "Shaykh Muhammad Al-Ghazali": {
-        "archive_query": "Muhammad Al Ghazali",
-    },
-    "Maulana Muhammad Ishaq Madni": {
-        "archive_query": "Ishaq Madni",
-    },
+    # "Syed Abul A'la Maududi": {
+    #     "archive_query": "Syed Maududi",
+    # },
+    # "Molana Tariq Jameel": {
+    #     "youtube_playlist": "https://www.youtube.com/@TariqJamilOfficial",
+    # },
+    # "Maulana Abul Kalam Azad": {
+    #     "archive_query": "Abul Kalam Azad",
+    # },
+    # "Shah Waliullah Dehlawi": {
+    #     "archive_query": "Shah Waliullah",
+    # },
+    # "Dr. Zakir Naik": {
+    #     "youtube_playlist": "https://www.youtube.com/playlist?list=PL030C3752C881D069",
+    # },
+    # "Sheikh Bilal Philips": {
+    #     "youtube_playlist": "https://www.youtube.com/@DrBilalPhilips/videos",
+    # },
+    # "Shaykh Ahmad Didat": {
+    #     "youtube_playlist": "https://www.youtube.com/playlist?list=PLAEF70AC4231931E3",
+    # },
+    # "Shaykh Muhammad Al-Ghazali": {
+    #     "archive_query": "Muhammad Al Ghazali",
+    # },
+    # "Maulana Muhammad Ishaq Madni": {
+    #     "archive_query": "Ishaq Madni",
+    # },
 }
 
 # =================== Main Loop ===================
@@ -337,6 +436,7 @@ if __name__ == "__main__":
 
         if "archive_query" in sources:
             crawl_archive_org(sources["archive_query"], scholar_dir, scholar)
+            
 
         if "youtube_playlist" in sources:
             download_youtube_playlist(sources["youtube_playlist"], scholar_dir, scholar)
