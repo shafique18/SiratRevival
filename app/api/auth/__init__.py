@@ -4,13 +4,15 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from app.db.session import get_db
 from app.models.user import UserCreate, User, Token, PasswordResetRequest, PasswordResetConfirm
 from app.models.user_db import UserDB
+from app.core.security import oauth2_scheme
 from app.utils import security, email_sender
 from pydantic import BaseModel
 from datetime import timedelta
+from sqlalchemy.orm import joinedload
 
 router = APIRouter()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
+# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
 def authenticate_user(db: Session, email: str, password: str):
     user = db.query(UserDB).filter(UserDB.email == email).first()
@@ -22,7 +24,6 @@ def authenticate_user(db: Session, email: str, password: str):
 
 @router.post("/register", response_model=User, status_code=status.HTTP_201_CREATED)
 def register(user: UserCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
-    print(user)
     existing_user = db.query(UserDB).filter(UserDB.email == user.email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -64,7 +65,6 @@ def verify_email(token: str, db: Session = Depends(get_db)):
 
 @router.post("/token", response_model=Token)
 def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    print("*"*50)
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(status_code=401, detail="Incorrect email, password, or email not verified",
@@ -79,11 +79,15 @@ def read_users_me(token: str = Depends(oauth2_scheme), db: Session = Depends(get
     if not payload:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
     email = payload.get("sub")
-    user = db.query(UserDB).filter(UserDB.email == email).first()
+    user = (
+        db.query(UserDB)
+        .options(joinedload(UserDB.roles))  # eagerly load roles
+        .filter(UserDB.email == email)
+        .first()
+    )
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
-    print(user)
     return user
 
 @router.post("/password-reset/request")

@@ -7,3 +7,4 @@
 In a world where Islamic knowledge is often locked behind language barriers or inaccessible scholarly formats, SiratRevival seeks to leverage modern technology - sparticularly AI and LLMs—to break those barriers.
 
 The mission is to unify the Ummah on the foundations of authentic knowledge, presented in native languages through interactive and engaging experiences. From early childhood to elder years, SiratRevival aims to offer tailored learning paths that nurture faith, knowledge, and character based on the Qur’an and Sunnah.
+

@@ -17,40 +17,55 @@ const axiosInstance = axios.create({
 });
 
 export const AuthProvider = ({ children }) => {
-  const [authTokens, setAuthTokens] = useState(() =>
-    localStorage.getItem("authTokens")
-      ? JSON.parse(localStorage.getItem("authTokens"))
-      : null
-  );
+  const [authTokens, setAuthTokens] = useState(() => {
+    const stored = localStorage.getItem("authTokens");
+    return stored ? JSON.parse(stored) : null;
+  });
 
-  const [user, setUser] = useState(() =>
-    localStorage.getItem("authTokens")
-      ? jwtDecode(JSON.parse(localStorage.getItem("authTokens")).access)
-      : null
-  );
+  // user will now hold the full profile data, not just JWT claims
+  const [user, setUser] = useState(() => {
+    const storedProfile = localStorage.getItem("userProfile");
+    return storedProfile ? JSON.parse(storedProfile) : null;
+  });
 
   const [loading, setLoading] = useState(true);
 
   const login = async (email, password) => {
-    if (!email || !password || loading) return;
-    setLoading(true);
-
     try {
-      const response = await axios.post(`${baseURL}/auth/token`, {
-        username: email,
-        password,
+      const formData = new URLSearchParams();
+      formData.append("username", email);
+      formData.append("password", password);
+
+      const response = await axios.post(`${baseURL}/auth/token`, formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
       });
 
-      if (response.status === 200) {
-        setAuthTokens(response.data);
-        const decoded = jwtDecode(response.data.access);
-        setUser(decoded);
-        localStorage.setItem("authTokens", JSON.stringify(response.data));
+      const data = response.data;
+      console.log("Login response data:", data);
+
+      if (!data.access_token || typeof data.access_token !== "string") {
+        throw new Error("No valid access token returned");
       }
+
+      setAuthTokens(data);
+      localStorage.setItem("authTokens", JSON.stringify(data));
+
+      // Fetch full user profile from backend
+      const profile = await getUserProfile(data.access_token);
+      console.log(profile);
+      if (profile) {
+        setUser(profile);
+        localStorage.setItem("userProfile", JSON.stringify(profile));
+        return profile;
+      }
+
+      return null;
     } catch (error) {
-      console.error("Login error:", error);
-    } finally {
-      setLoading(false);
+      console.error("Login failed:", error.response?.data || error.message);
+      logout();
+      return null;
     }
   };
 
@@ -58,62 +73,76 @@ export const AuthProvider = ({ children }) => {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
+    localStorage.removeItem("userProfile");
   };
 
-  const updateToken = async () => {
-    if (!authTokens?.refresh) return logout();
+  const getUserProfile = async (accessToken) => {
+    try {
+      const res = await axios.get(`${baseURL}/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${accessToken || authTokens?.access_token}`,
+        },
+      });
+      return res.data; // Assuming backend returns full user profile object
+    } catch (error) {
+      console.error("Fetching user profile failed:", error);
+      return null;
+    }
+  };
+
+  const refreshTokenIfNeeded = () => {
+    if (!authTokens) return;
 
     try {
-      const response = await axios.post(`${baseURL}/auth/token/refresh`, {
-        refresh: authTokens.refresh,
-      });
+      const decoded = jwtDecode(authTokens.access_token);
+      const isExpired = dayjs.unix(decoded.exp).diff(dayjs()) < 5000;
 
-      if (response.status === 200) {
-        setAuthTokens(response.data);
-        const decoded = jwtDecode(response.data.access);
-        setUser(decoded);
-        localStorage.setItem("authTokens", JSON.stringify(response.data));
-      } else {
+      if (isExpired) {
+        console.warn("Token expired. Logging out.");
         logout();
       }
     } catch (err) {
+      console.error("Failed to decode token during refresh check:", err);
       logout();
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
-  if (loading && authTokens) {
-    updateToken();
-  } else if (!authTokens) {
-    setLoading(false); // <-- allows public routes like Home to load
-  }
-
-  const interval = setInterval(() => {
     if (authTokens) {
-      const decoded = jwtDecode(authTokens.access);
-      const isExpired = dayjs.unix(decoded.exp).diff(dayjs()) < 30000;
-
-      if (isExpired) updateToken();
+      getUserProfile(authTokens.access_token).then((profile) => {
+        if (profile) {
+          setUser(profile);
+          localStorage.setItem("userProfile", JSON.stringify(profile));
+        } else {
+          logout();
+        }
+      });
     }
-  }, 60 * 1000);
+    setLoading(false);
+  }, []);
 
-  return () => clearInterval(interval);
-}, [authTokens, loading]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshTokenIfNeeded();
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [authTokens]);
+
+  const isAuthenticated = !!authTokens && !!user;
+  const ageGroup = user?.age_group || null;
+
+  const contextData = {
+    user,
+    authTokens,
+    isAuthenticated,
+    ageGroup,
+    login,
+    logout,
+  };
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        authTokens,
-        login,
-        logout,
-        isAuthenticated: !!user,
-        ageGroup: user?.age_group || null,
-        axiosInstance,
-      }}
-    >
+    <AuthContext.Provider value={contextData}>
       {!loading && children}
     </AuthContext.Provider>
   );

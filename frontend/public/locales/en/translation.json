@@ -3,5 +3,6 @@
   "Profile": "Profile",
   "Login": "Login",
   "Welcome": "Welcome to SiratRevival",
-  "Logout": "Logout"
+  "Logout": "Logout",
+  "AdminDashboard": "Admin Dashboard"
 }

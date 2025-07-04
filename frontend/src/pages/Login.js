@@ -1,3 +1,4 @@
+// src/pages/Login.js
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
@@ -8,7 +9,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
-  const { login, setUser } = useContext(AuthContext);
+
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,46 +18,19 @@ const Login = () => {
     setErrorMsg("");
     setLoading(true);
 
-    try {
-      const formData = new URLSearchParams();
-      formData.append("grant_type", "password");
-      formData.append("username", email);
-      formData.append("password", password);
-      formData.append("scope", "");
-      formData.append("client_id", "");
-      formData.append("client_secret", "");
+    const userProfile = await login(email, password);  // login returns profile or null
 
-      const response = await fetch("http://localhost:8000/auth/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formData.toString(),
-      });
+    setLoading(false);
 
-      if (!response.ok) {
-        const data = await response.json();
-        setErrorMsg(data.detail || "Login failed");
-        setLoading(false);
-        return;
+    if (userProfile) {
+      // Redirect based on age_group
+      if (userProfile.age_group === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/profile");
       }
-
-      const data = await response.json();
-      login(data.access_token);
-
-      const profileRes = await fetch("http://localhost:8000/auth/me", {
-        headers: { Authorization: `Bearer ${data.access_token}` }
-      });
-
-      if (profileRes.ok) {
-        const profile = await profileRes.json();
-        setUser(profile);
-      }
-
-      setLoading(false);
-      navigate("/profile");
-    } catch (error) {
-      console.log(error);
-      setErrorMsg("Network error");
-      setLoading(false);
+    } else {
+      setErrorMsg("Invalid credentials or network error.");
     }
   };
 
