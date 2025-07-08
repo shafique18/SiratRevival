@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import List
 from app.db.session import get_db
-from app.models.user_db import UserDB as User, user_roles
+from app.models.user_db import UserDB as User
 from app.core.security import role_required
 from app.utils.email_sender import send_email
 

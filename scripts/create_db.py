@@ -10,6 +10,7 @@ from app.models.user_db import Subscriber
 from app.models.content import QuranVerse, Hadith, NewsArticle
 
 def create_tables():
+    print(engine)
     Base.metadata.create_all(bind=engine)
     print("Database tables created.")
 

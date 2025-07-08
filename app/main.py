@@ -10,10 +10,10 @@ from app.api.learning_paths import router as learning_router
 from app.api.analytics import router as analytics_router
 from app.api.admin import router as admin_router
 from app.api.content.subscribe import router as subscribe_router
-
-
+import os
 
 app = FastAPI(title="SiratRevival API")
+
 
 origins = [
     "http://localhost:3000",  # your React frontend URL

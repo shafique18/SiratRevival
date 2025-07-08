@@ -159,3 +159,11 @@ node_modules
 config.py
 
 __pycache__
+
+*.jpg
+*.png
+*.mpeg
+*.mp4
+*.wma
+*.pdf
+*.jpeg
