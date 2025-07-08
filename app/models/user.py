@@ -2,6 +2,7 @@ from pydantic import BaseModel, EmailStr, constr, conint
 from typing import Optional, List, Annotated
 from datetime import date
 import enum
+from pydantic import validator
 
 # --- Enums ---
 
@@ -52,9 +53,9 @@ class UserBase(BaseModel):
     first_name: str
     middle_name: Optional[str] = None
     last_name: str
-    date_of_birth: Optional[date]
+    date_of_birth: date
     gender: Optional[Gender]
-    preferred_pronouns: Optional[str]
+    preferred_pronouns: Optional[str] = None
     nationality: Optional[str]
     place_of_birth: Optional[str]
     profile_picture: Optional[str]
@@ -156,6 +157,10 @@ class UserCreate(UserBase):
     class Config:
         orm_mode = True
 
+    @validator('preferred_pronouns', pre=True, always=True)
+    def empty_str_to_none(cls, v):
+        return v or None
+
     def validate_passwords(self):
         if self.password != self.confirm_password:
             raise ValueError("Passwords do not match.")
@@ -164,7 +169,6 @@ class User(UserBase):
     id: int
     is_active: bool = True
     is_verified: bool = False
-    age_group: AgeGroup
     roles: List[Role] = []
 
     class Config:

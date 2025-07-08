@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, UploadFile, File, Request
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from app.db.session import get_db
@@ -6,7 +6,7 @@ from app.models.user import UserCreate, User, Token, PasswordResetRequest, Passw
 from app.models.user_db import UserDB
 from app.core.security import oauth2_scheme
 from app.utils import security, email_sender, util
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from datetime import timedelta
 from sqlalchemy.orm import joinedload
 import shutil
@@ -43,10 +43,25 @@ async def upload_file(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/register", response_model=User, status_code=status.HTTP_201_CREATED)
-def register(user_create: UserCreate, db: Session = Depends(get_db)):
-    user_create.validate_passwords()
-    print(user_create)
-    # Check existing email/username
+async def register(request: Request, db: Session = Depends(get_db)):
+    raw_data = await request.json()
+    try:
+        user_create = UserCreate(**raw_data)
+        user_create.validate_passwords()
+    except ValidationError as e:
+        # Here you can parse the errors, and set invalid fields to None or defaults
+        data = raw_data.copy()
+        for err in e.errors():
+            loc = err['loc']  # field path
+            if len(loc) == 1:
+                field = loc[0]
+                # Set invalid field to None (or some default)
+                data[field] = None
+        
+        # Try creating model again with fixed data
+        user_create = UserCreate(**data)
+        user_create.validate_passwords()
+
     user = db.query(UserDB).filter(
         (UserDB.email == user_create.email) | 
         (UserDB.username == user_create.username)
@@ -175,7 +190,7 @@ def read_users_me(token: str = Depends(oauth2_scheme), db: Session = Depends(get
     email = payload.get("sub")
     user = (
         db.query(UserDB)
-        .options(joinedload(UserDB.roles))  # eagerly load roles
+        # .options(joinedload(UserDB.roles))  # eagerly load roles
         .filter(UserDB.email == email)
         .first()
     )

@@ -25,48 +25,58 @@ const stepTitles = [
 // Define validation schema per step
 const validationSchemas = [
   Yup.object({
-    firstName: Yup.string().required("Required"),
-    lastName: Yup.string().required("Required"),
+    first_name: Yup.string().required("Required"),
+    middle_name: Yup.string().optional("Required"),
+    last_name: Yup.string().required("Required"),
+    date_of_birth: Yup.string().required("Required"),
     gender: Yup.string().required("Required"),
+    preferred_pronouns: Yup.string().optional("Required"),
     nationality: Yup.string().required("Required"),
-    preferredLanguage: Yup.string().required("Required"),
-    timeZone: Yup.string().required("Required"),
+    place_of_birth: Yup.string().required("Required"),
+    preferred_language: Yup.string().required("Required"),
+    time_zone: Yup.string().required("Required"),
     ethnicity: Yup.string().required("Required"),
+    marital_status: Yup.string().required("Required"),
     religion: Yup.string().required("Required"),
+    hobbies: Yup.string().optional("Optional"),
+    language_proficiency: Yup.string().optional("Optional"),
   }),
   Yup.object({
-    primaryEmail: Yup.string().email("Invalid email").required("Required"),
-    mobilePhone: Yup.string().required("Required"),
-    streetAddress: Yup.string().required("Required"),
+    primary_email: Yup.string().email("Invalid email").required("Required"),
+    secondary_email: Yup.string().email("Invalid email").optional("Optional"),
+    mobile_phone: Yup.string().required("Required"),
+    landline_number: Yup.string().optional("Optional"),
+    street_address: Yup.string().required("Required"),
     city: Yup.string().required("Required"),
     state: Yup.string().required("Required"),
     country: Yup.string().required("Required"),
-    postalCode: Yup.string().required("Required"),
+    postal_code: Yup.string().required("Required"),
+    alternate_contact_info: Yup.string().optional("Optional"),
   }),
   Yup.object({
     username: Yup.string().required("Required"),
     password: Yup.string().min(6, "Min 6 chars").required("Required"),
-    confirmPassword: Yup.string()
+    confirm_password: Yup.string()
       .oneOf([Yup.ref("password")], "Passwords must match")
       .required("Required"),
-    userRole: Yup.string().required("Required"),
+    user_role: Yup.string().required("Required"),
   }),
   Yup.object({
-    nationalIdNumber: Yup.string().required("Required"),
-    passportNumber: Yup.string().required("Required"),
+    national_id_number: Yup.string().required("Required"),
+    passport_number: Yup.string().required("Required"),
     id_document_path: Yup.string().optional("ID Document is optional"),
     selfie_with_id_path: Yup.string().optional("Selfie with ID is optional"),
     video_verification_path: Yup.string().optional("Video verification is optional"),
   }),
   Yup.object({
-    contentPreferences: Yup.string().required("Required"),
-    communicationPreferences: Yup.string().required("Required"),
+    content_preferences: Yup.string().required("Required"),
+    communication_preferences: Yup.string().required("Required"),
   }),
   Yup.object({
-    creditCardInfo: Yup.string().required("Required"),
-    paypalHandle: Yup.string().required("Required"),
-    bankAccountDetails: Yup.string().required("Required"),
-    billingAddress: Yup.string().required("Required"),
+    credit_card_info: Yup.string().required("Required"),
+    paypal_handle: Yup.string().required("Required"),
+    bank_account_details: Yup.string().required("Required"),
+    billing_address: Yup.string().required("Required"),
   }),
   // For review step, no extra validation needed since it's a summary
   Yup.object({}),
@@ -79,36 +89,46 @@ export default function Register() {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      email: "",
+      first_name: "",
+      middle_name: "",
+      last_name: "",
+      date_of_birth: "",
       gender: "",
+      preferred_pronouns: "",
       nationality: "",
-      preferredLanguage: "",
-      timeZone: "",
+      place_of_birth: "",
+      preferred_language: "",
+      time_zone: "",
       ethnicity: "",
+      marital_status: "",
       religion: "",
-      primaryEmail: "",
-      mobilePhone: "",
-      streetAddress: "",
+      hobbies: "",
+      language_proficiency: "",
+      primary_email: "",
+      secondary_email: "",
+      mobile_phone: "",
+      landline_number: "",
+      street_address: "",
       city: "",
       state: "",
       country: "",
-      postalCode: "",
+      postal_code: "",
       username: "",
       password: "",
-      confirmPassword: "",
-      userRole: "",
-      nationalIdNumber: "",
-      passportNumber: "",
+      confirm_password: "",
+      user_role: "",
+      national_id_number: "",
+      passport_number: "",
       id_document_path: null,
       selfie_with_id_path: null,
       video_verification_path: null,
-      contentPreferences: "",
-      communicationPreferences: "",
-      creditCardInfo: "",
-      paypalHandle: "",
-      bankAccountDetails: "",
-      billingAddress: "",
+      content_preferences: "",
+      communication_preferences: "",
+      credit_card_info: "",
+      paypal_handle: "",
+      bank_account_details: "",
+      billing_address: "",
     },
     validationSchema: validationSchemas[step - 1], // Use schema of current step for formik's built-in validation (helps on submit)
     onSubmit: async (values) => {
@@ -142,6 +162,19 @@ export default function Register() {
         jsonPayload[key] = value;
       }
     });
+
+    Object.keys(jsonPayload).forEach((key) => {
+      if (typeof jsonPayload[key] === "string") {
+        jsonPayload[key] = jsonPayload[key].replace(/\\/g, "/");
+      }
+    });
+
+    if (!jsonPayload.email && jsonPayload.primary_email) {
+      jsonPayload.email = jsonPayload.primary_email;
+    }
+
+        console.log(jsonPayload);
+        console.log(JSON.stringify(jsonPayload));
 
     // Send JSON to backend (not formData)
     const response = await fetch("http://localhost:8000/auth/register", {

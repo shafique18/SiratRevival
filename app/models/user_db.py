@@ -152,6 +152,7 @@ class UserDB(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+
 class Subscriber(Base):
     __tablename__ = "subscribers"
     __table_args__ = {"schema": "siratRevival"}

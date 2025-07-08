@@ -10,8 +10,8 @@ export default function Step3Account({ formik }) {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <InputField label="Username" name="username" formik={formik} />
       <InputField label="Password" name="password" type="password" formik={formik} />
-      <InputField label="Confirm Password" name="confirmPassword" type="password" formik={formik} />
-      <SelectField label="User Role" name="userRole" options={userRoles} formik={formik} />
+      <InputField label="Confirm Password" name="confirm_password" type="password" formik={formik} />
+      <SelectField label="User Role" name="user_role" options={userRoles} formik={formik} />
     </div>
   );
 }

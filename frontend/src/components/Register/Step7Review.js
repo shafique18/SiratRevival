@@ -8,18 +8,29 @@ export default function Step7Review({ formik }) {
       <h2 className="text-xl font-semibold mb-4 border-b pb-2">Review Your Information</h2>
 
       <Section title="Personal Information">
-        <KeyValue label="First Name" value={values.firstName} />
-        <KeyValue label="Last Name" value={values.lastName} />
+        <KeyValue label="First Name" value={values.first_name} />
+        <KeyValue label="Middle Name" value={values.middle_name} />
+        <KeyValue label="Last Name" value={values.last_name} />
+        <KeyValue label="D.O.B" value={values.date_of_birth} />
         <KeyValue label="Gender" value={values.gender} />
         <KeyValue label="Nationality" value={values.nationality} />
+        <KeyValue label="Place Of Birth" value={values.place_of_birth} />
         <KeyValue label="Preferred Language" value={values.preferredLanguage} />
-        <KeyValue label="Time Zone" value={values.timeZone} />
+        <KeyValue label="Language Proficiency" value={values.language_proficiency} />
+        <KeyValue label="Time Zone" value={values.time_zone} />
+        <KeyValue label="Ethnicity" value={values.ethnicity} />
+        <KeyValue label="Marital Status" value={values.marital_status} />
+        <KeyValue label="Religion" value={values.religion} />
+        <KeyValue label="Hobbies" value={values.hobbies} />
       </Section>
 
       <Section title="Contact Information">
-        <KeyValue label="Primary Email" value={values.primaryEmail} />
-        <KeyValue label="Mobile Phone" value={values.mobilePhone} />
-        <KeyValue label="Address" value={`${values.streetAddress}, ${values.city}, ${values.state}, ${values.country} - ${values.postalCode}`} />
+        <KeyValue label="Primary Email" value={values.primary_email} />
+        <KeyValue label="Secondary Email" value={values.secondary_email} />
+        <KeyValue label="Mobile Phone" value={values.mobile_phone} />
+        <KeyValue label="Land Line" value={values.landline_number} />
+        <KeyValue label="Address" value={`${values.street_address}, ${values.city}, ${values.state}, ${values.country} - ${values.postal_code}`} />
+        <KeyValue label="Alternate Contact" value={values.alternate_contact_info} />
       </Section>
 
       <Section title="Account Details">
@@ -28,19 +39,20 @@ export default function Step7Review({ formik }) {
       </Section>
 
       <Section title="Identity Verification">
-        <KeyValue label="National ID Number" value={values.nationalIdNumber} />
-        <KeyValue label="Passport Number" value={values.passportNumber} />
+        <KeyValue label="National ID Number" value={values.national_id_number} />
+        <KeyValue label="Passport Number" value={values.passport_number} />
         <FilePath label="ID Document" value={values.id_document_path} />
         <FilePath label="Selfie with ID" value={values.selfie_with_id_path} />
         <FilePath label="Video Verification" value={values.video_verification_path} />
       </Section>
 
       <Section title="Preferences & Payment">
-        <KeyValue label="Content Preferences" value={values.contentPreferences} />
-        <KeyValue label="Communication Preferences" value={values.communicationPreferences} />
-        <KeyValue label="Credit Card Info" value={values.creditCardInfo ? "Provided" : "Not Provided"} />
-        <KeyValue label="Paypal Handle" value={values.paypalHandle} />
-        <KeyValue label="Bank Account Details" value={values.bankAccountDetails} />
+        <KeyValue label="Content Preferences" value={values.content_preferences} />
+        <KeyValue label="Communication Preferences" value={values.communication_preferences} />
+        <KeyValue label="Credit Card Info" value={values.credit_card_info ? "Provided" : "Not Provided"} />
+        <KeyValue label="Paypal Handle" value={values.paypal_handle} />
+        <KeyValue label="Bank Account Details" value={values.bank_account_details} />
+        <KeyValue label="Billing Address" value={values.billing_address} />
       </Section>
     </div>
   );

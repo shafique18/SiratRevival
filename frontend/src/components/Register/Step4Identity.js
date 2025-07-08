@@ -46,8 +46,8 @@ export default function Step4Identity({ formik }) {
 
   return (
     <div className="space-y-4">
-      <InputField label="National ID" name="nationalIdNumber" formik={formik} />
-      <InputField label="Passport Number" name="passportNumber" formik={formik} />
+      <InputField label="National ID" name="national_id_number" formik={formik} />
+      <InputField label="Passport Number" name="passport_number" formik={formik} />
 
       {/* ID Document Upload */}
       <FileDropzone
