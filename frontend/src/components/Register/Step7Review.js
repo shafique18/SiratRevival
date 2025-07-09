@@ -15,7 +15,7 @@ export default function Step7Review({ formik }) {
         <KeyValue label="Gender" value={values.gender} />
         <KeyValue label="Nationality" value={values.nationality} />
         <KeyValue label="Place Of Birth" value={values.place_of_birth} />
-        <KeyValue label="Preferred Language" value={values.preferredLanguage} />
+        <KeyValue label="Preferred Language" value={values.preferred_language} />
         <KeyValue label="Language Proficiency" value={values.language_proficiency} />
         <KeyValue label="Time Zone" value={values.time_zone} />
         <KeyValue label="Ethnicity" value={values.ethnicity} />
