@@ -4,6 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import Layout from '../components/Layout';
 
+const roleHomeMap = {
+  ADMIN: "/admin/homeadmin",
+  GROUP_0_5: "/kids/homekid",
+  GROUP_6_15: "/teen/hometeen",
+  GROUP_16_25: "/young/homeyoung",
+  GROUP_26_PLUS: "/adult/homeadult",
+};
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,17 +26,13 @@ const Login = () => {
     setErrorMsg("");
     setLoading(true);
 
-    const userProfile = await login(email, password);  // login returns profile or null
+    const userProfile = await login(email, password); // login returns user profile or null
 
     setLoading(false);
 
     if (userProfile) {
-      // Redirect based on age_group
-      if (userProfile.age_group === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/profile");
-      }
+      const redirectPath = roleHomeMap[userProfile.user_role] || "/";
+      navigate(redirectPath);
     } else {
       setErrorMsg("Invalid credentials or network error.");
     }
@@ -38,7 +42,9 @@ const Login = () => {
     <Layout>
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 transition-colors duration-300">
         <div className="max-w-md w-full bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-center mb-4 text-gray-900 dark:text-gray-100">Login to SiratRevival</h2>
+          <h2 className="text-2xl font-semibold text-center mb-4 text-gray-900 dark:text-gray-100">
+            Login to SiratRevival
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block font-medium text-gray-700 dark:text-gray-200">Email</label>

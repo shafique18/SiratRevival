@@ -42,19 +42,23 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         print(f"JWT error: {e}")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-    user = db.query(User).filter(User.email == email).options(joinedload(User.roles)).first()
+    user = db.query(User).filter(User.email == email).first()
     if not user:
         print(f"User not found: {email}")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    print(f"Authenticated user: {user.email}, roles: {[r.name for r in user.roles]}")
+    print(f"Authenticated user: {user.email}, roles: {[r for r in user.user_role]}")
     return user
 
 # Role-based access control
 def role_required(required_roles: List[str]):
     def dependency(user: User = Depends(get_current_user)):
-        user_roles = [r.name.lower() for r in user.roles]
-        if not any(role.lower() in user_roles for role in required_roles):
+        if not user or not user.user_role:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not enough permissions")
+
+        user_role = user.user_role.lower()
+        if not any(role.lower() == user_role for role in required_roles):
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not enough permissions")
+
         return user
     return dependency

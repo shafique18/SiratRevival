@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Transition } from '@headlessui/react';
 import axios from 'axios';
-import AuthContext from "../context/AuthContext";
-import Layout from '../components/Layout';
+import AuthContext from "../../context/AuthContext";
+import Layout from '../../components/Layout';
 
 export default function AdminDashboard() {
   const { user, authTokens } = useContext(AuthContext);
@@ -94,22 +94,30 @@ export default function AdminDashboard() {
         />
         <table className="w-full text-left border">
           <thead className="bg-gray-200"><tr>
-            <th className="p-2">ID</th><th>Email</th><th>Age Group</th><th>Roles</th><th>Approve</th>
+            <th className="p-2">ID</th><th>Email</th><th>Roles</th><th>Approve</th>
           </tr></thead>
           <tbody>
             {users.map(u => (
               <tr key={u.id} className="border-t">
                 <td className="p-2">{u.id}</td>
                 <td>{u.email}</td>
-                <td>{u.age_group}</td>
                 <td>{u.roles.join(', ')}</td>
                 <td>
-                  <button
-                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-                    onClick={() => approve(u.id)}
-                  >
-                    Approve
-                  </button>
+                  {u.isverified ? (
+                    <button
+                      className="bg-green-600 text-white px-3 py-1 rounded cursor-not-allowed"
+                      disabled
+                    >
+                      Approved
+                    </button>
+                  ) : (
+                    <button
+                      className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                      onClick={() => approve(u.id)}
+                    >
+                      Unapproved
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

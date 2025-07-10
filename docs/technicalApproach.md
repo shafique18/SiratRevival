@@ -131,6 +131,21 @@ sirat-revival/
 │   │   │   ├── AuthContext.js
 │   │   │   ├── LanguageContext.js
 │   │   ├── pages
+│   │   │   ├── admin
+│   │   │   │   ├── AdminDashBoard.js
+│   │   │   │   ├── homeadmin.js
+│   │   │   ├── adult
+│   │   │   │   ├── homeadult.js
+│   │   │   │   ├── Deep.js
+│   │   │   │   ├── Logic.js
+│   │   │   ├── kids
+│   │   │   │   ├── homekid.js
+│   │   │   │   ├── Gamified.js
+│   │   │   │   ├── Viual.js
+│   │   │   ├── teen
+│   │   │   │   ├── hometeen.js
+│   │   │   ├── young
+│   │   │   │   ├── homeyoung.js
 │   │   │   ├── index.js
 │   │   │   ├── Login.js
 │   │   │   ├── PasswordResetConfirm.js

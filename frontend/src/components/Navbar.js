@@ -7,7 +7,7 @@ import logo from "../static/images/ihdinas.jpg";
 
 const Navbar = () => {
   const { t } = useTranslation();
-  const { user, isAuthenticated, ageGroup, logout } = useContext(AuthContext);
+  const { user, isAuthenticated, logout } = useContext(AuthContext);
 
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
@@ -30,10 +30,24 @@ const Navbar = () => {
     }
   }, [darkMode]);
 
-  // Check if user is admin by ageGroup or role
-  const isAdmin =
-    ageGroup === "ADMIN" ||
-    user?.roles?.some((role) => role.name === "ADMIN");
+  // Role flags
+  const role = user?.user_role || null;
+  const isAdmin = role === "ADMIN";
+  const isKid = role === "GROUP_0_5";
+  const isTeen = role === "GROUP_6_15";
+  const isYoung = role === "GROUP_16_25";
+  const isAdult = role === "GROUP_26_PLUS";
+
+  // Role-based dashboard paths
+  const roleDashboards = {
+    ADMIN: "/admin/homeadmin",
+    GROUP_0_5: "/kids/homekid",
+    GROUP_6_15: "/teen/hometeen",
+    GROUP_16_25: "/young/homeyoung",
+    GROUP_26_PLUS: "/adult/homeadult",
+  };
+
+  const dashboardLink = roleDashboards[role];
 
   return (
     <nav className="bg-white dark:bg-gray-800 shadow transition-colors duration-300 fixed top-0 w-full z-50">
@@ -45,6 +59,7 @@ const Navbar = () => {
             className="h-16 w-24 object-contain"
           />
         </div>
+
         <div className="flex items-center space-x-6">
           <Link
             to="/"
@@ -55,6 +70,15 @@ const Navbar = () => {
 
           {isAuthenticated ? (
             <>
+              {dashboardLink && (
+                <Link
+                  to={dashboardLink}
+                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
+                >
+                  {t("Dashboard")}
+                </Link>
+              )}
+
               <Link
                 to="/profile"
                 className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"

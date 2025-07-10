@@ -23,8 +23,9 @@ def list_users(q: str = None, db: Session = Depends(get_db),
     if q:
         query = query.filter(User.email.ilike(f"%{q}%"))
     return [
-        {"id": u.id, "email": u.email, "age_group": u.age_group,
-         "roles": [r.name for r in u.roles]}
+        {"id": u.id, "email": u.email,
+         "roles": [u.user_role] if u.user_role else [],
+         "isverified":u.is_verified}
         for u in query
     ]
 

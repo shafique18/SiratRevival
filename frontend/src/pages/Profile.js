@@ -175,8 +175,7 @@ const Profile = () => {
             {renderField("Billing Address", user.billing_address)}
           </Section>
 
-          {/* Logout Button */}
-          <LanguageSwitcher />
+
           <button
             onClick={handleLogout}
             className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg transition"

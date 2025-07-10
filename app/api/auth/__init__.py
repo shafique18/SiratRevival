@@ -9,6 +9,7 @@ from app.utils import security, email_sender, util
 from pydantic import BaseModel, ValidationError
 from datetime import timedelta
 from sqlalchemy.orm import joinedload
+from app.core.config import settings
 import shutil
 import os
 from uuid import uuid4
