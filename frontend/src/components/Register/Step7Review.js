@@ -35,7 +35,7 @@ export default function Step7Review({ formik }) {
 
       <Section title="Account Details">
         <KeyValue label="Username" value={values.username} />
-        <KeyValue label="User Role" value={values.userRole} />
+        <KeyValue label="User Role" value={values.user_role} />
       </Section>
 
       <Section title="Identity Verification">

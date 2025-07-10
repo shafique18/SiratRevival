@@ -4,5 +4,19 @@
   "Login": "Login",
   "Welcome": "Welcome to SiratRevival",
   "Logout": "Logout",
-  "AdminDashboard": "Admin Dashboard"
+  "AdminDashboard": "Admin Dashboard",
+  "First Name":"First Name",
+  "Middle Name":"Middle Name",
+  "Last Name":"Last Name",
+  "D.O.B":"D.O.B",
+  "Gender":"Gender",
+  "Nationality":"Nationality",
+  "Place Of Birth":"Place Of Birth",
+  "Preferred Language":"Preferred Language",
+  "Language Proficiency":"Language Proficiency",
+  "Time Zone":"Time Zone",
+  "Ethnicity":"Ethnicity",
+  "Marital Status":"Marital Status",
+  "Religion":"Religion",
+  "Hobbies":"Hobbies"
 }
