@@ -56,6 +56,8 @@ sirat-revival/
 │
 ├── app/                         # Main application source code
 │   ├── api/                     # FastAPI routers per feature
+│   │   ├── admin/
+│   │   │   ├── __init__.py
 │   │   ├── auth/
 │   │   │   ├── __init__.py
 │   │   ├── users/
@@ -71,7 +73,8 @@ sirat-revival/
 │   │   └── analytics/
 │   │   │   ├── __init__.py
 │   ├── core/                    # Core logic (auth, security, config)
-│   │   ├──cofig.py
+│   │   ├── cofig.py
+│   │   ├── security.py
 │   ├── models/                  # Pydantic + DB models4
 │   │   ├── user_db.py
 │   │   ├── user.py
@@ -91,6 +94,7 @@ sirat-revival/
 │
 ├── scripts/                    # Management CLI and setup scripts
 │       ├── create_db.py
+│       ├── seed_roles_admin.py
 │
 ├── docs/                       # Markdown docs for concept, API, roadmap
 │
@@ -104,13 +108,25 @@ sirat-revival/
 │   │   │   │   ├── translation.json
 │   ├── src/
 │   │   ├── components
+│   │   │   ├── Register
+│   │   │   │   ├── FileUploadFiels.js
+│   │   │   │   ├── InputField.js
+│   │   │   │   ├── SelectField.js
+│   │   │   │   ├── Step1Personal.js
+│   │   │   │   ├── Step2Contact.js
+│   │   │   │   ├── Step3Account.js
+│   │   │   │   ├── Step4Identity.js
+│   │   │   │   ├── Step5Preferences.js
+│   │   │   │   ├── Step6Payment.js
+│   │   │   │   ├── Step7Review.js
+│   │   │   ├── ErrorBoundary.js
+│   │   │   ├── FileDropzone.js
 │   │   │   ├── Layout.js
 │   │   │   ├── Navbar.js
 │   │   │   ├── ProtectedRoute.js
 │   │   │   ├── translate.js
 │   │   │   ├── LaguageSwitcher.js
 │   │   │   ├── Footer.js
-│   │   │   ├── translate.js
 │   │   ├── context
 │   │   │   ├── AuthContext.js
 │   │   │   ├── LanguageContext.js
@@ -122,6 +138,13 @@ sirat-revival/
 │   │   │   ├── Profile.js
 │   │   │   ├── Register.js
 │   │   │   ├── VerifyEmail.js
+│   │   │   ├── AdminDashboard.js
+│   │   │   ├── dashboard.js
+│   │   │   ├── Deep.js
+│   │   │   ├── Gamified.js
+│   │   │   ├── Logic.js
+│   │   │   ├── Unauthorized.js
+│   │   │   ├── Visual.js
 │   │   ├── screens
 │   │   │   ├── HadithCard.js
 │   │   │   ├── NewsFeed.js
@@ -145,6 +168,10 @@ sirat-revival/
 │   ├── Dockerfile
 ├
 ├── scraping
+│   ├── crawling
+│   │   ├── data.py
+│   │   ├── nCrawl.py
+│   │   ├── sel.py
 │
 ├── .env                        # Environment variables
 ├── .gitignore
