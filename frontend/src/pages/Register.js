@@ -22,7 +22,8 @@ const stepTitles = [
   "Review & Submit",
 ];
 
-// Define validation schema per step
+// Validation schemas remain unchanged...
+
 const validationSchemas = [
   Yup.object({
     first_name: Yup.string().required("Required"),
@@ -89,6 +90,7 @@ export default function Register() {
 
   const formik = useFormik({
     initialValues: {
+      // unchanged
       email: "",
       first_name: "",
       middle_name: "",
@@ -130,72 +132,60 @@ export default function Register() {
       bank_account_details: "",
       billing_address: "",
     },
-    validationSchema: validationSchemas[step - 1], // Use schema of current step for formik's built-in validation (helps on submit)
+    validationSchema: validationSchemas[step - 1],
     onSubmit: async (values) => {
-  try {
-    setIsSubmitting(true);
-    const formData = new FormData();
+      try {
+        setIsSubmitting(true);
+        const formData = new FormData();
 
-    Object.keys(values).forEach((key) => {
-      const value = values[key];
-      if (value instanceof File) {
-        formData.append(key, value, value.name);
-      } else if (value !== null && value !== undefined) {
-        if (typeof value === "object") {
-          formData.append(key, JSON.stringify(value));
-        } else {
-          formData.append(key, value);
+        Object.keys(values).forEach((key) => {
+          const value = values[key];
+          if (value instanceof File) {
+            formData.append(key, value, value.name);
+          } else if (value !== null && value !== undefined) {
+            if (typeof value === "object") {
+              formData.append(key, JSON.stringify(value));
+            } else {
+              formData.append(key, value);
+            }
+          }
+        });
+
+        // Convert values to JSON payload for backend
+        const jsonPayload = {};
+        Object.keys(values).forEach((key) => {
+          const value = values[key];
+          if (!(value instanceof File)) {
+            jsonPayload[key] = value;
+          }
+        });
+        Object.keys(jsonPayload).forEach((key) => {
+          if (typeof jsonPayload[key] === "string") {
+            jsonPayload[key] = jsonPayload[key].replace(/\\/g, "/");
+          }
+        });
+        if (!jsonPayload.email && jsonPayload.primary_email) {
+          jsonPayload.email = jsonPayload.primary_email;
         }
+
+        const response = await fetch("http://localhost:8000/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(jsonPayload),
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.detail || "Registration failed");
+
+        toast.success("Registration successful! Check your email.");
+        formik.resetForm();
+        setStep(1);
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setIsSubmitting(false);
       }
-    });
-
-    // Log FormData entries for debugging
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-
-    // Convert form values to plain object, excluding Files (should be none now)
-    const jsonPayload = {};
-    Object.keys(values).forEach((key) => {
-      const value = values[key];
-      if (!(value instanceof File)) {
-        jsonPayload[key] = value;
-      }
-    });
-
-    Object.keys(jsonPayload).forEach((key) => {
-      if (typeof jsonPayload[key] === "string") {
-        jsonPayload[key] = jsonPayload[key].replace(/\\/g, "/");
-      }
-    });
-
-    if (!jsonPayload.email && jsonPayload.primary_email) {
-      jsonPayload.email = jsonPayload.primary_email;
-    }
-
-        console.log(jsonPayload);
-        console.log(JSON.stringify(jsonPayload));
-
-    // Send JSON to backend (not formData)
-    const response = await fetch("http://localhost:8000/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(jsonPayload),
-    });
-
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.detail || "Registration failed");
-
-    toast.success("Registration successful! Check your email.");
-    formik.resetForm();
-    setStep(1);
-  } catch (error) {
-    toast.error(error.message);
-  } finally {
-    setIsSubmitting(false);
-  }
-},
-
+    },
   });
 
   const scrollToTop = () => {
@@ -206,13 +196,11 @@ export default function Register() {
     scrollToTop();
   }, [step]);
 
-  // Validate only current step fields
+  // Validate current step fields only
   const validateStep = async () => {
     const currentSchema = validationSchemas[step - 1];
     try {
-      // Validate only current step values
       await currentSchema.validate(formik.values, { abortEarly: false });
-      // Mark only current step fields as touched
       const touchedFields = {};
       Object.keys(currentSchema.fields).forEach((key) => {
         touchedFields[key] = true;
@@ -223,9 +211,9 @@ export default function Register() {
       if (err.inner) {
         const touchedFields = {};
         const errors = {};
-        err.inner.forEach((validationError) => {
-          touchedFields[validationError.path] = true;
-          errors[validationError.path] = validationError.message;
+        err.inner.forEach(({ path, message }) => {
+          touchedFields[path] = true;
+          errors[path] = message;
         });
         formik.setTouched({ ...formik.touched, ...touchedFields });
         formik.setErrors({ ...formik.errors, ...errors });
@@ -247,55 +235,84 @@ export default function Register() {
   return (
     <Layout>
       <Toaster position="top-right" />
-      <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-6" ref={formRef}>
-        <h1 className="text-3xl font-bold mb-2 text-center">Register</h1>
-        <p className="text-center text-gray-600 mb-4">{stepTitles[step - 1]}</p>
-        <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
-          <div
-            className="h-2 bg-blue-600 rounded-full transition-all duration-300"
-            style={{ width: `${(step / 7) * 100}%` }}
-          ></div>
+      <div
+        className="max-w-5xl mx-auto mt-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md
+                   flex flex-col md:flex-row gap-8"
+        ref={formRef}
+      >
+        {/* Form container */}
+        <div className="flex-1 min-w-0">
+          <h1 className="text-3xl font-bold mb-2 text-center md:text-left text-gray-900 dark:text-white">
+            Register
+          </h1>
+          <p className="text-center md:text-left text-gray-600 dark:text-gray-300 mb-6">
+            {stepTitles[step - 1]}
+          </p>
+
+          {/* Progress bar */}
+          <div className="w-full bg-gray-300 dark:bg-gray-700 rounded-full h-2 mb-6">
+            <div
+              className="h-2 bg-blue-600 rounded-full transition-all duration-300"
+              style={{ width: `${(step / 7) * 100}%` }}
+            ></div>
+          </div>
+
+          <form
+            onSubmit={formik.handleSubmit}
+            className="space-y-6"
+            encType="multipart/form-data"
+            noValidate
+          >
+            {step === 1 && <Step1Personal formik={formik} />}
+            {step === 2 && <Step2Contact formik={formik} />}
+            {step === 3 && <Step3Account formik={formik} />}
+            {step === 4 && <Step4Identity formik={formik} />}
+            {step === 5 && <Step5Preferences formik={formik} />}
+            {step === 6 && <Step6Payment formik={formik} />}
+            {step === 7 && <Step7Review formik={formik} />}
+
+            <div className="flex justify-between items-center mt-6">
+              {step > 1 && (
+                <button
+                  type="button"
+                  onClick={prevStep}
+                  className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600 transition"
+                >
+                  Back
+                </button>
+              )}
+              {step < 7 && (
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  className="ml-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                >
+                  Next
+                </button>
+              )}
+              {step === 7 && (
+                <button
+                  type="submit"
+                  className="ml-auto px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit"}
+                </button>
+              )}
+            </div>
+          </form>
         </div>
 
-        <form onSubmit={formik.handleSubmit} className="space-y-6" encType="multipart/form-data">
-          {step === 1 && <Step1Personal formik={formik} />}
-          {step === 2 && <Step2Contact formik={formik} />}
-          {step === 3 && <Step3Account formik={formik} />}
-          {step === 4 && <Step4Identity formik={formik} />}
-          {step === 5 && <Step5Preferences formik={formik} />}
-          {step === 6 && <Step6Payment formik={formik} />}
-          {step === 7 && <Step7Review formik={formik} />}
-
-          <div className="flex justify-between items-center mt-6">
-            {step > 1 && (
-              <button
-                type="button"
-                onClick={prevStep}
-                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-              >
-                Back
-              </button>
-            )}
-            {step < 7 && (
-              <button
-                type="button"
-                onClick={nextStep}
-                className="ml-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              >
-                Next
-              </button>
-            )}
-            {step === 7 && (
-              <button
-                type="submit"
-                className="ml-auto px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Submitting..." : "Submit"}
-              </button>
-            )}
-          </div>
-        </form>
+        {/* Right side space for future message/image */}
+        <aside className="hidden md:block md:w-80 p-4 rounded-lg bg-gray-50 dark:bg-gray-900 shadow-inner text-gray-700 dark:text-gray-300">
+          {/* Example placeholder content */}
+          <h2 className="text-xl font-semibold mb-4">Welcome!</h2>
+          <p>
+            Register to access personalized features and stay updated with our
+            latest news and offers.
+          </p>
+          {/* You can replace this with an image or other content */}
+        </aside>
       </div>
     </Layout>
   );

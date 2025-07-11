@@ -12,7 +12,6 @@ class SubscribeRequest(BaseModel):
 
 @router.post("/subscribe", status_code=status.HTTP_201_CREATED)
 def subscribe(sub: SubscribeRequest, db: Session = Depends(get_db)):
-    print("*"*50)
     # Check if already subscribed
     existing = db.query(Subscriber).filter(Subscriber.email == sub.email).first()
     if existing:

@@ -30,15 +30,11 @@ const Navbar = () => {
     }
   }, [darkMode]);
 
-  // Role flags
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const role = user?.user_role || null;
   const isAdmin = role === "ADMIN";
-  const isKid = role === "GROUP_0_5";
-  const isTeen = role === "GROUP_6_15";
-  const isYoung = role === "GROUP_16_25";
-  const isAdult = role === "GROUP_26_PLUS";
 
-  // Role-based dashboard paths
   const roleDashboards = {
     ADMIN: "/admin/homeadmin",
     GROUP_0_5: "/kids/homekid",
@@ -50,21 +46,20 @@ const Navbar = () => {
   const dashboardLink = roleDashboards[role];
 
   return (
-    <nav className="bg-white dark:bg-gray-800 shadow transition-colors duration-300 fixed top-0 w-full z-50">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white rounded">
-          <img
-            src={logo}
-            alt="SiratRevival Logo"
-            className="h-16 w-24 object-contain"
-          />
+    <nav className="bg-white dark:bg-gray-800 shadow fixed top-0 w-full z-50 h-16">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between h-full">
+        <div className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white">
+          <Link to="/" onClick={() => setMenuOpen(false)}>
+            <img
+              src={logo}
+              alt="SiratRevival Logo"
+              className="h-12 w-auto object-contain"
+            />
+          </Link>
         </div>
 
-        <div className="flex items-center space-x-6">
-          <Link
-            to="/"
-            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
-          >
+        <div className="hidden md:flex items-center space-x-6 text-gray-700 dark:text-gray-300">
+          <Link to="/" className="hover:text-blue-600 transition-colors">
             {t("Home")}
           </Link>
 
@@ -73,40 +68,37 @@ const Navbar = () => {
               {dashboardLink && (
                 <Link
                   to={dashboardLink}
-                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
+                  className="hover:text-blue-600 transition-colors"
                 >
                   {t("Dashboard")}
                 </Link>
               )}
-
               <Link
                 to="/profile"
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
+                className="hover:text-blue-600 transition-colors"
               >
                 {t("Profile")}
               </Link>
-
               {isAdmin && (
                 <Link
                   to="/admin"
-                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
+                  className="hover:text-blue-600 transition-colors"
                 >
                   {t("AdminDashboard")}
                 </Link>
               )}
-
               <button
-                onClick={logout}
-                className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors"
+                onClick={() => {
+                  logout();
+                  setMenuOpen(false);
+                }}
+                className="hover:text-red-500 transition-colors bg-transparent border-none cursor-pointer"
               >
                 {t("Logout")}
               </button>
             </>
           ) : (
-            <Link
-              to="/login"
-              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
-            >
+            <Link to="/login" className="hover:text-blue-600 transition-colors">
               {t("Login")}
             </Link>
           )}
@@ -120,7 +112,105 @@ const Navbar = () => {
             {darkMode ? "🌞" : "🌙"}
           </button>
         </div>
+
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="focus:outline-none"
+            aria-label="Toggle Menu"
+          >
+            <svg
+              className="w-7 h-7 text-gray-700 dark:text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {menuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {menuOpen && (
+        <div className="md:hidden bg-white dark:bg-gray-800 shadow-md px-4 pb-4 space-y-3 text-gray-700 dark:text-gray-300">
+          <Link
+            to="/"
+            className="block hover:text-blue-600"
+            onClick={() => setMenuOpen(false)}
+          >
+            {t("Home")}
+          </Link>
+          {isAuthenticated ? (
+            <>
+              {dashboardLink && (
+                <Link
+                  to={dashboardLink}
+                  className="block hover:text-blue-600"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {t("Dashboard")}
+                </Link>
+              )}
+              <Link
+                to="/profile"
+                className="block hover:text-blue-600"
+                onClick={() => setMenuOpen(false)}
+              >
+                {t("Profile")}
+              </Link>
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="block hover:text-blue-600"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {t("AdminDashboard")}
+                </Link>
+              )}
+              <button
+                onClick={() => {
+                  logout();
+                  setMenuOpen(false);
+                }}
+                className="block text-left hover:text-red-500 bg-transparent border-none cursor-pointer w-full"
+              >
+                {t("Logout")}
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="block hover:text-blue-600"
+              onClick={() => setMenuOpen(false)}
+            >
+              {t("Login")}
+            </Link>
+          )}
+
+          <LanguageSwitcher />
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="bg-gray-200 dark:bg-gray-700 p-2 rounded w-full focus:outline-none mt-2"
+            aria-label="Toggle Dark Mode"
+          >
+            {darkMode ? "🌞" : "🌙"}
+          </button>
+        </div>
+      )}
     </nav>
   );
 };

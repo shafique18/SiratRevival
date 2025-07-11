@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       setAuthTokens(data);
+      console.log(data)
       localStorage.setItem("authTokens", JSON.stringify(data));
 
       const profile = await getUserProfile(data.access_token);

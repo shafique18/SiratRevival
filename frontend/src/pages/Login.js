@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import Layout from '../components/Layout';
+import DynamicMessage from "../components/DynamicMessage";
 
 const roleHomeMap = {
   ADMIN: "/admin/homeadmin",
@@ -40,44 +41,53 @@ const Login = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 transition-colors duration-300">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-center mb-4 text-gray-900 dark:text-gray-100">
-            Login to SiratRevival
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block font-medium text-gray-700 dark:text-gray-200">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full p-3 mb-4 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 py-12 transition-all duration-300">
+        <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 bg-white dark:bg-gray-800 shadow-xl rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-700">
+
+          {/* Left - Form */}
+          <div className="p-8 md:p-12">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">Welcome Back</h2>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  required
+                />
+              </div>
+              {errorMsg && <p className="text-red-500 text-sm">{errorMsg}</p>}
+              <button
+                type="submit"
+                className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg font-medium disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            </form>
+            <div className="text-center mt-4 text-sm text-gray-700 dark:text-gray-300 space-x-2">
+              <Link to="/register" className="text-blue-500 hover:underline">Register</Link> |{" "}
+              <Link to="/password-reset-request" className="text-blue-500 hover:underline">Forgot Password?</Link>
             </div>
-            <div>
-              <label className="block font-medium text-gray-700 dark:text-gray-200">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="mt-1 block w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-              />
+          </div>
+
+          {/* Right - Quote Section */}
+          <div className="bg-gray-100 dark:bg-gray-700 p-8 flex flex-col justify-center items-center md:items-start">
+            <div className="max-w-md w-full">
+              <DynamicMessage />
             </div>
-            {errorMsg && <p className="text-red-600 text-sm">{errorMsg}</p>}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold py-3 rounded"
-            >
-              {loading ? "Logging in..." : "Login"}
-            </button>
-          </form>
-          <div className="text-center mt-4 text-sm text-gray-700 dark:text-gray-300">
-            <Link to="/register" className="text-blue-500 hover:underline">Register</Link> |{" "}
-            <Link to="/password-reset-request" className="text-blue-500 hover:underline">Forgot Password?</Link>
           </div>
         </div>
       </div>
