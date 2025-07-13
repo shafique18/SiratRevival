@@ -302,8 +302,7 @@ export default function Register() {
             </div>
           </form>
         </div>
-
-        {/* Right side space for future message/image */}
+              {/* Right side space for future message/image */}
         <aside className="hidden md:block md:w-80 p-4 rounded-lg bg-gray-50 dark:bg-gray-900 shadow-inner text-gray-700 dark:text-gray-300">
           {/* Example placeholder content */}
           <h2 className="text-xl font-semibold mb-4">Welcome!</h2>
@@ -313,6 +312,7 @@ export default function Register() {
           </p>
           {/* You can replace this with an image or other content */}
         </aside>
+        
       </div>
     </Layout>
   );

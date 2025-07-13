@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer
 from app.db.session import get_db
-from app.models.user import UserUpdate, User
-from app.models.user_db import UserDB
+from app.models.pydantic.user import UserUpdate, User
+from app.models.sqlalchemy.user_db import UserDB
 from app.core.security import oauth2_scheme
 from app.utils.security import decode_access_token
 from typing import Optional
@@ -21,7 +21,6 @@ def update_profile(
     db: Session = Depends(get_db),
 ):
     # Decode the token and get the user's email
-    print(user_update)
     payload = decode_access_token(token)
     if not payload:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")

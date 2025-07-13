@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, 
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from app.db.session import get_db
-from app.models.user import UserCreate, User, Token, PasswordResetRequest, PasswordResetConfirm
-from app.models.user_db import UserDB
+from app.models.pydantic.user import UserCreate, User, Token, PasswordResetRequest, PasswordResetConfirm
+from app.models.sqlalchemy.user_db import UserDB
 from app.core.security import oauth2_scheme
 from app.utils import security, email_sender, util
 from pydantic import BaseModel, ValidationError

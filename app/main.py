@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+
 app = FastAPI(title="SiratRevival API")
 
 
@@ -28,6 +29,8 @@ from app.api.analytics import router as analytics_router
 from app.api.admin import router as admin_router
 from app.api.content.subscribe import router as subscribe_router
 import os
+from fastapi.responses import JSONResponse
+from fastapi import Request
 
 
 
@@ -42,6 +45,9 @@ app.include_router(subscribe_router, prefix="/subscribe", tags=["Scubscribe"])
 app.include_router(admin_router)
 
 @app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request, exc):
-    return PlainTextResponse(str(exc), status_code=422)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors(), "body": exc.body},
+    )
 

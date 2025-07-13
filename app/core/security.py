@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, joinedload
 from app.core.config import settings
 
 from app.db.session import get_db
-from app.models.user_db import UserDB as User  # Adjust if your model file name is different
+from app.models.sqlalchemy.user_db import UserDB as User  # Adjust if your model file name is different
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

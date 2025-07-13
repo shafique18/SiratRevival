@@ -45,7 +45,7 @@ Selfie with ID
 Video Verification
 Face Recognition (automated matching with ID)
 
--Professional Information
+- Professional Information
 Occupation
 Industry
 Job Title

@@ -119,6 +119,8 @@ sirat-revival/
 │   │   │   │   ├── Step5Preferences.js
 │   │   │   │   ├── Step6Payment.js
 │   │   │   │   ├── Step7Review.js
+│   │   │   ├── DynamicBoundary.js
+│   │   │   ├── PrayerTimesWidget.js
 │   │   │   ├── ErrorBoundary.js
 │   │   │   ├── FileDropzone.js
 │   │   │   ├── Layout.js
@@ -153,13 +155,7 @@ sirat-revival/
 │   │   │   ├── Profile.js
 │   │   │   ├── Register.js
 │   │   │   ├── VerifyEmail.js
-│   │   │   ├── AdminDashboard.js
-│   │   │   ├── dashboard.js
-│   │   │   ├── Deep.js
-│   │   │   ├── Gamified.js
-│   │   │   ├── Logic.js
 │   │   │   ├── Unauthorized.js
-│   │   │   ├── Visual.js
 │   │   ├── screens
 │   │   │   ├── HadithCard.js
 │   │   │   ├── NewsFeed.js

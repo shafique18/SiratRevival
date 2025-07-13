@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from pydantic import BaseModel, EmailStr
 from app.db.session import get_db
 from sqlalchemy.orm import Session
-from app.models.user_db import Subscriber
+from app.models.sqlalchemy.user_db import Subscriber
 from datetime import datetime
 
 router = APIRouter(tags=["Scubscribe"])

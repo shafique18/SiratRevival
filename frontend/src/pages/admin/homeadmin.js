@@ -1,15 +1,17 @@
 import React from 'react';
 import Layout from '../../components/Layout';
-import QuranVerseCard from '../../screens/QuranVerseCard';
-import HadithCard from '../../screens/HadithCard';
-import NewsFeed from '../../screens/NewsFeed';
+import PrayerTimesWidget from '../../components/PrayerTimesWidget';
+import Sidebar from '../../components/Sidebar';
+import ContentArea from '../../components/ContentArea';
 
-export default function Home() {
+export default function HomeAdmin() {
   return (
     <Layout>
-      <div className="p-4 space-y-8 max-w-7xl mx-auto">
-        Admin Home
-      </div>   
+      <PrayerTimesWidget />
+      <div className="flex flex-1">
+        <Sidebar />
+        <ContentArea />
+      </div>
     </Layout>
   );
 }
