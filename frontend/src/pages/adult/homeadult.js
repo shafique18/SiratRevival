@@ -1,16 +1,18 @@
-import React from 'react';
-import Layout from '../../components/Layout';
-import PrayerTimesWidget from '../../components/PrayerTimesWidget';
-import Sidebar from '../../components/Sidebar';
-import ContentArea from '../../components/ContentArea';
+import React, { useState } from "react";
+import Layout from "../../components/Layout";
+import SideNav from "../../components/SideNav";
+import MainContent from "../../components/MainContent";
 
 export default function HomeAdult() {
+  const [selectedMenu, setSelectedMenu] = useState(null);
+
   return (
     <Layout>
-      <PrayerTimesWidget />
-      <div className="flex flex-1">
-        <Sidebar />
-        <ContentArea />
+      <div className="flex w-full h-full overflow-hidden">
+        <SideNav onSelectMenu={setSelectedMenu} />
+        <div className="flex-1 overflow-auto">
+          <MainContent selectedMenu={selectedMenu} />
+        </div>
       </div>
     </Layout>
   );

@@ -28,6 +28,8 @@ export const AuthProvider = ({ children }) => {
     return storedProfile ? JSON.parse(storedProfile) : null;
   });
 
+  const [activeMenuKey, setActiveMenuKey] = useState(null); // ✅ NEW: Track current menu
+
   const [loading, setLoading] = useState(true);
 
   const login = async (email, password) => {
@@ -47,7 +49,6 @@ export const AuthProvider = ({ children }) => {
       }
 
       setAuthTokens(data);
-      console.log(data)
       localStorage.setItem("authTokens", JSON.stringify(data));
 
       const profile = await getUserProfile(data.access_token);
@@ -135,6 +136,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         role: user?.user_role || null,
         isAuthenticated: !!authTokens,
+        setUser,
       }}
     >
       {children}

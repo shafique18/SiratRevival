@@ -10,13 +10,14 @@ import enum
 class MenuDB(Base):
     __tablename__ = "menus"
     __table_args__ = {"schema": "siratRevival"}
-    
+
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
     icon = Column(String, nullable=True)
-    role = Column(String, nullable=False)  # 'admin', 'adult', 'teen', etc.
+    role = Column(String, nullable=False)  # user role like 'admin', 'adult', etc.
 
     submenus = relationship("SubMenuDB", back_populates="menu")
+
 
 class SubMenuDB(Base):
     __tablename__ = "submenus"
@@ -24,16 +25,17 @@ class SubMenuDB(Base):
 
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
-    menu_id = Column(Integer, ForeignKey("siratRevival.menus.id"))
-    path = Column(String, nullable=False)  # frontend route
+    menu_id = Column(Integer, ForeignKey("siratRevival.menus.id"), nullable=False)
+    path = Column(String, nullable=False)  # frontend route path
     type = Column(
-    Enum("static", "learning", name="submenu_type", schema="siratRevival"),
-    nullable=False
+        Enum("static", "learning", name="submenu_type", schema="siratRevival"),
+        nullable=False
     )
     learning_path_id = Column(Integer, ForeignKey("siratRevival.learning_paths.id"), nullable=True)
 
     menu = relationship("MenuDB", back_populates="submenus")
-    learning_path = relationship("LearningPathDB", back_populates="submenu")
+    learning_path = relationship("LearningPathDB", back_populates="submenu", uselist=False)
+
 
 class LearningPathDB(Base):
     __tablename__ = "learning_paths"
@@ -42,9 +44,10 @@ class LearningPathDB(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
     description = Column(Text)
-    
-    modules = relationship("ModuleDB", back_populates="learning_path")
+
+    modules = relationship("ModuleDB", back_populates="learning_path", order_by="ModuleDB.order")
     submenu = relationship("SubMenuDB", back_populates="learning_path", uselist=False)
+
 
 class ModuleDB(Base):
     __tablename__ = "modules"
@@ -52,37 +55,40 @@ class ModuleDB(Base):
 
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
-    learning_path_id = Column(Integer, ForeignKey("siratRevival.learning_paths.id"))
+    learning_path_id = Column(Integer, ForeignKey("siratRevival.learning_paths.id"), nullable=False)
     order = Column(Integer, nullable=False)
 
     contents = relationship("ContentDB", back_populates="module")
     learning_path = relationship("LearningPathDB", back_populates="modules")
+
 
 class ContentDB(Base):
     __tablename__ = "contents"
     __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    module_id = Column(Integer, ForeignKey("siratRevival.modules.id"))
+    module_id = Column(Integer, ForeignKey("siratRevival.modules.id"), nullable=False)
     type = Column(Enum("video", "text", "pdf", "link", name="content_type", schema="siratRevival"), nullable=False)
     content_url = Column(String, nullable=True)
     html_content = Column(Text, nullable=True)
-    
+
     module = relationship("ModuleDB", back_populates="contents")
+
 
 class UserProgressDB(Base):
     __tablename__ = "user_progress"
     __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("siratRevival.users.id"))
-    module_id = Column(Integer, ForeignKey("siratRevival.modules.id"))
+    user_id = Column(Integer, ForeignKey("siratRevival.users.id"), nullable=False)
+    module_id = Column(Integer, ForeignKey("siratRevival.modules.id"), nullable=False)
     progress_percent = Column(Float, default=0.0)
     completed = Column(Boolean, default=False)
     last_accessed = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("UserDB", backref="progress")
     module = relationship("ModuleDB")
+
 
 class NavigationType(enum.Enum):
     MENU = "menu"

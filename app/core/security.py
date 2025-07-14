@@ -31,23 +31,17 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
 # Get current user from token
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
-    print(f"Token received: {token}")
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         email: str = payload.get("sub")
-        print(f"Token payload sub: {email}")
         if email is None:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token payload")
     except JWTError as e:
-        print(f"JWT error: {e}")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
     user = db.query(User).filter(User.email == email).first()
     if not user:
-        print(f"User not found: {email}")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-
-    print(f"Authenticated user: {user.email}, roles: {[r for r in user.user_role]}")
     return user
 
 # Role-based access control

@@ -40,3 +40,5 @@ def update_profile(
     db.refresh(user)
 
     return user
+
+from . import sidebar

@@ -4,7 +4,6 @@ import Footer from "./Footer";
 import PrayerTimesWidget from "./PrayerTimesWidget";
 
 const Layout = ({ children }) => {
-  // Detect desktop breakpoint
   const [isDesktop, setIsDesktop] = useState(
     typeof window !== "undefined" ? window.innerWidth >= 1024 : false
   );
@@ -14,41 +13,28 @@ const Layout = ({ children }) => {
     const handleResize = () => {
       const desktop = window.innerWidth >= 1024;
       setIsDesktop(desktop);
-      if (!desktop) setPrayerOpen(false);
-      else setPrayerOpen(true);
+      setPrayerOpen(desktop); // default open only for desktop
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
+      {/* Floating prayer widget */}
+      {isDesktop && (
+        <div className="fixed top-16 right-0 z-40">
+          <PrayerTimesWidget
+            isDesktop={true}
+            isOpen={prayerOpen}
+            toggleOpen={() => setPrayerOpen(!prayerOpen)}
+          />
+        </div>
+      )}
 
-      <main className="flex-1 pt-16 px-4 sm:px-6 lg:px-8 container mx-auto relative">
-        {isDesktop ? (
-          <>
-            <PrayerTimesWidget
-              isDesktop={true}
-              isOpen={prayerOpen}
-              toggleOpen={() => setPrayerOpen(!prayerOpen)}
-            />
-            {/* Content with margin-left only when prayerOpen */}
-            <div
-              className={`transition-margin duration-300 ease-in-out ${
-                prayerOpen ? "lg:ml-[18rem]" : "lg:ml-0"
-              }`}
-            >
-              {children}
-            </div>
-          </>
-        ) : (
-          <>
-            {children}
-            <PrayerTimesWidget isDesktop={false} />
-          </>
-        )}
+      <main className="flex-1 flex overflow-hidden pt-16">
+        {children}
       </main>
 
       <Footer />

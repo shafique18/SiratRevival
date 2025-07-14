@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import Optional, List
-from pydantic import validator
 
 class Content(BaseModel):
     id: int
@@ -18,6 +17,10 @@ class Module(BaseModel):
     order: int
     contents: List[Content]
 
+    # Adding user progress info for frontend display
+    progress_percent: Optional[float] = 0.0
+    completed: Optional[bool] = False
+
     class Config:
         orm_mode = True
 
@@ -25,7 +28,7 @@ class Module(BaseModel):
 class LearningPath(BaseModel):
     id: int
     title: str
-    description: str
+    description: Optional[str]
     modules: List[Module]
 
     class Config:
@@ -51,3 +54,7 @@ class Menu(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class ProgressUpdate(BaseModel):
+    progress: float
