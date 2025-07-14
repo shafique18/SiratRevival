@@ -15,7 +15,7 @@ from app.models.sqlalchemy.user_db import UserRole
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 def seed_all(session: Session):
-    # Clear tables in correct order
+    # Clear tables
     session.query(UserProgressDB).delete()
     session.query(ContentDB).delete()
     session.query(ModuleDB).delete()
@@ -25,108 +25,125 @@ def seed_all(session: Session):
     session.query(NavigationItem).delete()
     session.commit()
 
-    # 1. Create 10 menus, rotating roles
-    categories = [
-        "Aqeedah", "Qur'an Studies", "Seerah",
-        "Salah & Ibadah", "Islamic Manners",
-        "Duas & Adhkar", "Islamic History",
-        "Fiqh", "Modern Challenges", "Admin Panel"
+    # 1. Create Menus
+    menu_titles = [
+        "Beliefs (Aqeedah)", "The Qur'an", "Seerah",
+        "Islamic Manners & Akhlaaq", "Duas & Adhkar", "Worship (Ibaadah)",
+        "Pillars of Islam & Iman", "Islamic History", "Fiqh for Kids", "Islamic Calendar & Events"
     ]
-    roles_list = [UserRole.GROUP_0_5, UserRole.GROUP_6_15,
-                  UserRole.GROUP_16_25, UserRole.GROUP_26_PLUS,
-                  UserRole.ADMIN]
+    roles = [
+        UserRole.GROUP_0_5, UserRole.GROUP_6_15, UserRole.GROUP_16_25,
+        UserRole.GROUP_26_PLUS, UserRole.ADMIN
+    ]
     menus = {}
-    for idx, cat in enumerate(categories):
-        role = roles_list[idx % len(roles_list)]
-        menus[cat] = MenuDB(
-            title=cat,
-            icon=f"{cat.lower().replace(' ', '_')}.svg",
+    for idx, title in enumerate(menu_titles):
+        role = roles[idx % len(roles)]
+        menu = MenuDB(
+            title=title,
+            icon=f"{title.lower().replace(' ', '_').replace('(', '').replace(')', '')}.svg",
             role=role
         )
+        menus[title] = menu
     session.add_all(menus.values())
     session.commit()
 
-    # 2. Create 10 learning paths with Islamic focus
+    # 2. Create Learning Paths
     lp_data = [
-        ("Foundations of Tawheed", "Understanding Oneness of Allah"),
-        ("Asma-ul-Husna", "Learn the 99 Beautiful Names"),
-        ("Angels in Islam", "Role of angels"),
-        ("Stories of the Prophets", "Adam to Muhammad ﷺ"),
-        ("Journey Through Qur'an", "Surahs & meanings"),
-        ("Life of the Prophet ﷺ", "Seerah basics"),
-        ("Mastering Salah", "Practical prayer steps"),
-        ("Daily Sunnahs", "Sunnah habits daily"),
-        ("Islamic Manners", "Adab & character"),
-        ("Muslim World History", "Islamic civilization overview"),
+        ("Tawheed Basics", "Understanding Allah's Oneness"),
+        ("Asma-ul-Husna", "Beautiful Names of Allah"),
+        ("Angels & Their Roles", "Islamic view on Angels"),
+        ("Stories from the Qur’an", "Tales of wisdom and faith"),
+        ("Seerah Highlights", "Journey of the Prophet ﷺ"),
+        ("Islamic Manners", "Building character through Islam"),
+        ("Duas for Every Day", "Daily supplications for kids"),
+        ("How to Pray", "Step-by-step guide to Salah"),
+        ("Pillars Explained", "The 5 Pillars of Islam"),
+        ("Islamic Calendar", "Events & milestones of the Hijri year")
     ]
     learning_paths = [LearningPathDB(title=title, description=desc) for title, desc in lp_data]
     session.add_all(learning_paths)
     session.commit()
 
-    # 3. One module per learning path (2 contents each)
+    # 3. Create Modules (at least 10)
+    module_data = [
+        ("Understanding Tawheed", "Core belief in Islam"),
+        ("99 Names of Allah", "Learn and reflect on His names"),
+        ("Who are the Angels?", "Their purpose in Islam"),
+        ("Qur'an Stories", "Wisdom-filled tales"),
+        ("Life of the Prophet ﷺ", "Seerah lessons"),
+        ("Akhlaaq of a Muslim", "Good manners in Islam"),
+        ("Everyday Duas", "Easy Duas for kids"),
+        ("Perfecting Salah", "Essentials of prayer"),
+        ("Islamic Beliefs", "Explaining the 5 pillars"),
+        ("Hijri Months", "Learning about the Islamic calendar")
+    ]
     modules = []
-    for i, lp in enumerate(learning_paths, start=1):
+    for i, (title, description) in enumerate(module_data):
         mod = ModuleDB(
-            title=f"{lp.title} – Module {i}",
-            learning_path_id=lp.id,
-            order=i
+            title=title,
+            learning_path_id=learning_paths[i].id,
+            order=i + 1
         )
         modules.append(mod)
     session.add_all(modules)
     session.commit()
 
-    # 4. Create content for each module
+    # 4. Create Contents (min 10, per module)
     contents = []
     for mod in modules:
-        contents.append(ContentDB(
-            module_id=mod.id,
-            type="video",
-            content_url=f"https://cdn.lms.org/videos/{mod.title.replace(' ', '_')}.mp4"
-        ))
-        contents.append(ContentDB(
-            module_id=mod.id,
-            type="text",
-            html_content=f"<p>Detailed lesson content for {mod.title}</p>"
-        ))
+        for i in range(1, 3):
+            contents.append(ContentDB(
+                module_id=mod.id,
+                type="video",
+                content_url=f"https://www.youtube.com/watch?v=dQw4w9WgXcQ&mod={mod.id}&v={i}"
+            ))
+            contents.append(ContentDB(
+                module_id=mod.id,
+                type="text",
+                html_content=f"<h3>{mod.title}</h3><p>{mod.title} - {mod.order}: {mod.title} description and engaging lesson content here.</p>"
+            ))
     session.add_all(contents)
     session.commit()
 
-    # 5. Add Submenus: 3 submenus per menu pointing to learning paths
+    # 5. Submenus (3 per menu)
     submenus = []
-    lp_cycle = learning_paths * 3
-    for idx, (cat, menu_obj) in enumerate(menus.items()):
-        for j in range(3):
-            lp = random.choice(learning_paths)
+    for menu_title, menu in menus.items():
+        linked_lps = random.sample(learning_paths, 3)
+        for lp in linked_lps:
             submenus.append(SubMenuDB(
                 title=lp.title,
-                menu_id=menu_obj.id,
-                path=f"/{cat.lower().replace('& ', '').replace(' ', '-')}/{lp.title.lower().replace(' ', '-')}",
+                menu_id=menu.id,
+                path=f"/{menu_title.lower().replace(' ', '-').replace('&', '')}/{lp.title.lower().replace(' ', '-')}",
                 type="learning",
                 learning_path_id=lp.id
             ))
     session.add_all(submenus)
     session.commit()
 
-    # 6. Dummy progress entries for user IDs 1,2,3
-    progress_samples = [
-        UserProgressDB(user_id=1, module_id=modules[0].id, progress_percent=10.0, completed=False, last_accessed=datetime.utcnow()),
-        UserProgressDB(user_id=1, module_id=modules[1].id, progress_percent=100.0, completed=True, last_accessed=datetime.utcnow()),
-        UserProgressDB(user_id=2, module_id=modules[2].id, progress_percent=50.0, completed=False, last_accessed=datetime.utcnow()),
-        UserProgressDB(user_id=3, module_id=modules[3].id, progress_percent=75.0, completed=False, last_accessed=datetime.utcnow()),
-    ]
-    session.add_all(progress_samples)
+    # 6. Dummy progress for 3 users
+    progress = []
+    for uid in range(1, 4):
+        mod = random.choice(modules)
+        progress.append(UserProgressDB(
+            user_id=uid,
+            module_id=mod.id,
+            progress_percent=random.choice([25, 50, 75, 100]),
+            completed=random.choice([True, False]),
+            last_accessed=datetime.utcnow()
+        ))
+    session.add_all(progress)
     session.commit()
 
-    # 7. Navigation items (for top nav)
+    # 7. Navigation Items
     nav_items = [
         NavigationItem(title="Home", slug="home", type=NavigationType.LINK, order=1),
-        NavigationItem(title="Learning", slug="learning", type=NavigationType.MENU, order=2),
-        NavigationItem(title="Profile", slug="profile", type=NavigationType.LINK, order=3),
+        NavigationItem(title="Learn", slug="learn", type=NavigationType.MENU, order=2),
+        NavigationItem(title="Profile", slug="profile", type=NavigationType.LINK, order=3)
     ]
     session.add_all(nav_items)
     session.commit()
 
-    print("✅ Islamic LMS seed completed.")
+    print("✅ Professional Islamic LMS seed completed.")
 
 if __name__ == "__main__":
     from app.db.session import Session

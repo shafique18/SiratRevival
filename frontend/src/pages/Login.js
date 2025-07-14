@@ -41,8 +41,8 @@ const Login = () => {
 
   return (
     <Layout>
-      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 py-12 transition-all duration-300">
-        <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 bg-white dark:bg-gray-800 shadow-xl rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-700">
+      <div className="flex flex-1 items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 py-12 transition-all duration-300">
+        <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 bg-white dark:bg-gray-800 shadow-2xl rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 transform transition-all duration-300">
 
           {/* Left - Form */}
           <div className="p-8 md:p-12">
@@ -84,7 +84,7 @@ const Login = () => {
           </div>
 
           {/* Right - Quote Section */}
-          <div className="bg-gray-100 dark:bg-gray-700 p-8 flex flex-col justify-center items-center md:items-start">
+          <div className="bg-gradient-to-br from-green-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 p-8 flex flex-col justify-center items-center md:items-start">
             <div className="max-w-md w-full">
               <DynamicMessage />
             </div>

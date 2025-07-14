@@ -228,38 +228,40 @@ const Profile = () => {
 
   return (
     <Layout>
-      <Toaster position="top-right" />
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 px-4 py-10">
-        <div className="max-w-5xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-xl p-6 space-y-6">
-          {/* Avatar and Name */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-            <div className="w-20 h-20 rounded-full bg-blue-600 text-white flex items-center justify-center text-3xl font-bold select-none">
-              {(user.first_name?.[0] || "") + (user.last_name?.[0] || "")}
+       <Toaster position="top-right" />
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 py-10">
+          <div className="w-full max-w-4xl bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10 space-y-8">
+            
+            {/* Avatar & Name Section */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+              <div className="flex items-center gap-4">
+                <div className="w-24 h-24 rounded-full bg-blue-600 text-white flex items-center justify-center text-4xl font-semibold shadow-lg">
+                  {(user.first_name?.[0] || "") + (user.last_name?.[0] || "")}
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white">{user.first_name} {user.last_name}</h2>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">{user.username}</p>
+                </div>
+              </div>
+              <button
+                onClick={handleEditToggle}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                aria-pressed={editing}
+              >
+                {editing ? (
+                  <>
+                    <X size={18} /> Cancel
+                  </>
+                ) : (
+                  <>
+                    <Edit2 size={18} /> Edit Profile
+                  </>
+                )}
+              </button>
             </div>
-            <div className="text-center sm:text-left flex-1">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white leading-tight">
-                {user.first_name} {user.last_name}
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400">{user.username}</p>
-            </div>
-            <button
-              onClick={handleEditToggle}
-              className="mt-4 sm:mt-0 ml-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2 whitespace-nowrap"
-              aria-pressed={editing}
-            >
-              {editing ? (
-                <>
-                  <X size={18} /> Cancel
-                </>
-              ) : (
-                <>
-                  <Edit2 size={18} /> Edit Profile
-                </>
-              )}
-            </button>
-          </div>
 
           {/* Sections */}
+          <div className="space-y-6">
           <Section icon={UserCircle} title={t("Personal Information")}>
             {renderField(t("First Name"), "first_name")}
             {renderField(t("Middle Name"), "middle_name")}
@@ -276,6 +278,7 @@ const Profile = () => {
             {renderField(t("Religion"), "religion")}
             {renderField(t("Hobbies"), "hobbies")}
           </Section>
+          
 
           <Section icon={Mail} title={t("Contact Information")}>
             {renderField(t("Primary Email"), "primary_email", "email")}
@@ -318,6 +321,7 @@ const Profile = () => {
             {renderField(t("Content Preferences"), "content_preferences")}
             {renderField(t("Communication Preferences"), "communication_preferences")}
           </Section>
+          </div>
 
           {/* Save Button */}
           {editing && (

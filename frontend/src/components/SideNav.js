@@ -37,7 +37,10 @@ const SideNav = ({ onSelectMenu }) => {
     if (menu.submenus?.length) {
       toggleCollapse(menu.id);
       if (menu.submenus[0]) {
-        onSelectMenu({ ...menu.submenus[0], type: "learning_path" });
+        onSelectMenu({
+        ...menu.submenus[0].learning_path,
+        type: "learning_path",
+      });
       }
     } else {
       onSelectMenu(menu);
@@ -85,7 +88,12 @@ const SideNav = ({ onSelectMenu }) => {
                         <li key={submenu.id}>
                           <button
                             className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
-                            onClick={() => onSelectMenu(submenu)}
+                              onClick={() =>
+                              onSelectMenu({
+                                ...submenu.learning_path,
+                                type: "learning_path",
+                              })
+                            }
                           >
                             {submenu.title}
                           </button>

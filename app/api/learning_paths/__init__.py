@@ -21,8 +21,6 @@ def get_modules_for_learning_path(
         current_user: UserDB = Depends(get_current_user),
         db: Session = Depends(get_db),
     ):
-    print("Inside")
-    print(learning_path_id)
     modules = (
         db.query(ModuleDB)
         .filter(ModuleDB.learning_path_id == learning_path_id)
