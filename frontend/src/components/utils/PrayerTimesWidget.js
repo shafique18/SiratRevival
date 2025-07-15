@@ -1,27 +1,76 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { Clock, ChevronLeft, ChevronRight, Sun, Moon, Sunrise, Sunset, Star, Watch } from "lucide-react";
+
+const prayerIcons = {
+  Fajr: <Moon className="inline-block mr-2 h-5 w-5 text-green-600" />,
+  Sunrise: <Sunrise className="inline-block mr-2 h-5 w-5 text-yellow-500" />,
+  Dhuhr: <Sun className="inline-block mr-2 h-5 w-5 text-yellow-600" />,
+  Asr: <Sun className="inline-block mr-2 h-5 w-5 text-orange-500" />,
+  Sunset: <Sunset className="inline-block mr-2 h-5 w-5 text-red-600" />,
+  Maghrib: <Sunset className="inline-block mr-2 h-5 w-5 text-red-600" />,
+  Isha: <Star className="inline-block mr-2 h-5 w-5 text-purple-700" />,
+  Imsak: <Watch className="inline-block mr-2 h-5 w-5 text-gray-500" />,
+  Midnight: <Star className="inline-block mr-2 h-5 w-5 text-gray-700" />,
+  Firstthird: <Star className="inline-block mr-2 h-5 w-5 text-gray-400" />,
+  Lastthird: <Star className="inline-block mr-2 h-5 w-5 text-gray-400" />,
+};
 
 const PrayerTimesWidget = ({ isDesktop, isOpen, toggleOpen }) => {
   const [times, setTimes] = useState({});
   const [city, setCity] = useState("");
-  const [dragY, setDragY] = useState(100); // Initial vertical position in px
+  const [dragY, setDragY] = useState(100);
   const draggingRef = useRef(false);
   const startYRef = useRef(0);
   const startDragYRef = useRef(0);
 
+  // Read initial open state from sessionStorage or fallback to prop isOpen
+  const getInitialOpenState = () => {
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("prayerWidgetOpen");
+      if (stored !== null) return stored === "true";
+    }
+    return isOpen;
+  };
+
+  const [widgetOpen, setWidgetOpen] = useState(getInitialOpenState);
+
   useEffect(() => {
+    // Sync with prop only if there's no stored preference yet
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("prayerWidgetOpen");
+      if (stored === null) {
+        setWidgetOpen(isOpen);
+      }
+    }
+  }, [isOpen]);
+
+  // Save widget open state to sessionStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("prayerWidgetOpen", widgetOpen.toString());
+    }
+  }, [widgetOpen]);
+
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+
     navigator.geolocation.getCurrentPosition(async (pos) => {
       const { latitude, longitude } = pos.coords;
-      const res = await fetch(
-        `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2`
-      );
-      const data = await res.json();
-      setTimes(data.data.timings);
-      setCity(data.data.meta.timezone);
-    });
+      try {
+        const res = await fetch(
+          `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2`
+        );
+        const data = await res.json();
+        setTimes(data.data.timings);
+        setCity(data.data.meta.timezone);
+      } catch (error) {
+        console.error("Failed to fetch prayer times:", error);
+      }
+    }, () => {
+    setTimes({ error: "Location permission denied. Please enable location services." });
+  });
   }, []);
 
-  // Mouse / touch handlers for drag
   const onDragStart = (e) => {
     draggingRef.current = true;
     startYRef.current = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
@@ -34,11 +83,9 @@ const PrayerTimesWidget = ({ isDesktop, isOpen, toggleOpen }) => {
     const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
     let newY = startDragYRef.current + (clientY - startYRef.current);
 
-    // Clamp newY between 40px and window height - button height - 40px
     const minY = 40;
-    const maxY = window.innerHeight - 56 - 40; // 56px button height, 40px padding
-    if (newY < minY) newY = minY;
-    if (newY > maxY) newY = maxY;
+    const maxY = window.innerHeight - 56 - 40;
+    newY = Math.max(minY, Math.min(maxY, newY));
 
     setDragY(newY);
   };
@@ -60,89 +107,115 @@ const PrayerTimesWidget = ({ isDesktop, isOpen, toggleOpen }) => {
     };
   }, []);
 
-  if (isDesktop) {
-    return (
-      <>
-        {/* Toggle button on right side, draggable vertically */}
-        <button
-          onClick={toggleOpen}
-          aria-label={isOpen ? "Close Prayer Times" : "Open Prayer Times"}
-          onMouseDown={onDragStart}
-          onTouchStart={onDragStart}
-          style={{ top: dragY, right: 0, position: "fixed", zIndex: 50 }}
-          className={`
-            flex items-center justify-center
-            w-14 h-14
-            bg-green-600 hover:bg-green-700
-            text-white
-            rounded-tl-md rounded-bl-md
-            shadow-lg
-            focus:outline-none
-            transition-colors duration-300
-            cursor-grab
-            select-none
-          `}
-        >
-          {isOpen ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
-        </button>
+  const formatPrayerName = (name) => {
+    const mapping = {
+      Fajr: "Fajr",
+      Sunrise: "Sunrise",
+      Dhuhr: "Dhuhr",
+      Asr: "Asr",
+      Sunset: "Sunset",
+      Maghrib: "Maghrib",
+      Isha: "Isha",
+      Imsak: "Imsak",
+      Midnight: "Midnight",
+      Firstthird: "First Third",
+      Lastthird: "Last Third",
+    };
+    return mapping[name] || name.replace(/([A-Z])/g, " $1").trim();
+  };
 
-        {/* Prayer times panel sliding from right */}
-        <aside
-          className={`
-            fixed top-20 right-0 z-40 bg-white dark:bg-gray-800
-            shadow-2xl rounded-l-lg px-6 py-5
-            max-w-xs w-72
-            border border-gray-300 dark:border-gray-700
-            transition-transform duration-300 ease-in-out
-            overflow-auto max-h-[70vh]
-            ${isOpen ? "translate-x-0" : "translate-x-full"}
-            pr-[56px]  /* padding for toggle button */
-          `}
-          aria-hidden={!isOpen}
-        >
-          <div className="flex items-center gap-3 mb-5 text-green-700 dark:text-green-400 font-semibold text-xl select-none">
-            <Clock className="h-6 w-6" />
-            <span>Prayer Times</span>
-          </div>
-          <div className="space-y-2 text-gray-800 dark:text-gray-200 text-sm">
-            {Object.entries(times).map(([key, value]) => (
-              <div key={key} className="flex justify-between">
-                <span className="capitalize">{key}</span>
-                <span>{value}</span>
-              </div>
-            ))}
-          </div>
-          {city && (
-            <p className="mt-6 text-xs text-center text-gray-500 dark:text-gray-400 italic select-none">
-              Timezone: {city}
-            </p>
-          )}
-        </aside>
-      </>
-    );
-  }
+  const handleToggle = () => {
+    const newOpen = !widgetOpen;
+    toggleOpen();
+    setWidgetOpen(newOpen);
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("prayerWidgetOpen", newOpen.toString());
+    }
+  };
 
-  // Mobile unchanged
+  const openUpwards = dragY > window.innerHeight * 0.65;
+
   return (
-    <section className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-6 max-w-md mx-auto border border-gray-300 dark:border-gray-700">
-      <div className="flex items-center gap-3 mb-4 text-green-700 dark:text-green-400 font-semibold text-lg select-none">
-        <Clock className="h-5 w-5" />
-        <h2>Prayer Times</h2>
-      </div>
-      <div className="space-y-1 text-gray-800 dark:text-gray-200 text-sm">
-        {Object.entries(times).map(([key, value]) => (
-          <div key={key} className="flex justify-between">
-            <span className="capitalize">{key}</span>
-            <span>{value}</span>
-          </div>
-        ))}
-      </div>
-      {city && (
-        <p className="mt-4 text-xs text-center text-gray-500 dark:text-gray-400 italic select-none">
-          Timezone: {city}
-        </p>
-      )}
-    </section>
+    <>
+      {/* Toggle Button */}
+      <button
+        onClick={handleToggle}
+        aria-label={widgetOpen ? "Close Prayer Times" : "Open Prayer Times"}
+        onMouseDown={onDragStart}
+        onTouchStart={onDragStart}
+        style={{
+          top: dragY,
+          right: 0,
+          position: "fixed",
+          zIndex: 60,
+          userSelect: "none",
+          cursor: draggingRef.current ? "grabbing" : "grab",
+          width: 56,
+          height: 56,
+          backgroundColor: widgetOpen ? "#16a34a" : "#10b981",
+          color: "white",
+          borderTopLeftRadius: 12,
+          borderBottomLeftRadius: 12,
+          boxShadow:
+            "0 4px 8px rgba(0, 0, 0, 0.15), 0 0 10px rgba(16, 185, 129, 0.6)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          transition: "background-color 0.3s ease",
+        }}
+      >
+        {widgetOpen ? <ChevronRight size={28} /> : <ChevronLeft size={28} />}
+      </button>
+
+      {/* Widget panel */}
+      <aside
+        className={`
+          fixed right-0 z-50 bg-white dark:bg-gray-900
+          shadow-2xl rounded-l-lg px-6 py-6
+          border border-gray-300 dark:border-gray-700
+          transition-transform duration-500 ease-in-out
+          overflow-auto max-h-[72vh]
+          select-none
+          w-72 sm:w-80 md:w-96
+        `}
+        style={{
+          top: openUpwards ? dragY - 60 - 450 /* increased height */ : dragY + 56,
+          maxHeight: 450,
+          transform: widgetOpen ? "translateX(0)" : "translateX(100%)",
+        }}
+        aria-hidden={!widgetOpen}
+      >
+        <div className="flex items-center gap-3 mb-6 text-green-700 dark:text-green-400 font-semibold text-2xl select-none">
+          <Clock className="h-7 w-7" />
+          <span>Prayer Times</span>
+        </div>
+        <div className="space-y-3 text-gray-900 dark:text-gray-100 text-base font-medium leading-relaxed">
+          {Object.entries(times).length === 0 ? (
+            <p className="italic text-gray-500 dark:text-gray-400">
+              Loading prayer times...
+            </p>
+          ) : (
+            Object.entries(times).map(([key, value]) => (
+              <div
+                key={key}
+                className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 py-2"
+              >
+                <span className="capitalize flex items-center">
+                  {prayerIcons[key] || null}
+                  {formatPrayerName(key)}
+                </span>
+                <span className="font-semibold">{value}</span>
+              </div>
+            ))
+          )}
+        </div>
+        {city && (
+          <p className="mt-6 text-xs text-center text-gray-500 dark:text-gray-400 italic select-none tracking-wide">
+            Timezone: <span className="font-semibold">{city}</span>
+          </p>
+        )}
+      </aside>
+    </>
   );
 };
 

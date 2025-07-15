@@ -10,6 +10,7 @@ module.exports = {
             fontFamily: {
             sans: ['Poppins', 'sans-serif'],
             },
+            transform: ['group-hover'],
         },
     },
     plugins: [],
