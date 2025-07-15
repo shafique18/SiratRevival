@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Transition } from '@headlessui/react';
 import axios from 'axios';
 import AuthContext from "../../context/AuthContext";
-import Layout from '../../components/Layout';
+import Layout from '../../components/layout/Layout';
 
 export default function AdminDashboard() {
   const { user, authTokens } = useContext(AuthContext);

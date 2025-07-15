@@ -1,7 +1,7 @@
 
 import React from "react";
-import InputField from "./InputField";
-import SelectField from "./SelectField";
+import InputField from "../common/InputField";
+import SelectField from "../common/SelectField";
 
 const genders = ["Male", "Female", "Prefer not to say"];
 const nationalities = ["American", "Canadian", "British", "Indian", "Australian"];

@@ -1,7 +1,7 @@
 
 import React from "react";
-import InputField from "./InputField";
-import SelectField from "./SelectField";
+import InputField from "../common/InputField";
+import SelectField from "../common/SelectField";
 
 const userRoles = ["GROUP_0_5", "GROUP_6_15", "GROUP_16_25", "GROUP_26_PLUS"];
 

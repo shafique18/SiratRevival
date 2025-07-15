@@ -1,6 +1,6 @@
 
 import React from "react";
-import InputField from "./InputField";
+import InputField from "../common/InputField";
 
 export default function Step6Payment({ formik }) {
   return (

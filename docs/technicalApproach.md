@@ -62,6 +62,7 @@ sirat-revival/
 │   │   │   ├── __init__.py
 │   │   ├── users/
 │   │   │   ├── __init__.py
+│   │   │   ├── sidebar.py
 │   │   ├── content/
 │   │   │   ├── __init__.py
 │   │   │   ├── quran_hadith_news.py
@@ -72,20 +73,26 @@ sirat-revival/
 │   │   │   ├── __init__.py
 │   │   └── analytics/
 │   │   │   ├── __init__.py
-│   ├── core/                    # Core logic (auth, security, config)
+│   ├── core/                   
 │   │   ├── cofig.py
 │   │   ├── security.py
-│   ├── models/                  # Pydantic + DB models4
-│   │   ├── user_db.py
-│   │   ├── user.py
-│   │   ├── content.py
-│   ├── services/                # Business logic, background tasks
+│   ├── models/ 
+│   │   ├── pydantic/                
+│   │   │   ├── user.py
+│   │   │   ├── navigation.py
+│   │   ├── sqlalchemy/                
+│   │   │   ├── __init__.py
+│   │   │   ├── content.py
+│   │   │   ├── navigation.py
+│   │   │   ├── user_db.py
+│   ├── services/                
 │   │   ├── user_service.py
-│   ├── db/                      # DB session, migrations, schemas
+│   ├── db/                      
 │   │   session.py
-│   └── utils/                   # Common utilities
-│       ├── email_sender.py
+│   └── utils/                   
+│   │   ├── email_sender.py
 │   │   ├── security.py
+│   │   ├── util.py
 │   ├── main.py
 │
 ├── worker/                     # Celery or RQ tasks
@@ -93,8 +100,13 @@ sirat-revival/
 ├── tests/                      # Pytest test suites
 │
 ├── scripts/                    # Management CLI and setup scripts
-│       ├── create_db.py
-│       ├── seed_roles_admin.py
+│   ├── create_db.py
+│
+├── seeder/ 
+│   ├── __init__.py
+│   ├── seed_admin.py
+│   ├── seed_navigation.py
+│   ├── seed_roles_admin.py
 │
 ├── docs/                       # Markdown docs for concept, API, roadmap
 │
@@ -119,7 +131,7 @@ sirat-revival/
 │   │   │   │   ├── Step5Preferences.js
 │   │   │   │   ├── Step6Payment.js
 │   │   │   │   ├── Step7Review.js
-│   │   │   ├── DynamicBoundary.js
+│   │   │   ├── DynamicMessage.js
 │   │   │   ├── PrayerTimesWidget.js
 │   │   │   ├── ErrorBoundary.js
 │   │   │   ├── FileDropzone.js
@@ -129,6 +141,10 @@ sirat-revival/
 │   │   │   ├── translate.js
 │   │   │   ├── LaguageSwitcher.js
 │   │   │   ├── Footer.js
+│   │   │   ├── axiosInstance.js
+│   │   │   ├── Modal.js
+│   │   │   ├── MainContent.js
+│   │   │   ├── SideNav.js
 │   │   ├── context
 │   │   │   ├── AuthContext.js
 │   │   │   ├── LanguageContext.js

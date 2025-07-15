@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Layout from "../../components/Layout";
-import SideNav from "../../components/SideNav";
-import MainContent from "../../components/MainContent";
+import Layout from '../../components/layout/Layout';
+import SideNav from "../../components/layout/SideNav";
+import MainContent from "../../components/layout/MainContent";
 
 export default function HomeAdult() {
   const [selectedMenu, setSelectedMenu] = useState(null);

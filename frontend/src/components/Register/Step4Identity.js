@@ -1,7 +1,7 @@
 import React from "react";
 import toast from "react-hot-toast";
-import InputField from "./InputField";
-import FileDropzone from "../FileDropzone";
+import InputField from "../common/InputField";
+import FileDropzone from "../common/FileDropzone";
 
 export default function Step4Identity({ formik }) {
   // Upload file helper

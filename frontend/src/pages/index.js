@@ -1,14 +1,13 @@
-// src/pages/Index.js or src/pages/Home.js
 import React from 'react';
-import Layout from '../components/Layout';
-import QuranVerseCard from '../screens/QuranVerseCard';
-import HadithCard from '../screens/HadithCard';
-import NewsFeed from '../screens/NewsFeed';
+import Layout from '../components/layout/Layout';
+import QuranVerseCard from '../screens/content/QuranVerseCard';
+import HadithCard from '../screens/content/HadithCard';
+import NewsFeed from '../screens/content/NewsFeed';
 
-export default function Home() {
+export default function MainHome() {
   return (
     <Layout>
-      <div className="pt-28 px-4 space-y-8 max-w-7xl mx-auto">
+      <div className="pt-28 px-4 space-y-8 max-w-7xl mx-auto bg-white text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300">
         <QuranVerseCard />
         <HadithCard />
         <NewsFeed />

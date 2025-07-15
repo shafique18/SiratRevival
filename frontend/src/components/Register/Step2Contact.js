@@ -1,6 +1,6 @@
 
 import React from "react";
-import InputField from "./InputField";
+import InputField from "../common/InputField";
 
 export default function Step2Contact({ formik }) {
   return (

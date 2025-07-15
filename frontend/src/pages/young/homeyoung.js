@@ -1,15 +1,19 @@
-import React from 'react';
-import Layout from '../../components/Layout';
-import QuranVerseCard from '../../screens/QuranVerseCard';
-import HadithCard from '../../screens/HadithCard';
-import NewsFeed from '../../screens/NewsFeed';
+import React, { useState } from "react";
+import Layout from '../../components/layout/Layout';
+import SideNav from "../../components/layout/SideNav";
+import MainContent from "../../components/layout/MainContent";
 
-export default function Home() {
+export default function HomeAdult() {
+  const [selectedMenu, setSelectedMenu] = useState(null);
+
   return (
     <Layout>
-      <div className="p-4 space-y-8 max-w-7xl mx-auto">
-        Young Home
-      </div>   
+      <div className="flex w-full h-full overflow-hidden">
+        <SideNav onSelectMenu={setSelectedMenu} />
+        <div className="flex-1 overflow-auto">
+          <MainContent selectedMenu={selectedMenu} />
+        </div>
+      </div>
     </Layout>
   );
 }

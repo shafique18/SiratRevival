@@ -1,15 +1,15 @@
 import React from "react";
-import Unauthorized from "./pages/Unauthorized"; // Add this at the top
+import Unauthorized from "./pages/auth/Unauthorized"; // Add this at the top
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { LanguageProvider } from "./context/LanguageContext";
 import Home from "./pages/index";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import VerifyEmail from "./pages/VerifyEmail";
-import PasswordResetRequest from "./pages/PasswordResetRequest";
-import PasswordResetConfirm from "./pages/PasswordResetConfirm";
-import Profile from "./pages/Profile";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import VerifyEmail from "./pages/auth/VerifyEmail";
+import PasswordResetRequest from "./pages/auth/PasswordResetRequest";
+import PasswordResetConfirm from "./pages/auth/PasswordResetConfirm";
+import Profile from "./pages/common/Profile";
 import HomeAdmin from "./pages/admin/homeadmin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import HomeKid from "./pages/kids/homekids";
@@ -17,7 +17,7 @@ import HomeTeen from "./pages/teen/hometeen";
 import HomeYoung from "./pages/young/homeyoung";
 import HomeAdult from "./pages/adult/homeadult";
 import ProtectedRoute from "./components/ProtectedRoute";
-import ErrorBoundary from "./components/ErrorBoundary";
+import ErrorBoundary from "./components/utils/ErrorBoundary";
 
 
 
