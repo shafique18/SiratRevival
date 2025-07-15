@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
     const handleResize = () => {
       const desktop = window.innerWidth >= 1024;
       setIsDesktop(desktop);
-      setPrayerOpen(desktop); // default open only for desktop
+      setPrayerOpen(desktop); // open by default on desktop
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -22,7 +22,8 @@ const Layout = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
-      {/* Floating prayer widget */}
+
+      {/* Floating prayer widget on desktop */}
       {isDesktop && (
         <div className="fixed top-16 right-0 z-40">
           <PrayerTimesWidget
@@ -33,8 +34,15 @@ const Layout = ({ children }) => {
         </div>
       )}
 
-      <main className="flex-1 flex overflow-hidden pt-16">
+      <main className="flex-1 pt-16">
         {children}
+
+        {/* Embedded prayer widget on mobile before footer */}
+        {!isDesktop && (
+          <div className="px-4 my-8">
+            <PrayerTimesWidget isDesktop={false} />
+          </div>
+        )}
       </main>
 
       <Footer />
