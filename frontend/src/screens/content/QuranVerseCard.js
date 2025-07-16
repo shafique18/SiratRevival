@@ -11,33 +11,49 @@ export default function QuranVerseCard({ className = "" }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function load() {
-      try {
-        const res = await fetch('http://localhost:8000/content/quran-today');
-        if (!res.ok) throw new Error('Failed to load verse');
-        setVerse(await res.json());
-      } catch (e) {
-        setError(e.message);
+    const cachedVerse = sessionStorage.getItem('quranVerse');
+    if (cachedVerse) {
+      setVerse(JSON.parse(cachedVerse));
+    } else {
+      async function loadVerse() {
+        try {
+          const res = await fetch('http://localhost:8000/content/quran-today');
+          if (!res.ok) throw new Error('Failed to load verse');
+          const data = await res.json();
+          sessionStorage.setItem('quranVerse', JSON.stringify(data));
+          setVerse(data);
+        } catch (e) {
+          setError(e.message);
+        }
       }
+      loadVerse();
     }
-    load();
   }, []);
 
-  if (error) return (
-    <div className="text-center text-red-500">
-      {error}
-      <button onClick={() => window.location.reload()} className="mt-2 block text-blue-600 underline">
-        Retry
-      </button>
-    </div>
-  );
+  if (error) {
+    return (
+      <div className="text-center text-red-500">
+        {error}
+        <button
+          onClick={() => {
+            sessionStorage.removeItem('quranVerse');
+            window.location.reload();
+          }}
+          className="mt-2 text-blue-600 underline"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
   if (!verse) {
     return (
       <div className="flex justify-center items-center h-56">
         <span className="animate-pulse text-gray-400">Fetching verse...</span>
       </div>
     );
-}
+  }
 
   const slides = [quran1, quran2];
 
@@ -56,19 +72,20 @@ export default function QuranVerseCard({ className = "" }) {
         autoplay={{ delay: 5000 }}
         className="h-56 md:h-72"
       >
-        {slides.map((src,i) => (
+        {slides.map((src, i) => (
           <SwiperSlide key={i}>
             <img
               src={src}
               className="object-cover w-full h-full rounded-t-3xl"
-              alt="Quran verse background"
+              alt={`Quran background ${i + 1}`}
+              loading="lazy"
             />
           </SwiperSlide>
         ))}
       </Swiper>
 
       <div className="p-6 text-center">
-        <h2 className="text-3xl font-extrabold mb-2 text-gray-800 dark:text-gray-100">
+        <h2 className="text-2xl font-extrabold mb-2 text-gray-800 dark:text-gray-100">
           📖 Verse of the Day
         </h2>
         <motion.p className="text-xl italic text-gray-700 dark:text-gray-300 mb-4">

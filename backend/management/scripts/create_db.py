@@ -1,10 +1,10 @@
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 from backend.db.session import engine, Base
-from seeder import run_all_seeders
+from backend.management.seeder import run_all_seeders
 
 # Optional: Automatically import all models
 from backend.models import sqlalchemy  # assuming __init__.py loads all models in app.models.sqlalchemy

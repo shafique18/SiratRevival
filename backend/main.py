@@ -23,11 +23,10 @@ from fastapi.responses import PlainTextResponse
 from backend.api.auth import router as auth_router
 from backend.api.users import router as users_router
 from backend.api.content import router as content_router
-from backend.api.translation import router as ai_router
+from backend.api.translation import router as translation_router
 from backend.api.learning_paths import router as learning_router
 from backend.api.analytics import router as analytics_router
 from backend.api.admin import router as admin_router
-import os
 from fastapi.responses import JSONResponse
 from fastapi import Request
 
@@ -37,7 +36,7 @@ from fastapi import Request
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 app.include_router(users_router, prefix="/users", tags=["Users"])
 app.include_router(content_router, prefix="/content", tags=["Content"])
-app.include_router(ai_router, prefix="/ai", tags=["AI Translations"])
+app.include_router(translation_router, prefix="/ai", tags=["AI Translations"])
 app.include_router(learning_router, prefix="/learning", tags=["Learning Paths"])
 app.include_router(analytics_router, prefix="/analytics", tags=["Analytics"])
 app.include_router(admin_router)

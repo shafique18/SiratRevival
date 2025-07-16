@@ -3,111 +3,74 @@ import Layout from '../components/layout/Layout';
 import QuranVerseCard from '../screens/content/QuranVerseCard';
 import HadithCard from '../screens/content/HadithCard';
 import NewsFeed from '../screens/content/NewsFeed';
-import TeamMemberCard from '../components/utils/TeamMemberCard';
-import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import TeamSection from '../components/utils/TeamSection';
 
 export default function MainHome() {
   return (
     <Layout>
-      <main className="pt-28 px-6 max-w-6xl mx-auto space-y-20 text-gray-900 dark:text-gray-100 font-sans">
-        {/* 1. Quran - Left, Text - Right */}
-        <section className="grid md:grid-cols-2 gap-8 items-center">
+      <main className="pt-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-24 font-sans">
+        
+        {/* 1. Quran Verse Section */}
+        <section className="grid md:grid-cols-2 gap-10 items-center">
           <QuranVerseCard />
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold">About the Quran Verse</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Discover daily Quranic verses that inspire and guide. Each verse is thoughtfully selected to provide spiritual wisdom and encourage reflection.
+          <div className="space-y-6">
+            <h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">
+              Reviving the Message
+            </h2>
+            <p className="text-lg leading-relaxed text-gray-900 dark:text-gray-300">
+              SiratRevival is a self-sponsored initiative reviving foundational Islamic understanding across ages and languages. Our aim is to help every Muslim see Islam not just as rituals—but as a holistic way of life.
             </p>
           </div>
         </section>
 
-        {/* 2. Hadith - Right, Text - Left */}
-        <section className="grid md:grid-cols-2 gap-8 items-center">
-          <div className="space-y-4 order-2 md:order-1">
-            <h3 className="text-2xl font-bold">About the Hadith</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Learn from the sayings of the Prophet Muhammad (PBUH). Each Hadith offers a timeless reminder for character building and faith.
+        {/* 2. Hadith Section */}
+        <section className="grid md:grid-cols-2 gap-10 items-center">
+          <div className="space-y-6 order-2 md:order-1">
+            <h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">
+              Learn from the Prophet ﷺ
+            </h2>
+            <p className="text-lg leading-relaxed text-gray-900 dark:text-gray-300">
+              Explore the timeless wisdom of the Hadith. Short, insightful, and transformative narrations that guide everyday character and behavior.
             </p>
           </div>
           <HadithCard className="order-1 md:order-2" />
         </section>
 
-        {/* 3. News - Left, Text - Right */}
-        <section className="grid md:grid-cols-2 gap-8 items-center">
+        {/* 3. Islamic News */}
+        <section className="grid md:grid-cols-2 gap-10 items-center">
           <NewsFeed />
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold">About Islamic News</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Stay up to date with important news in the Muslim world. We bring curated, verified updates to keep you informed and engaged.
+          <div className="space-y-6">
+            <h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">
+              Stay Informed
+            </h2>
+            <p className="text-lg leading-relaxed text-gray-900 dark:text-gray-300">
+              Get curated, relevant news from the Muslim world. Stay engaged with current issues that matter to our global Ummah.
             </p>
           </div>
         </section>
 
-        {/* 4. About Section */}
-        <section className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 text-center space-y-4">
-          <h3 className="text-3xl font-bold">🕌 About This Application</h3>
-          <p className="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            Our app is dedicated to delivering Islamic knowledge in a modern and user-friendly way. Whether you're seeking spiritual guidance, staying updated with current events, or learning from Hadith and the Quran, this platform is your daily companion.
+        {/* 4. About App */}
+        <section className="bg-white dark:bg-gray-900 rounded-3xl shadow-xl p-8 sm:p-12 text-center space-y-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+            🕌 About This Application
+          </h2>
+          <p className="text-gray-700 dark:text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
+            A modern digital platform dedicated to Islamic knowledge and awareness. From Quran and Hadith to real-time news, everything you need in one beautiful, intuitive experience.
           </p>
         </section>
 
-        {/* 5. Team Section */}
-        <section className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 text-center space-y-6">
-          <h3 className="text-3xl font-bold">👥 Meet the Team</h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                name: 'Amina Khalid',
-                role: 'UI/UX Designer',
-                image: '/images/amina.jpg',
-                description: 'Crafts delightful user experiences and sleek interfaces.',
-                socialLinks: [
-                  { platform: 'linkedin', url: 'https://linkedin.com/in/amina' },
-                  { platform: 'twitter', url: 'https://twitter.com/amina' },
-                ],
-              },
-              {
-                name: 'Bilal Khan',
-                role: 'Backend Developer',
-                image: '/images/bilal.jpg',
-                description: 'Ensures robust server-side logic and database integrity.',
-                socialLinks: [
-                  { platform: 'github', url: 'https://github.com/bilalkhan' },
-                ],
-              },
-              {
-                name: 'Fatima Noor',
-                role: 'Frontend Developer',
-                image: '/images/fatima.jpg',
-                description: 'Builds interactive and responsive frontend components.',
-                socialLinks: [
-                  { platform: 'linkedin', url: 'https://linkedin.com/in/fatima' },
-                  { platform: 'github', url: 'https://github.com/fatima' },
-                ],
-              },
-              {
-                name: 'Yusuf Rahman',
-                role: 'Project Manager',
-                image: '/images/yusuf.jpg',
-                description: 'Keeps everything running smoothly and on schedule.',
-                socialLinks: [
-                  { platform: 'linkedin', url: 'https://linkedin.com/in/yusuf' },
-                ],
-              },
-            ].map((member, idx) => (
-              <TeamMemberCard key={idx} member={member} />
-            ))}
-          </div>
-        </section>
+        {/* 5. Meet the Team */}
+        <TeamSection />
 
-
-        {/* 6. Donation Section */}
-        <section className="bg-yellow-100 dark:bg-yellow-300/10 rounded-3xl shadow-lg p-8 text-center space-y-4">
-          <h3 className="text-3xl font-bold text-yellow-700 dark:text-yellow-200">🤲 Support Our Work</h3>
-          <p className="text-gray-700 dark:text-gray-100 max-w-xl mx-auto">
-            Help us maintain and grow this project. Your donation supports server costs, new features, and better Islamic content for everyone.
+        {/* 6. Donation Call-To-Action */}
+        <section className="bg-yellow-100 dark:bg-yellow-900/30 text-gray-900 dark:text-gray-100 rounded-3xl shadow-xl p-8 sm:p-12 text-center space-y-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-yellow-800 dark:text-yellow-200">
+            🤲 Support Our Work
+          </h2>
+          <p className="text-gray-900 dark:text-white text-lg max-w-2xl mx-auto leading-relaxed">
+            We rely on your generous support to keep this initiative growing. Every donation helps us build a more informed, connected Ummah.
           </p>
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full transition transform hover:scale-105">
+          <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-8 rounded-full shadow-md transition transform hover:scale-105">
             Donate Now
           </button>
         </section>

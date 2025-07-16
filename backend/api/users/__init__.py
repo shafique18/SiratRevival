@@ -4,9 +4,11 @@ from fastapi.security import OAuth2PasswordBearer
 from backend.db.session import get_db
 from backend.models.pydantic.user import UserUpdate, User
 from backend.models.sqlalchemy.user_db import UserDB
+from backend.models.pydantic.team import TeamMember as TeamMemberSchema
+from backend.models.sqlalchemy.team import TeamMember 
 from backend.core.security import oauth2_scheme
 from backend.utils.security import decode_access_token
-from typing import Optional
+from typing import Optional, List
 
 router = APIRouter()
 
@@ -40,5 +42,9 @@ def update_profile(
     db.refresh(user)
 
     return user
+
+@router.get("/team", response_model=List[TeamMemberSchema])
+def get_team_members(db: Session = Depends(get_db)):
+    return db.query(TeamMember).all()
 
 from . import sidebar

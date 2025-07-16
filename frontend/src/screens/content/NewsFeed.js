@@ -31,14 +31,16 @@ export default function NewsFeed({ className = "" }) {
 
   if (loading)
     return <p className="text-center text-gray-500 dark:text-gray-400">Loading news...</p>;
-  if (error) return (
-    <div className="text-center text-red-500">
-      {error}
-      <button onClick={() => window.location.reload()} className="mt-2 block text-blue-600 underline">
-        Retry
-      </button>
-    </div>
-  );
+
+  if (error)
+    return (
+      <div className="text-center text-red-500">
+        {error}
+        <button onClick={() => window.location.reload()} className="mt-2 text-blue-600 underline">
+          Retry
+        </button>
+      </div>
+    );
 
   const slides = [news1, news2];
 
@@ -54,40 +56,44 @@ export default function NewsFeed({ className = "" }) {
         slidesPerView={1}
         loop
         modules={[Autoplay]}
-        autoplay={{ delay: 7000 }}
+        autoplay={{ delay: 5000 }}
         className="h-56 md:h-72"
       >
-        {slides.map((src,i) => (
+        {slides.map((src, i) => (
           <SwiperSlide key={i}>
-            <img src={src} className="object-cover w-full h-full rounded-t-3xl" alt="news"/>
+            <img
+              src={src}
+              className="object-cover w-full h-full rounded-t-3xl"
+              alt={`News background ${i + 1}`}
+              loading="lazy"
+            />
           </SwiperSlide>
         ))}
       </Swiper>
 
-      <div className="p-6">
-        <h2 className="text-3xl font-extrabold mb-4 text-gray-800 dark:text-gray-100 text-center">
-          🌍 Islamic World News
+      <div className="p-5 md:p-6 text-center">
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">
+          📰 Islamic News
         </h2>
-
-        {news.length === 0 ? (
-          <p className="text-center text-gray-500 dark:text-gray-400 font-medium">No news available.</p>
-        ) : (
-          news.map((art,i) => (
-            <motion.article
-              key={i}
-              variants={{ hidden: { opacity: 0, x: 20 }, visible: { opacity: 1, x: 0 } }}
-              className="border-b border-gray-200 dark:border-gray-700 pb-3 mb-3 last:mb-0 last:border-none"
+        {news.map((article, i) => (
+          <motion.div
+            key={i}
+            className="mb-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+          >
+            <p className="text-gray-700 dark:text-gray-300">{article.title}</p>
+            <a
+              href={article.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-blue-600 underline"
             >
-              <a href={art.link} target="_blank" rel="noopener noreferrer"
-                 className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline">
-                {art.title}
-              </a>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                {art.source} | {new Date(art.date).toLocaleDateString()}
-              </p>
-            </motion.article>
-          ))
-        )}
+              Read more
+            </a>
+          </motion.div>
+        ))}
       </div>
     </motion.section>
   );

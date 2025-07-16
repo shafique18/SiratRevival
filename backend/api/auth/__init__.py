@@ -6,9 +6,7 @@ from backend.models.pydantic.user import UserCreate, User, Token, PasswordResetR
 from backend.models.sqlalchemy.user_db import UserDB
 from backend.core.security import oauth2_scheme
 from backend.utils import security, email_sender, util
-from pydantic import BaseModel, ValidationError
-from datetime import timedelta
-from sqlalchemy.orm import joinedload
+from pydantic import ValidationError
 from backend.core.config import settings
 import shutil
 import os
