@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, constr, conint
-from typing import Optional, List, Annotated
+from typing import Optional, List, Annotated, Union
 from datetime import date
 import enum
 from pydantic import validator
@@ -55,7 +55,6 @@ class UserBase(BaseModel):
     last_name: str
     date_of_birth: date
     gender: Optional[Gender]
-    preferred_pronouns: Optional[str] = None
     nationality: Optional[str]
     place_of_birth: Optional[str]
     profile_picture: Optional[str]
@@ -64,8 +63,8 @@ class UserBase(BaseModel):
     ethnicity: Optional[str]
     marital_status: Optional[MaritalStatus]
     religion: Optional[str]
-    hobbies: Optional[str]
-    language_proficiency: Optional[str]
+    hobbies: Optional[Union[str, List[str]]] = None
+    language_proficiency: Optional[Union[str, List[str]]] = None
 
     # Contact Info
     primary_email: Optional[EmailStr]
@@ -157,10 +156,6 @@ class UserCreate(UserBase):
     class Config:
         orm_mode = True
 
-    @validator('preferred_pronouns', pre=True, always=True)
-    def empty_str_to_none(cls, v):
-        return v or None
-
     def validate_passwords(self):
         if self.password != self.confirm_password:
             raise ValueError("Passwords do not match.")
@@ -200,7 +195,6 @@ class UserUpdate(BaseModel):
     last_name: Optional[str] = None
     date_of_birth: Optional[date] = None
     gender: Optional[Gender] = None
-    preferred_pronouns: Optional[str] = None
     nationality: Optional[str] = None
     place_of_birth: Optional[str] = None
     profile_picture: Optional[str] = None
@@ -209,8 +203,8 @@ class UserUpdate(BaseModel):
     ethnicity: Optional[str] = None
     marital_status: Optional[MaritalStatus] = None
     religion: Optional[str] = None
-    hobbies: Optional[str] = None
-    language_proficiency: Optional[str] = None
+    hobbies: Optional[Union[str, List[str]]] = None
+    language_proficiency: Optional[Union[str, List[str]]] = None
 
     # Contact Info
     primary_email: Optional[EmailStr] = None

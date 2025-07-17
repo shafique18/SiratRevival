@@ -14,7 +14,6 @@ class AgeGroup(str, enum.Enum):
 class Gender(str, enum.Enum):
     MALE = "Male"
     FEMALE = "Female"
-    OTHER = "Other"
     PREFER_NOT_TO_SAY = "Prefer not to say"
 
 class MaritalStatus(str, enum.Enum):
@@ -55,7 +54,6 @@ class UserDB(Base):
     last_name = Column(String(50), nullable=False)
     date_of_birth = Column(DateTime, nullable=True)
     gender = Column(Enum(Gender, name="gender", schema="siratRevival"), nullable=True)
-    preferred_pronouns = Column(String(30), nullable=True)
     nationality = Column(String(50), nullable=True)
     place_of_birth = Column(String(100), nullable=True)
     profile_picture = Column(String, nullable=True)  # URL or path
@@ -80,7 +78,7 @@ class UserDB(Base):
     alternate_contact_info = Column(String, nullable=True)
 
     # Security & Authentication
-    two_factor_enabled = Column(Boolean, default=False)
+    two_factor_enabled = Column(Boolean, default=False) # Not required 
     two_factor_method = Column(String(10), nullable=True)  # sms, email, etc
     security_question_1 = Column(String, nullable=True)
     security_answer_1 = Column(String, nullable=True)  # hashed
@@ -95,7 +93,7 @@ class UserDB(Base):
     id_document_path = Column(String, nullable=True)
     selfie_with_id_path = Column(String, nullable=True)
     video_verification_path = Column(String, nullable=True)
-    face_recognition_passed = Column(Boolean, default=False)
+    face_recognition_passed = Column(Boolean, default=False) #Not Required
 
     # Professional Information
     occupation = Column(String, nullable=True)
@@ -119,9 +117,9 @@ class UserDB(Base):
     social_links = Column(Text, nullable=True)  # JSON string
 
     # Preferences & Interests
-    communication_preferences = Column(Text, nullable=True)  # JSON string
-    content_preferences = Column(Text, nullable=True)  # JSON string
-    subscription_type = Column(String, nullable=True)
+    communication_preferences = Column(Text, nullable=True)  # JSON string, NOt required
+    content_preferences = Column(Text, nullable=True)  # JSON string, Not Required
+    subscription_type = Column(String, nullable=True) # Not required
     dark_mode = Column(Boolean, default=False)
     language_preference = Column(String, nullable=True)
 
@@ -135,15 +133,15 @@ class UserDB(Base):
     # Application-Specific
     user_role = Column(Enum(UserRole, name="user_role", schema="siratRevival"), nullable=False)
     account_type = Column(Enum(AccountType, name="account_type", schema="siratRevival"), nullable=True)
-    skill_level = Column(String, nullable=True)
+    skill_level = Column(String, nullable=True) # Not required
 
     # Payment & Financial Info
-    credit_card_info = Column(String, nullable=True)
-    paypal_handle = Column(String, nullable=True)
-    bank_account_details = Column(String, nullable=True)
-    billing_address = Column(String, nullable=True)
-    tax_id = Column(String, nullable=True)
-    preferred_payment_method = Column(String, nullable=True)
+    credit_card_info = Column(String, nullable=True) # Not required
+    paypal_handle = Column(String, nullable=True) # Not required
+    bank_account_details = Column(String, nullable=True) # Not required
+    billing_address = Column(String, nullable=True) # Not required
+    tax_id = Column(String, nullable=True) # Not required
+    preferred_payment_method = Column(String, nullable=True) # Not required
 
     # User Journey & Behavioral
     registration_source = Column(String, nullable=True)

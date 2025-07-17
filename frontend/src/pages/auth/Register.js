@@ -39,8 +39,8 @@ const validationSchemas = [
     ethnicity: Yup.string().required("Required"),
     marital_status: Yup.string().required("Required"),
     religion: Yup.string().required("Required"),
-    hobbies: Yup.string().optional("Optional"),
-    language_proficiency: Yup.string().optional("Optional"),
+    hobbies: Yup.array().of(Yup.string()).optional(),
+    language_proficiency: Yup.array().of(Yup.string()).optional(),
   }),
   Yup.object({
     primary_email: Yup.string().email("Invalid email").required("Required"),
