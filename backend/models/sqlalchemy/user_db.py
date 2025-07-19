@@ -28,6 +28,8 @@ class UserRole(str, enum.Enum):
     GROUP_16_25 = "GROUP_16_25"
     GROUP_26_PLUS = "GROUP_26_PLUS"
     ADMIN = "ADMIN"
+    WRITER = "WRITER"
+    REVIEWER = "REVIEWER"
 
 class AccountType(str, enum.Enum):
     PERSONAL = "Personal"
@@ -35,6 +37,8 @@ class AccountType(str, enum.Enum):
 
 
 class UserDB(Base):
+
+    # Purpose: Main user profile, extended to include professional, social, and preference data
     __tablename__ = "users"
     __table_args__ = {"schema": "siratRevival"}
 

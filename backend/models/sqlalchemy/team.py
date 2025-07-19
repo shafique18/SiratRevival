@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from backend.db.session import Base
 
+# Purpose: Staff/team-related public info.
+
 class TeamMember(Base):
     __tablename__ = "team_members"
     __table_args__ = {"schema": "siratRevival"}

@@ -7,6 +7,9 @@ from datetime import datetime
 from backend.models.sqlalchemy.user_db import UserDB
 import enum
 
+# menus, submenus, learning_paths, modules, contents
+# Purpose: Learning content hierarchy
+
 class MenuDB(Base):
     __tablename__ = "menus"
     __table_args__ = {"schema": "siratRevival"}
@@ -73,9 +76,32 @@ class ContentDB(Base):
     html_content = Column(Text, nullable=True)
 
     module = relationship("ModuleDB", back_populates="contents")
+    translations = relationship("ContentTranslation", back_populates="content")
+
+
+class ContentTranslation(Base):
+
+    # Purpose: Store multilingual content for all content types (text, audio, video, PDFs, etc.).
+    # Multilingual support
+
+    __tablename__ = 'content_translations'
+    __table_args__ = {"schema": "siratRevival"}
+
+    id = Column(Integer, primary_key=True)
+    content_id = Column(Integer, ForeignKey('contents.id'))
+    language = Column(String, nullable=False)
+    translated_text = Column(Text)  # For text-based content
+    translated_url = Column(String)  # If it's a translated file/audio/video
+    translation_type = Column(Enum('machine', 'human', 'verified'), default='machine')
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    content = relationship("Content", back_populates="translations")
 
 
 class UserProgressDB(Base):
+
+    # Learning tracking.
+
     __tablename__ = "user_progress"
     __table_args__ = {"schema": "siratRevival"}
 

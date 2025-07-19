@@ -8,12 +8,14 @@
 
 ## 🔑 2. Age-Specific Interactive Design
 
-| Age Group | Learning Format | Example Features |
-|-----------|-----------------|------------------|
-| 0–5 yrs   | Visual/Audio     | Colors, stories, short clips |
-| 6–15 yrs  | Gamified reading | Quizzes, stories of prophets |
-| 16–25 yrs | Interactive logic| Quranic ethics, debates |
-| 26+ yrs   | Deep reading     | Islamic law, socio-politics |
+| Age Group  | Learning Format     | Example Features                                                         |
+|------------|---------------------|--------------------------------------------------------------------------|
+| 0–5 yrs    | Visual/Audio        | Colors, stories, short clips                                             |
+| 6–15 yrs   | Gamified reading    | Quizzes, stories of prophets                                             |
+| 16–25 yrs  | Interactive logic   | Quranic ethics, debates                                                  |
+| 26+ yrs    | Deep reading        | Islamic law, socio-politics                                              |
+| Creators   | content creator     | Create Stories, knwldge, post, shorts, etc                               |
+| Reviewer   | content Reviewer    | Review Stories, knwldge, post, shorts, etc before putting into website   |
 
 ## 🔑 3. Arabic Empowerment
 
