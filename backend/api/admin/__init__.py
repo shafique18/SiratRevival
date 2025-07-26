@@ -11,6 +11,8 @@ from backend.utils.email_sender import send_email
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
+#AdmiAPIroute
+
 class ScheduleItem(BaseModel):
     title: str
     content: str
