@@ -4,13 +4,6 @@ from backend.db.session import Base
 import enum
 from datetime import datetime
 
-class AgeGroup(str, enum.Enum):
-    GROUP_0_5 = "GROUP_0_5"
-    GROUP_6_15 = "GROUP_6_15"
-    GROUP_16_25 = "GROUP_16_25"
-    GROUP_26_PLUS = "GROUP_26_PLUS"
-    ADMIN = "ADMIN"
-
 class Gender(str, enum.Enum):
     MALE = "Male"
     FEMALE = "Female"

@@ -3,123 +3,340 @@ import { FaBookOpen, FaFileAlt, FaVideo, FaNewspaper, FaQuestionCircle, FaHome }
 
 const menuData = {
   GROUP_0_5: [
+    { title: "Home", path: "/videos", icon: <FaVideo /> },
+    { title: "My First Islam", path: "/videos", icon: <FaVideo /> },
     {
-      title: "Quran",
+      title: "Stories",
       columns: [
         {
-          heading: "Read & Listen",
+          heading: "Stories",
           links: [
-            { name: "Read Quran", path: "/quran/read", icon: <FaBookOpen /> },
-            { name: "Audio Quran", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Shorts", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Quran", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Hadith", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Sahaba", path: "/quran/audio", icon: <FaFileAlt /> },
           ],
         },
       ],
     },
     {
-      title: "Articles",
+      title: "Duas & Prayers",
       columns: [
         {
-          heading: "Topics",
+          heading: "Duas & Prayers",
           links: [
-            { name: "Islamic Lifestyle", path: "/articles/lifestyle", icon: <FaFileAlt /> },
-            { name: "History", path: "/articles/history", icon: <FaFileAlt /> },
+            { name: "Basic Duas", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Du’a Cards", path: "/quran/audio", icon: <FaFileAlt /> },
+          ],
+        },
+         {
+          heading: "Prayer Times",
+          links: [
+            { name: "Wudu", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Prayers", path: "/quran/audio", icon: <FaFileAlt /> },
           ],
         },
       ],
     },
-    { title: "Videos", path: "/videos", icon: <FaVideo /> },
-    { title: "News", path: "/news", icon: <FaNewspaper /> },
-    { title: "Quiz", path: "/quiz", icon: <FaQuestionCircle /> },
-    { title: "About", path: "/about", icon: <FaFileAlt /> },
-    { title: "Contact", path: "/contact", icon: <FaFileAlt /> },
+    {
+      title: "Language",
+      columns: [
+        {
+          heading: "Arabic",
+          links: [
+            { name: "Alphabet & Sounds", path: "/articles/lifestyle", icon: <FaFileAlt /> },
+            { name: "Basic Words", path: "/articles/history", icon: <FaFileAlt /> },
+            { name: "Colors & Shapes", path: "/articles/lifestyle", icon: <FaFileAlt /> },
+            { name: "Numbers & Counting", path: "/articles/history", icon: <FaFileAlt /> },
+          ],
+        },
+        {
+          heading: "English",
+          links: [
+            { name: "Alphabet & Sounds", path: "/articles/lifestyle", icon: <FaFileAlt /> },
+            { name: "Basic Words", path: "/articles/history", icon: <FaFileAlt /> },
+            { name: "Colors & Shapes", path: "/articles/lifestyle", icon: <FaFileAlt /> },
+            { name: "Numbers & Counting", path: "/articles/history", icon: <FaFileAlt /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Rhymes & Songs",
+      columns: [
+        {
+          heading: "Rhymes & Songs",
+          links: [
+            { name: "Rhymes & Nasheeds", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Quranic Verses", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Poems", path: "/quran/read", icon: <FaBookOpen /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Learning & Games",
+      columns: [
+        {
+          heading: "Learning & Games",
+          links: [
+            { name: "Touch & Learn", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Match the Pairs", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Coloring Pages", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Puzzle Time", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Voice & Repeat", path: "/quran/read", icon: <FaBookOpen /> },
+          ],
+        },
+        {
+          heading: "Islamic Identifiers",
+          links: [
+            { name: "Masjid & Prayer Mats", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Hijab & Modesty", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Islamic Festivals", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Animals in Islam", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Islamic Objects", path: "/quran/read", icon: <FaBookOpen /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Parent/Guardian",
+      columns: [
+        {
+          heading: "Parent/Guardian",
+          links: [
+            { name: "Progress Reports", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Recommended Content", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Parental Controls", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Tips for Parents", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Downloadable Resources", path: "/quran/read", icon: <FaBookOpen /> },
+          ],
+        },
+      ],
+    },
   ],
 
   GROUP_6_15: [
     {
-      title: "Quran",
+      title: "Know Your Islam",
       columns: [
         {
-          heading: "Read & Listen",
+          heading: "Know Your Islam",
           links: [
-            { name: "Read Quran", path: "/quran/read", icon: <FaBookOpen /> },
-            { name: "Audio Quran", path: "/quran/audio", icon: <FaFileAlt /> },
-            { name: "Tafsir", path: "/quran/tafsir", icon: <FaFileAlt /> },
-          ],
-        },
-        {
-          heading: "Resources",
-          links: [
-            { name: "Translations", path: "/quran/translations", icon: <FaFileAlt /> },
-            { name: "Memorization Tools", path: "/quran/memorization", icon: <FaFileAlt /> },
+            { name: "Five Pillars of Islam", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Prophets of Islam", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Daily Practices & Worship", path: "/quran/tafsir", icon: <FaFileAlt /> },
+            { name: "Islamic Beliefs & Creed (Aqidah)", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Moral & Ethical Teachings", path: "/quran/tafsir", icon: <FaFileAlt /> },
           ],
         },
       ],
     },
     {
-      title: "Hadith",
+      title: "Quran Explorer",
       columns: [
         {
-          heading: "Collections",
+          heading: "Quran Explorer",
           links: [
-            { name: "Sahih Bukhari", path: "/hadith/bukhari", icon: <FaFileAlt /> },
-            { name: "Sahih Muslim", path: "/hadith/muslim", icon: <FaFileAlt /> },
-            { name: "Other Collections", path: "/hadith/others", icon: <FaFileAlt /> },
-          ],
-        },
-        {
-          heading: "Study",
-          links: [
-            { name: "Hadith Explanation", path: "/hadith/explanation", icon: <FaFileAlt /> },
-            { name: "Scholars", path: "/hadith/scholars", icon: <FaFileAlt /> },
+            { name: "Verses & Stories", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Memorization", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Contextual Understanding", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Quran & Science", path: "/hadith/others", icon: <FaFileAlt /> },
           ],
         },
       ],
     },
-    { title: "Articles", path: "/articles", icon: <FaFileAlt /> },
-    { title: "Videos", path: "/videos", icon: <FaVideo /> },
-    { title: "News", path: "/news", icon: <FaNewspaper /> },
-    { title: "Quiz", path: "/quiz", icon: <FaQuestionCircle /> },
-    { title: "About", path: "/about", icon: <FaFileAlt /> },
-    { title: "Contact", path: "/contact", icon: <FaFileAlt /> },
+    {
+      title: "Quizzes & Games",
+      columns: [
+        {
+          heading: "Quizzes & Games",
+          links: [
+            { name: "Word Games & Crosswords", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Fiqh Activities", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Moral Dilemma", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Reward System", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Story Time",
+      columns: [
+        {
+          heading: "Story Time",
+          links: [
+            { name: "Prophet", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Sahaba & Women in Islam", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Quran", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Historical Episodes", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "My Daily Deeds",
+      columns: [
+        {
+          heading: "My Daily Deeds",
+          links: [
+            { name: "Habit Tracker", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Reflection Journal", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Goal Setting", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Language",
+      columns: [
+        {
+          heading: "Arabic",
+          links: [
+            { name: "Vocabulary Builder", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Grammar & Sentence Building", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Reading Practice", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Writing Practice", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+        {
+          heading: "English",
+          links: [
+            { name: "Vocabulary Builder", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Grammar & Sentence Building", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Reading Practice", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Writing Practice", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Ask a Scholar",
+      columns: [
+        {
+          heading: "Ask a Scholar",
+          links: [
+            { name: "AI Scholar", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Submit Questions", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Video Answers", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "FAQ", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "For me",
+      columns: [
+        {
+          heading: "Islam & My World",
+          links: [
+            { name: "Islam & Family", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Friends & Community", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Society & Respect", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Women in Islam", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Interfaith Harmony", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Environmental Stewardship", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+        {
+          heading: "Etiquettes & Good Behavior",
+          links: [
+            { name: "Day-to-Day Etiquettes", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Social Behavior", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Digital Etiquette", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Conflict Resolution", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+        {
+          heading: "Duas & Memorization",
+          links: [
+            { name: "Basic to Advanced Duas", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Audio Repetition Tools", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Daily Du’a Challenge", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Quran Memorization Section", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Physical Fitness & Sunnah",
+      columns: [
+        {
+          heading: "Physical Fitness & Sunnah",
+          links: [
+            { name: "Why Fitness Matters", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Prophet’s Fitness Habits", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Simple Exercises & Games", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Mind & Body Balance", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Parent & Mentor Corner",
+      columns: [
+        {
+          heading: "Parent & Mentor Corner",
+          links: [
+            { name: "Child’s Progress Reports", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Recommended Content", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "Tips", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Resources for Family Discussions", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Parental Controls", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Downloadable Resources", path: "/hadith/others", icon: <FaFileAlt /> },
+          ],
+        },
+      ],
+    },
   ],
 
   GROUP_16_25: [
     {
-      title: "Quran",
+      title: "Deep Dive",
       columns: [
         {
-          heading: "Read & Listen",
+          heading: "Qur’an & Sunnah",
           links: [
-            { name: "Read Quran", path: "/quran/read", icon: <FaBookOpen /> },
-            { name: "Audio Quran", path: "/quran/audio", icon: <FaFileAlt /> },
-            { name: "Tafsir", path: "/quran/tafsir", icon: <FaFileAlt /> },
+            { name: "Thematic Tafsir", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Surah Dissections", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Advanced Hadith Studies", path: "/quran/tafsir", icon: <FaFileAlt /> },
+            { name: "Usul al-Hadith", path: "/quran/read", icon: <FaBookOpen /> },
+            { name: "Sunnah in Today’s World", path: "/quran/audio", icon: <FaFileAlt /> },
+            { name: "Prayers", path: "/quran/tafsir", icon: <FaFileAlt /> },
           ],
         },
         {
-          heading: "Resources",
+          heading: "Islam & Real Life",
           links: [
-            { name: "Translations", path: "/quran/translations", icon: <FaFileAlt /> },
-            { name: "Memorization Tools", path: "/quran/memorization", icon: <FaFileAlt /> },
+            { name: "Islam & Career Choices", path: "/quran/translations", icon: <FaFileAlt /> },
+            { name: "Mental Health & Islam", path: "/quran/memorization", icon: <FaFileAlt /> },
+            { name: "Relationships & Boundaries", path: "/quran/translations", icon: <FaFileAlt /> },
+            { name: "Social Justice", path: "/quran/memorization", icon: <FaFileAlt /> },
+            { name: "Political Awareness", path: "/quran/translations", icon: <FaFileAlt /> },
+            { name: "Digital Dignity", path: "/quran/memorization", icon: <FaFileAlt /> },
+          ],
+        },
+        {
+          heading: "Muslim Identity Builder",
+          links: [
+            { name: "Mythbusters", path: "/quran/translations", icon: <FaFileAlt /> },
+            { name: "Faith & Doubt", path: "/quran/memorization", icon: <FaFileAlt /> },
+            { name: "Being a Proud Muslim", path: "/quran/translations", icon: <FaFileAlt /> },
+            { name: "Global Ummah Awareness", path: "/quran/memorization", icon: <FaFileAlt /> },
           ],
         },
       ],
     },
     {
-      title: "Hadith",
+      title: "Ask & Debate",
       columns: [
         {
-          heading: "Collections",
+          heading: "Ask & Debate",
           links: [
-            { name: "Sahih Bukhari", path: "/hadith/bukhari", icon: <FaFileAlt /> },
-            { name: "Sahih Muslim", path: "/hadith/muslim", icon: <FaFileAlt /> },
-            { name: "Other Collections", path: "/hadith/others", icon: <FaFileAlt /> },
-          ],
-        },
-        {
-          heading: "Study",
-          links: [
-            { name: "Hadith Explanation", path: "/hadith/explanation", icon: <FaFileAlt /> },
-            { name: "Scholars", path: "/hadith/scholars", icon: <FaFileAlt /> },
+            { name: "Ask a Scholar", path: "/hadith/bukhari", icon: <FaFileAlt /> },
+            { name: "Debate Zone", path: "/hadith/muslim", icon: <FaFileAlt /> },
+            { name: "AI Islamic Assistant", path: "/hadith/others", icon: <FaFileAlt /> },
+            { name: "Public Q&A", path: "/hadith/others", icon: <FaFileAlt /> },
           ],
         },
       ],
@@ -199,14 +416,24 @@ const menuData = {
         },
       ],
     },
-    { title: "AI Tools & Model Management", path: "/admin/settings", icon: <FaFileAlt /> },
-    { title: "Language & Localization Management", path: "/admin/settings", icon: <FaFileAlt /> },
-    { title: "Donation & Sponsorship Management", path: "/admin/settings", icon: <FaFileAlt /> },
-    { title: "Moderation & Community Management", path: "/admin/settings", icon: <FaFileAlt /> },
-    { title: "Notifications & Communication", path: "/admin/settings", icon: <FaFileAlt /> },
-    { title: "Knowledge & Help Center Management", path: "/admin/settings", icon: <FaFileAlt /> },
     {
-      title: "Analytics & Reports",
+      title: "Management",
+      columns: [
+        {
+          heading: "Management",
+          links: [
+            { name: "AI Tools & Model Management", path: "/admin/settings", icon: <FaFileAlt /> },
+            { name: "Language & Localization Management", path: "/admin/settings", icon: <FaFileAlt /> },
+            { name: "Donation & Sponsorship Management", path: "/admin/settings", icon: <FaFileAlt /> },
+            { name: "Moderation & Community Management", path: "/admin/settings", icon: <FaFileAlt /> },
+            { name: "Notifications & Communication", path: "/admin/settings", icon: <FaFileAlt /> },
+            { name: "Knowledge & Help Center Management", path: "/admin/settings", icon: <FaFileAlt /> },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Analytics",
       columns: [
         {
           heading: "Analytics & Reports",
@@ -287,7 +514,7 @@ const menuData = {
     { title: "Settings", path: "/admin/settings", icon: <FaFileAlt /> },
   ],
   
-  SCHOLOR: [
+  SCHOLAR: [
     {
       title: "Dashboard",
       path: "/admin/dashboard",

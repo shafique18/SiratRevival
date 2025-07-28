@@ -13,9 +13,13 @@ export default function DarkModeToggle() {
     <button
       onClick={() => setDarkMode((prev) => !prev)}
       aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-      className="p-2 rounded-md hover:bg-green-100 dark:hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400"
+      className="p-2 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-green-200 dark:hover:bg-green-600 transition"
     >
-      {darkMode ? <FaSun className="text-yellow-400" /> : <FaMoon />}
+      {darkMode ? (
+        <FaSun className="text-yellow-400 w-5 h-5" />
+      ) : (
+        <FaMoon className="text-gray-800 dark:text-gray-100 w-5 h-5" />
+      )}
     </button>
   );
 }

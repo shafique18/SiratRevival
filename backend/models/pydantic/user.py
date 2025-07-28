@@ -31,6 +31,9 @@ class UserRole(str, enum.Enum):
     GROUP_16_25 = "GROUP_16_25"
     GROUP_26_PLUS = "GROUP_26_PLUS"
     ADMIN = "ADMIN"
+    WRITER = "WRITER"
+    REVIEWER = "REVIEWER"
+    SCHOLAR = "SCHOLAR"
 
 class AccountType(str, enum.Enum):
     PERSONAL = "Personal"

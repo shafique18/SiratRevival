@@ -42,7 +42,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg z-50 border-b border-gray-200 dark:border-gray-800"
+      className="fixed top-0 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg z-[1000] border-b border-gray-200 dark:border-gray-800"
       role="navigation"
       aria-label="Main Navigation"
     >
@@ -50,7 +50,9 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 flex-shrink-0" aria-label="Sirat Revival Home">
           <img src={logo} alt="Sirat Revival Logo" className="h-10 w-auto rounded-md" />
-          <span className="text-xl font-bold text-green-600 dark:text-green-400 whitespace-nowrap">SIRAT REVIVAL</span>
+          <span className="text-xl font-bold text-green-600 dark:text-green-400 whitespace-nowrap">
+            SIRAT REVIVAL
+          </span>
         </Link>
 
         {/* Desktop Menu */}
@@ -80,9 +82,15 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-gray-800 text-white border-t border-gray-700"
+            className="md:hidden border-t border-gray-700 bg-gray-900 text-white"
           >
-            <MobileMenu menus={menus} setMobileMenuOpen={setMobileMenuOpen} />
+            <MobileMenu
+              menus={menus}
+              setMobileMenuOpen={setMobileMenuOpen}
+              darkMode={darkMode}
+              setDarkMode={setDarkMode}
+              isAuthenticated={isAuthenticated}
+            />
           </motion.div>
         )}
       </AnimatePresence>
