@@ -7,17 +7,17 @@ from sqlalchemy.orm import Session
 from backend.db.session import engine
 from backend.models.sqlalchemy.navigation import (
     MenuDB, SubMenuDB, LearningPathDB,
-    ModuleDB, ContentDB, UserProgressDB,
+    ModuleDB, UserProgressDB,
     NavigationItem, NavigationType
 )
 from backend.models.sqlalchemy.user_db import UserRole
+from backend.models.sqlalchemy.content import ContentDB
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 def seed_all(session: Session):
     # Clear tables
     session.query(UserProgressDB).delete()
-    session.query(ContentDB).delete()
     session.query(ModuleDB).delete()
     session.query(LearningPathDB).delete()
     session.query(SubMenuDB).delete()

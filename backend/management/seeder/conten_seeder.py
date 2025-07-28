@@ -8,7 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 from datetime import datetime
 import requests
 from backend.db.session import SessionLocal
-from backend.models.sqlalchemy import QuranVerse, Hadith, NewsArticle
+from backend.models.sqlalchemy import QuranVerse, Hadith, NewsArticle, ContentDB, HadithTranslation, ContentTranslation, ContentVersion, Language, QuranTranslation, IslamicFigure, IslamicTopic, IslamicTopicCategory, TopicContent, FigureContent, AIInteraction
 
 def seed_quran(session):
     # Load Quran JSON with your provided structure

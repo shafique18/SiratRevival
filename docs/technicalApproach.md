@@ -54,8 +54,9 @@ AI/LLM APIs + Internal NLP Tools
 ```bash
 sirat-revival/
 │
-├── app/                         # Main application source code
+├── backend/                         # Main application source code
 │   ├── api/                     # FastAPI routers per feature
+│   │   ├── __init__.py/
 │   │   ├── admin/
 │   │   │   ├── __init__.py
 │   │   ├── auth/
@@ -67,7 +68,7 @@ sirat-revival/
 │   │   │   ├── __init__.py
 │   │   │   ├── quran_hadith_news.py
 │   │   │   ├── subscribe.py
-│   │   ├── ai_translations/
+│   │   ├── translations/
 │   │   │   ├── __init__.py
 │   │   ├── learning_paths/
 │   │   │   ├── __init__.py
@@ -76,15 +77,28 @@ sirat-revival/
 │   ├── core/                   
 │   │   ├── cofig.py
 │   │   ├── security.py
+│   ├── management/  
+│   │   ├── scripts/ 
+│   │   │   ├── create_db.py
+│   │   ├── seeder/ 
+│   │   │   ├── __init__.py
+│   │   │   ├── content_seeder.py
+│   │   │   ├── seed_admin.py
+│   │   │   ├── seed_navigation.py
+│   │   │   ├── seed_roles_admin.py
+│   │   │   ├── seed_team.py
 │   ├── models/ 
 │   │   ├── pydantic/                
 │   │   │   ├── user.py
 │   │   │   ├── navigation.py
+│   │   │   ├── team.py
 │   │   ├── sqlalchemy/                
 │   │   │   ├── __init__.py
 │   │   │   ├── content.py
 │   │   │   ├── navigation.py
 │   │   │   ├── user_db.py
+│   │   │   ├── general.py
+│   │   │   ├── team.py
 │   ├── services/                
 │   │   ├── user_service.py
 │   ├── db/                      
@@ -98,15 +112,8 @@ sirat-revival/
 ├── worker/                     # Celery or RQ tasks
 │
 ├── tests/                      # Pytest test suites
-│
-├── scripts/                    # Management CLI and setup scripts
-│   ├── create_db.py
-│
-├── seeder/ 
-│   ├── __init__.py
-│   ├── seed_admin.py
-│   ├── seed_navigation.py
-│   ├── seed_roles_admin.py
+│   ├── backend/
+│   ├── frontend/
 │
 ├── docs/                       # Markdown docs for concept, API, roadmap
 │
@@ -120,10 +127,21 @@ sirat-revival/
 │   │   │   │   ├── translation.json
 │   ├── src/
 │   │   ├── components
-│   │   │   ├── Register
+│   │   │   ├── common
 │   │   │   │   ├── FileUploadFiels.js
+│   │   │   │   ├── DatePickerField.js
+│   │   │   │   ├── FileDropZone.js
 │   │   │   │   ├── InputField.js
+│   │   │   │   ├── Modal.js
+│   │   │   │   ├── MultiSelectField.js
 │   │   │   │   ├── SelectField.js
+│   │   │   ├── layout
+│   │   │   │   ├── Footer.js
+│   │   │   │   ├── Layout.js
+│   │   │   │   ├── MainContent.js
+│   │   │   │   ├── Navbar.js
+│   │   │   │   ├── SideNav.js
+│   │   │   ├── Register
 │   │   │   │   ├── Step1Personal.js
 │   │   │   │   ├── Step2Contact.js
 │   │   │   │   ├── Step3Account.js
@@ -131,20 +149,16 @@ sirat-revival/
 │   │   │   │   ├── Step5Preferences.js
 │   │   │   │   ├── Step6Payment.js
 │   │   │   │   ├── Step7Review.js
-│   │   │   ├── DynamicMessage.js
-│   │   │   ├── PrayerTimesWidget.js
-│   │   │   ├── ErrorBoundary.js
-│   │   │   ├── FileDropzone.js
-│   │   │   ├── Layout.js
-│   │   │   ├── Navbar.js
+│   │   │   ├── utils
+│   │   │   │   ├── axiosInstance.js
+│   │   │   │   ├── DynamicMessage.js
+│   │   │   │   ├── ErrorBoundary.js
+│   │   │   │   ├── LaguageSwitcher.js
+│   │   │   │   ├── PrayerTimesWidget.js
+│   │   │   │   ├── TeamMemberCard.js
+│   │   │   │   ├── TeamSection.js
+│   │   │   │   ├── translate.js
 │   │   │   ├── ProtectedRoute.js
-│   │   │   ├── translate.js
-│   │   │   ├── LaguageSwitcher.js
-│   │   │   ├── Footer.js
-│   │   │   ├── axiosInstance.js
-│   │   │   ├── Modal.js
-│   │   │   ├── MainContent.js
-│   │   │   ├── SideNav.js
 │   │   ├── context
 │   │   │   ├── AuthContext.js
 │   │   │   ├── LanguageContext.js
@@ -164,26 +178,30 @@ sirat-revival/
 │   │   │   │   ├── hometeen.js
 │   │   │   ├── young
 │   │   │   │   ├── homeyoung.js
+│   │   │   ├── auth
+│   │   │   │   ├── Login.js
+│   │   │   │   ├── PasswordResetConfirm.js
+│   │   │   │   ├── PasswordResetRequest.js
+│   │   │   │   ├── Register.js
+│   │   │   │   ├── Unauthorized.js
+│   │   │   │   ├── VerifyEmail.js
+│   │   │   ├── common
+│   │   │   │   ├── Profile.js
 │   │   │   ├── index.js
-│   │   │   ├── Login.js
-│   │   │   ├── PasswordResetConfirm.js
-│   │   │   ├── PasswordResetRequest.js
-│   │   │   ├── Profile.js
-│   │   │   ├── Register.js
-│   │   │   ├── VerifyEmail.js
-│   │   │   ├── Unauthorized.js
 │   │   ├── screens
-│   │   │   ├── HadithCard.js
-│   │   │   ├── NewsFeed.js
-│   │   │   ├── QuranVerseCard.js
+│   │   │   ├── content
+│   │   │   │   ├── HadithCard.js
+│   │   │   │   ├── NewsFeed.js
+│   │   │   │   ├── QuranVerseCard.js
 │   │   ├── static
 │   │   │   ├── css
 │   │   │   ├── images
 │   │   │   ├── js
+│   │   ├── styles
+│   │   │   ├── index.css
+│   │   │   ├── talwind-output.css
 │   │   ├── App.js
-│   │   ├── index.css
 │   │   ├── index.js
-│   │   ├── tailwind-output.css
 │   │   ├── i18n.js
 │   ├── package.json
 │   ├── postcss.config.js

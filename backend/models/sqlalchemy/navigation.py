@@ -65,38 +65,6 @@ class ModuleDB(Base):
     learning_path = relationship("LearningPathDB", back_populates="modules")
 
 
-class ContentDB(Base):
-    __tablename__ = "contents"
-    __table_args__ = {"schema": "siratRevival"}
-
-    id = Column(Integer, primary_key=True)
-    module_id = Column(Integer, ForeignKey("siratRevival.modules.id"), nullable=False)
-    type = Column(Enum("video", "text", "pdf", "link", name="content_type", schema="siratRevival"), nullable=False)
-    content_url = Column(String, nullable=True)
-    html_content = Column(Text, nullable=True)
-
-    module = relationship("ModuleDB", back_populates="contents")
-    translations = relationship("ContentTranslation", back_populates="content")
-
-
-class ContentTranslation(Base):
-
-    # Purpose: Store multilingual content for all content types (text, audio, video, PDFs, etc.).
-    # Multilingual support
-
-    __tablename__ = 'content_translations'
-    __table_args__ = {"schema": "siratRevival"}
-
-    id = Column(Integer, primary_key=True)
-    content_id = Column(Integer, ForeignKey('contents.id'))
-    language = Column(String, nullable=False)
-    translated_text = Column(Text)  # For text-based content
-    translated_url = Column(String)  # If it's a translated file/audio/video
-    translation_type = Column(Enum('machine', 'human', 'verified'), default='machine')
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-    content = relationship("Content", back_populates="translations")
-
 
 class UserProgressDB(Base):
 
@@ -129,7 +97,7 @@ class NavigationItem(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
     slug = Column(String, nullable=False, unique=True)
-    type = Column(Enum(NavigationType, schema="siratRevival"), nullable=False)
+    type = Column(Enum(NavigationType, name= "type",schema="siratRevival"), nullable=False)
     parent_id = Column(Integer, ForeignKey('siratRevival.navigation_items.id'), nullable=True)
     order = Column(Integer, nullable=False, default=0)
 

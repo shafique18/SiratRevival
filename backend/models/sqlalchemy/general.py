@@ -11,7 +11,7 @@ class ForumQuestion(Base):
     __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=True)
+    user_id = Column(Integer, ForeignKey('siratRevival.users.id'), nullable=True)
     anonymous = Column(Boolean, default=False)
     question_text = Column(Text)
     category = Column(String)
@@ -24,8 +24,8 @@ class ForumAnswer(Base):
     __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    question_id = Column(Integer, ForeignKey('forum_questions.id'))
-    responder_id = Column(Integer, ForeignKey('users.id'))
+    question_id = Column(Integer, ForeignKey('siratRevival.forum_questions.id'))
+    responder_id = Column(Integer, ForeignKey('siratRevival.users.id'))
     answer_text = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -36,7 +36,7 @@ class Donation(Base):
     __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=True)
+    user_id = Column(Integer, ForeignKey('siratRevival.users.id'), nullable=True)
     amount = Column(Float)
     message = Column(String)
     anonymous = Column(Boolean, default=False)

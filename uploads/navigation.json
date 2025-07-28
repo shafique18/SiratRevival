@@ -1,0 +1,110 @@
+[
+  {
+    "key": "home",
+    "order": 1,
+    "translations": [
+      {"language_id": 1, "title": "Home", "slug": "home"}
+    ],
+    "children": [
+      {
+        "key": "quran_verse_hadith_news",
+        "order": 1,
+        "translations": [
+          {"language_id": 1, "title": "Quran Verse, Hadith & News", "slug": "quran-verse-hadith-news"}
+        ]
+      },
+      {
+        "key": "news_page",
+        "order": 2,
+        "translations": [
+          {"language_id": 1, "title": "News Page", "slug": "news"}
+        ]
+      },
+      {
+        "key": "donation_section",
+        "order": 3,
+        "translations": [
+          {"language_id": 1, "title": "Donation", "slug": "donation"}
+        ]
+      }
+    ]
+  },
+  {
+    "key": "about_us",
+    "order": 2,
+    "translations": [
+      {"language_id": 1, "title": "About Us", "slug": "about-us"}
+    ],
+    "children": [
+      {"key": "purpose_objective", "order": 1, "translations": [{"language_id": 1, "title": "Purpose & Objective", "slug": "purpose-objective"}]},
+      {"key": "vision_mission", "order": 2, "translations": [{"language_id": 1, "title": "Vision & Mission", "slug": "vision-mission"}]},
+      {"key": "project_objectives", "order": 3, "translations": [{"language_id": 1, "title": "Project Objectives", "slug": "project-objectives"}]},
+      {"key": "why_sirat_revival", "order": 4, "translations": [{"language_id": 1, "title": "Why Sirat Revival?", "slug": "why-sirat-revival"}]},
+      {"key": "contributors", "order": 5, "translations": [{"language_id": 1, "title": "Contributors", "slug": "contributors"}]}
+    ]
+  },
+  {
+    "key": "explore",
+    "order": 3,
+    "translations": [
+      {"language_id": 1, "title": "Explore", "slug": "explore"}
+    ],
+    "children": [
+      {"key": "pillars_of_islam", "order": 1, "translations": [{"language_id": 1, "title": "Pillars of Islam", "slug": "pillars-of-islam"}]},
+      {"key": "quran_with_translation", "order": 2, "translations": [{"language_id": 1, "title": "Quran with Translation", "slug": "quran-with-translation"}]},
+      {"key": "hadith_with_translation", "order": 3, "translations": [{"language_id": 1, "title": "Hadith with Translation", "slug": "hadith-with-translation"}]},
+      {"key": "limited_scholars_content", "order": 4, "translations": [{"language_id": 1, "title": "Limited Scholars Content", "slug": "limited-scholars-content"}]},
+      {"key": "trending_posts_discussion", "order": 5, "translations": [{"language_id": 1, "title": "Trending Posts & Discussion", "slug": "trending-posts-discussion"}]},
+      {"key": "islamic_history", "order": 6, "translations": [{"language_id": 1, "title": "Same Day in Islamic History", "slug": "islamic-history"}]},
+      {"key": "kids_section", "order": 7, "translations": [{"language_id": 1, "title": "Kids Section", "slug": "kids-section"}]}
+    ]
+  },
+  {
+    "key": "login",
+    "order": 4,
+    "translations": [
+      {"language_id": 1, "title": "Login", "slug": "login"}
+    ],
+    "children": [
+      {"key": "register", "order": 1, "translations": [{"language_id": 1, "title": "Register", "slug": "register"}]},
+      {"key": "forgot_password", "order": 2, "translations": [{"language_id": 1, "title": "Forgot Password", "slug": "forgot-password"}]}
+    ]
+  },
+  {
+    "key": "get_involved",
+    "order": 5,
+    "translations": [
+      {"language_id": 1, "title": "Get Involved", "slug": "get-involved"}
+    ],
+    "children": [
+      {"key": "become_contributor", "order": 1, "translations": [{"language_id": 1, "title": "Become a Contributor", "slug": "become-contributor"}]},
+      {"key": "partner_with_us", "order": 2, "translations": [{"language_id": 1, "title": "Partner with Us", "slug": "partner-with-us"}]},
+      {"key": "join_dev_test_team", "order": 3, "translations": [{"language_id": 1, "title": "Join Dev & Test Team", "slug": "join-dev-test-team"}]}
+    ]
+  },
+  {
+    "key": "contact_us",
+    "order": 6,
+    "translations": [
+      {"language_id": 1, "title": "Contact Us", "slug": "contact-us"}
+    ],
+    "children": [
+      {"key": "general_inquiries", "order": 1, "translations": [{"language_id": 1, "title": "General Inquiries", "slug": "general-inquiries"}]},
+      {"key": "feedback_suggestions", "order": 2, "translations": [{"language_id": 1, "title": "Feedback & Suggestions", "slug": "feedback-suggestions"}]},
+      {"key": "report_inappropriate_content", "order": 3, "translations": [{"language_id": 1, "title": "Report Inappropriate Content", "slug": "report-inappropriate-content"}]},
+      {"key": "faqs_help", "order": 4, "translations": [{"language_id": 1, "title": "FAQs / Help", "slug": "faqs-help"}]}
+    ]
+  },
+  {
+    "key": "news",
+    "order": 7,
+    "translations": [
+      {"language_id": 1, "title": "News", "slug": "news"}
+    ],
+    "children": [
+      {"key": "global_islamic_news", "order": 1, "translations": [{"language_id": 1, "title": "Global Islamic News", "slug": "global-islamic-news"}]},
+      {"key": "platform_updates", "order": 2, "translations": [{"language_id": 1, "title": "Platform Updates", "slug": "platform-updates"}]},
+      {"key": "content_releases", "order": 3, "translations": [{"language_id": 1, "title": "Content Releases & Campaigns", "slug": "content-releases"}]}
+    ]
+  }
+]

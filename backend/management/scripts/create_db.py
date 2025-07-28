@@ -1,5 +1,6 @@
 import os
 import sys
+import traceback
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
@@ -10,14 +11,22 @@ from backend.management.seeder import run_all_seeders
 from backend.models import sqlalchemy  # assuming __init__.py loads all models in app.models.sqlalchemy
 
 def create_tables():
-    print(f"Using engine: {engine}")
-    Base.metadata.create_all(bind=engine)
-    print("✅ Database tables created.")
+    try:
+        print(f"Using engine: {engine}")
+        Base.metadata.create_all(bind=engine)
+        print("✅ Database tables created.")
+    except Exception as e:
+        print(e)
+        traceback.print_exc()
 
 def run_seeders():
-    print("🌱 Seeding data...")
-    run_all_seeders()
-    print("✅ All seeders completed.")
+    try:
+        print("🌱 Seeding data...")
+        run_all_seeders()
+        print("✅ All seeders completed.")
+    except Exception as e:
+        print(e)
+        traceback.print_exc()
 
 if __name__ == "__main__":
     create_tables()

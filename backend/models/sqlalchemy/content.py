@@ -1,12 +1,46 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, ForeignKey, Enum
+from enum import Enum as PyEnum 
 from sqlalchemy.sql import func
 from backend.db.session import Base
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from enum import Enum
-from . import user_db
+from backend.models.sqlalchemy.user_db import UserRole
 
 # Purpose: Islamic core texts.
+
+class ContentDB(Base):
+    __tablename__ = "contents"
+    __table_args__ = {"schema": "siratRevival"}
+
+    id = Column(Integer, primary_key=True)
+    module_id = Column(Integer, ForeignKey("siratRevival.modules.id"), nullable=False)
+    type = Column(Enum("video", "text", "pdf", "link", name="content_type", schema="siratRevival"), nullable=False)
+    content_url = Column(String, nullable=True)
+    html_content = Column(Text, nullable=True)
+
+    module = relationship("ModuleDB", back_populates="contents")
+    translations = relationship("ContentTranslation", back_populates="content")
+    topic_links = relationship("TopicContent", back_populates="content")
+    figure_links = relationship("FigureContent", back_populates="content")
+    versions = relationship("ContentVersion", back_populates="content")
+
+class ContentTranslation(Base):
+
+    # Purpose: Store multilingual content for all content types (text, audio, video, PDFs, etc.).
+    # Multilingual support
+
+    __tablename__ = 'content_translations'
+    __table_args__ = {"schema": "siratRevival"}
+
+    id = Column(Integer, primary_key=True)
+    content_id = Column(Integer, ForeignKey('siratRevival.contents.id'))
+    language = Column(String, nullable=False)
+    translated_text = Column(Text)  # For text-based content
+    translated_url = Column(String)  # If it's a translated file/audio/video
+    translation_type = Column(Enum('machine', 'human', 'verified', name="submenu_type", schema="siratRevival"), default='machine')
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    content = relationship("ContentDB", back_populates="translations")
 
 class Language(Base):
     __tablename__ = "languages"
@@ -35,10 +69,9 @@ class QuranTranslation(Base):
     __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    verse_id = Column(Integer, ForeignKey('quran_verses.id'))
+    verse_id = Column(Integer, ForeignKey('siratRevival.quran_verses.id'),nullable=False)
     language = Column(String, nullable=False)
     translation = Column(Text, nullable=False)
-
     quran_verse = relationship("QuranVerse", back_populates="translations")
 
 class Hadith(Base):
@@ -54,18 +87,17 @@ class Hadith(Base):
     source = Column(String)  # Bukhari, Muslim, etc.
     is_today = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-
     translations = relationship("HadithTranslation", back_populates="hadith")
 
 class HadithTranslation(Base):
     # Hadith translation
     __tablename__ = 'hadith_translations'
+    __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    hadith_id = Column(Integer, ForeignKey('hadiths.id'))
+    hadith_id = Column(Integer, ForeignKey('siratRevival.hadiths.id'),nullable=False)
     language = Column(String)
     translated_text = Column(Text)
-
     hadith = relationship("Hadith", back_populates="translations")
 
 class NewsArticle(Base):
@@ -91,22 +123,19 @@ class IslamicTopic(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     description = Column(Text)
-    age_group = Column(Enum(user_db.UserRole))  # target audience
+    age_group = Column(Enum(UserRole, name="age_group", schema="siratRevival"))  # target audience
+    contents = relationship("TopicContent", back_populates="topic")
 
 
 class TopicContent(Base):
-
-    # Links content/modules to broader Islamic topics
-    # M:N link of topics to content
     __tablename__ = 'topic_contents'
     __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    topic_id = Column(Integer, ForeignKey('islamic_topics.id'))
-    content_id = Column(Integer, ForeignKey('contents.id'))
-
+    topic_id = Column(Integer, ForeignKey('siratRevival.islamic_topics.id'), nullable=False)
+    content_id = Column(Integer, ForeignKey('siratRevival.contents.id'), nullable=False)
     topic = relationship("IslamicTopic", back_populates="contents")
-    content = relationship("Content", back_populates="topics")
+    content = relationship("ContentDB")
 
 class IslamicFigure(Base):
     __tablename__ = 'islamic_figures'
@@ -114,11 +143,10 @@ class IslamicFigure(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    type = Column(Enum('prophet', 'sahaba', 'scholar', 'woman', 'leader'))
+    type = Column(Enum('prophet', 'sahaba', 'scholar', 'woman', 'leader', name="islamic_figure_type", schema="siratRevival"))
     life_summary = Column(Text)
     birth_place = Column(String)
     era = Column(String)
-
     contents = relationship("FigureContent", back_populates="figure")
 
 
@@ -127,11 +155,10 @@ class FigureContent(Base):
     __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    figure_id = Column(Integer, ForeignKey('islamic_figures.id'))
-    content_id = Column(Integer, ForeignKey('contents.id'))
-
+    figure_id = Column(Integer, ForeignKey('siratRevival.islamic_figures.id'), nullable=False)
+    content_id = Column(Integer, ForeignKey('siratRevival.contents.id'), nullable=False)
     figure = relationship("IslamicFigure", back_populates="contents")
-    content = relationship("Content")
+    content = relationship("ContentDB")
 
 
 class ContentVersion(Base):
@@ -139,26 +166,29 @@ class ContentVersion(Base):
     __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    content_id = Column(Integer, ForeignKey('contents.id'))
+    content_id = Column(Integer, ForeignKey('siratRevival.contents.id'), nullable=False)
     version_number = Column(Integer)
     title = Column(String)
     content_snapshot = Column(Text)
-    editor_id = Column(Integer, ForeignKey('users.id'))
-    created_at = Column(DateTime, default=datetime.utcnow)
+    editor_id = Column(Integer, ForeignKey('siratRevival.users.id'), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    content = relationship("ContentDB", back_populates="versions")
 
 class AIInteraction(Base):
     __tablename__ = 'ai_interactions'
+    __table_args__ = {"schema": "siratRevival"}
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=True)
-    age_group = Column(Enum(user_db.UserRole))
+    user_id = Column(Integer, ForeignKey('siratRevival.users.id'), nullable=True)
+    age_group = Column(Enum(UserRole, name="age_group", schema="siratRevival"))
     input_text = Column(Text)
     output_text = Column(Text)
-    timestamp = Column(DateTime, default=datetime.utcnow)
-    medium = Column(Enum('text', 'audio', 'video'))
+    timestamp = Column(DateTime(timezone=True), server_default=func.now())
+    medium = Column(Enum('text', 'audio', 'video', name="medium", schema="siratRevival"))
 
 
-class IslamicTopicCategory(str, Enum):
+class IslamicTopicCategory(str, PyEnum):
     FIQH = "FIQH"
     QURAN = "QURAN"
     HADITH = "HADITH"

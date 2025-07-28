@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../navbar/Navbar";
 import Footer from "./Footer";
 import PrayerTimesWidget from "../utils/PrayerTimesWidget";
 
