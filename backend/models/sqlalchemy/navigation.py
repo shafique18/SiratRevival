@@ -61,7 +61,7 @@ class ModuleDB(Base):
     learning_path_id = Column(Integer, ForeignKey("siratRevival.learning_paths.id"), nullable=False)
     order = Column(Integer, nullable=False)
 
-    contents = relationship("ContentDB", back_populates="module")
+    contents = relationship("ContentDB", back_populates="module",cascade="all, delete-orphan")
     learning_path = relationship("LearningPathDB", back_populates="modules")
 
 

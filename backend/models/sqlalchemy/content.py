@@ -5,6 +5,7 @@ from backend.db.session import Base
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from backend.models.sqlalchemy.user_db import UserRole
+from backend.models.sqlalchemy.navigation import ModuleDB
 
 # Purpose: Islamic core texts.
 

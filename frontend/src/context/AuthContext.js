@@ -73,7 +73,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("userProfile");
     return <Navigate to="/" />
   };
-
   const getUserProfile = async (accessToken) => {
     try {
       const res = await axios.get(`${baseURL}/auth/me`, {

@@ -1,16 +1,10 @@
-// DesktopMenu.js
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import MegaMenuPanel from "./MegaMenuPanel";
-import LanguageSwitcher from "../utils/LanguageSwitcher";
-import DarkModeToggle from "./DarkModeToggle";
-import AuthButtons from "./AuthButtons";
-import AuthContext from "../../context/AuthContext";
 
 export default function DesktopMenu({ menus, activeMegaMenu, setActiveMegaMenu }) {
   const { t } = useTranslation();
-  const { isAuthenticated, user, logout } = useContext(AuthContext);
 
   const handleKeyDown = (e, item) => {
     if (!item.columns) return;
@@ -66,10 +60,6 @@ export default function DesktopMenu({ menus, activeMegaMenu, setActiveMegaMenu }
           )}
         </div>
       ))}
-
-      <LanguageSwitcher />
-      <DarkModeToggle />
-      <AuthButtons isAuthenticated={isAuthenticated} user={user} logout={logout} />
     </div>
   );
 }

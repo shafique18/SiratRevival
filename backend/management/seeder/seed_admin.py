@@ -93,7 +93,7 @@ def seed_admin_and_user(session: Session):
             hashed_password=hash_password('Scholor1234!'),
             first_name='Scholor',
             last_name='Khan',
-            user_role=UserRole.SCHOLOR,
+            user_role=UserRole.SCHOLAR,
             is_verified=True,
             is_active=True,
             date_of_birth=datetime(1993, 9, 20)  # Bob DOB

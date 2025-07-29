@@ -183,10 +183,14 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
 
 @router.get("/me", response_model=User)
 def read_users_me(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    print(f"Incoming token: {token}")
     payload = security.decode_access_token(token)
     if not payload:
+        print("Token decode failed")
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    
     email = payload.get("sub")
+    print(f"Decoded email: {email}")
     user = (
         db.query(UserDB)
         # .options(joinedload(UserDB.roles))  # eagerly load roles

@@ -23,7 +23,7 @@ class UserRole(str, enum.Enum):
     ADMIN = "ADMIN"
     WRITER = "WRITER"
     REVIEWER = "REVIEWER"
-    SCHOLOR = "SCHOLOR"
+    SCHOLAR = "SCHOLAR"
 
 class AccountType(str, enum.Enum):
     PERSONAL = "Personal"

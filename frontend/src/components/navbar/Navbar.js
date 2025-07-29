@@ -13,7 +13,7 @@ import logo from "../../static/images/ihdinas.jpg";
 import menuData from "../../static/data/menuData";
 
 export default function Navbar() {
-  const { user, isAuthenticated } = useContext(AuthContext);
+  const { user, isAuthenticated, logout } = useContext(AuthContext);
   const { t } = useTranslation();
 
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true");
@@ -39,14 +39,18 @@ export default function Navbar() {
   const role = isAuthenticated ? user?.user_role || "member" : "GUEST";
   const menus = menuData[role] || menuData["GUEST"];
 
+  const firstRowMenus = menus.slice(0, 6);
+  const secondRowMenus = menus.slice(6);
+
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg z-[1000] border-b border-gray-200 dark:border-gray-800"
+      className="fixed top-0 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md z-[1000] border-b border-gray-200 dark:border-gray-800"
       role="navigation"
       aria-label="Main Navigation"
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
+      {/* Top Row */}
+      <div className="container mx-auto px-4 md:px-6 flex flex-wrap items-center justify-between gap-y-2 h-auto py-3">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 flex-shrink-0" aria-label="Sirat Revival Home">
           <img src={logo} alt="Sirat Revival Logo" className="h-10 w-auto rounded-md" />
@@ -55,15 +59,24 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop Menu */}
-        <DesktopMenu
-          menus={menus}
-          activeMegaMenu={activeMegaMenu}
-          setActiveMegaMenu={setActiveMegaMenu}
-        />
+        {/* First Row Menus */}
+        <div className="hidden md:flex flex-1 justify-center min-w-0">
+          <DesktopMenu
+            menus={firstRowMenus}
+            activeMegaMenu={activeMegaMenu}
+            setActiveMegaMenu={setActiveMegaMenu}
+          />
+        </div>
+
+        {/* Right Utilities */}
+        <div className="hidden md:flex items-center gap-4 ml-auto">
+          <LanguageSwitcher />
+          <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+          <AuthButtons isAuthenticated={isAuthenticated} user={user} logout={logout} />
+        </div>
 
         {/* Mobile Toggle */}
-        <div className="md:hidden flex items-center">
+        <div className="md:hidden flex items-center ml-auto">
           <button
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -73,6 +86,19 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+
+      {/* Second Row Menus (Only if More than 6) */}
+      {secondRowMenus.length > 0 && (
+        <div className="hidden md:flex container mx-auto px-4 md:px-6 pb-3">
+          <div className="flex flex-1 justify-center">
+            <DesktopMenu
+              menus={secondRowMenus}
+              activeMegaMenu={activeMegaMenu}
+              setActiveMegaMenu={setActiveMegaMenu}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -90,6 +116,7 @@ export default function Navbar() {
               darkMode={darkMode}
               setDarkMode={setDarkMode}
               isAuthenticated={isAuthenticated}
+              logout={logout}  // Pass logout here for mobile menu if needed
             />
           </motion.div>
         )}
