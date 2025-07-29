@@ -360,7 +360,6 @@ const menuData = {
         },
       ],
     },
-
     {
       title: "Duas & Prayers",
       columns: [
@@ -380,7 +379,6 @@ const menuData = {
         },
       ],
     },
-
     {
       title: "Language",
       columns: [
@@ -404,7 +402,6 @@ const menuData = {
         },
       ],
     },
-
     {
       title: "Rhymes & Songs",
       columns: [
@@ -418,7 +415,6 @@ const menuData = {
         },
       ],
     },
-
     {
       title: "Learning & Games",
       columns: [
@@ -444,7 +440,6 @@ const menuData = {
         },
       ],
     },
-
     {
       title: "Parent/Guardian",
       columns: [
