@@ -64,7 +64,7 @@ import { FaVideo,
   FaEye,
  } from "react-icons/fa";
 
- const BASE = [
+const BASE = [
   {
     title: "Quran & Hadith",
     columns: [
@@ -902,7 +902,7 @@ const menuData = {
     },
   ],
 
-   WRITER: [
+  WRITER: [
     ...BASE,
     {
       title: "My Content",
