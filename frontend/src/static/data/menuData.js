@@ -62,6 +62,7 @@ import { FaVideo,
   FaPray,
   FaCamera,
   FaEye,
+  FaKaaba,
  } from "react-icons/fa";
 
 const BASE = [
@@ -339,7 +340,7 @@ const menuData = {
             { name: "Allah", path: "/stories/shorts", icon: <FaPray /> },
             { name: "Prophet Muhammad (PBUH)", path: "/stories/quran", icon: <FaSmile /> },
             { name: "Angels", path: "/stories/hadith", icon: <FaCamera /> },
-            { name: "Pillars of Islam", path: "/stories/sahaba", icon: <Fak /> },
+            { name: "Pillars of Islam", path: "/stories/sahaba", icon: <FaKaaba /> },
             { name: "Day-to-Day Etiquettes", path: "/stories/hadith", icon: <FaEye /> },
             { name: "Good Behaviour", path: "/stories/sahaba", icon: <FaBook /> },
           ],
@@ -580,10 +581,10 @@ const menuData = {
           ],
         },
         {
-          heading: "Etiquettes & Good Behavior",
+          heading: "Etiquettes & Good Behaviour",
           links: [
             { name: "Day-to-Day Etiquettes", path: "/forme/etiquette", icon: <FaSmile /> },
-            { name: "Social Behavior", path: "/forme/social", icon: <FaUserFriends /> },
+            { name: "Social Behaviour", path: "/forme/social", icon: <FaUserFriends /> },
             { name: "Digital Etiquette", path: "/forme/digital", icon: <FaGlobe /> },
             { name: "Conflict Resolution", path: "/forme/conflict", icon: <FaBalanceScale /> },
           ],
@@ -606,7 +607,7 @@ const menuData = {
           heading: "Physical Fitness & Sunnah",
           links: [
             { name: "Why Fitness Matters", path: "/fitness/importance", icon: <FaAppleAlt /> },
-            { name: "Prophet’s Fitness Habits", path: "/fitness/prophet-habits", icon: <FaRunning /> },
+            { name: "Prophets Fitness Habits", path: "/fitness/prophet-habits", icon: <FaRunning /> },
             { name: "Simple Exercises & Games", path: "/fitness/exercises", icon: <FaDumbbell /> },
             { name: "Mind & Body Balance", path: "/fitness/balance", icon: <FaBalanceScale /> },
           ],
@@ -619,7 +620,7 @@ const menuData = {
         {
           heading: "Parent & Mentor Corner",
           links: [
-            { name: "Child’s Progress Reports", path: "/parents/progress", icon: <FaStar /> },
+            { name: "Progress Reports", path: "/parents/progress", icon: <FaStar /> },
             { name: "Recommended Content", path: "/parents/content", icon: <FaBookOpen /> },
             { name: "Tips", path: "/parents/tips", icon: <FaLightbulb /> },
             { name: "Resources for Family Discussions", path: "/parents/resources", icon: <FaUserFriends /> },
@@ -636,7 +637,7 @@ const menuData = {
       title: "Deep Dive",
       columns: [
         {
-          heading: "Qur’an & Sunnah",
+          heading: "Quran & Sunnah",
           links: [
             { name: "Thematic Tafsir", path: "/deep-dive/thematic-tafsir", icon: <FaBookOpen /> },
             { name: "Surah Dissections", path: "/deep-dive/surah-dissections", icon: <FaBook /> },
@@ -660,7 +661,7 @@ const menuData = {
         {
           heading: "Muslim Identity Builder",
           links: [
-            { name: "Mythbusters", path: "/identity/mythbusters", icon: <FaQuestionCircle /> },
+            { name: "MythBusters", path: "/identity/mythbusters", icon: <FaQuestionCircle /> },
             { name: "Faith & Doubt", path: "/identity/faith-doubt", icon: <FaBrain /> },
             { name: "Being a Proud Muslim", path: "/identity/proud-muslim", icon: <FaSmile /> },
             { name: "Global Ummah Awareness", path: "/identity/global-ummah", icon: <FaGlobe /> },
@@ -696,13 +697,13 @@ const menuData = {
           links: [
             { name: "Ask a Scholar", path: "/ask-debate/ask-scholar", icon: <FaQuestionCircle /> },
             { name: "Debate Zone", path: "/ask-debate/debate-zone", icon: <FaComments /> },
-            { name: "AI Islamic Assistant", path: "/ask-debate/ai-assistant", icon: <FaRobot /> },
             { name: "Public Q&A", path: "/ask-debate/public-qa", icon: <FaComments /> },
           ],
         },
         {
           heading: "AI",
           links: [
+            { name: "AI Islamic Assistant", path: "/ask-debate/ai-assistant", icon: <FaRobot /> },
             { name: "Doubt Resolver Bot", path: "/ask-debate/doubt-bot", icon: <FaRobot /> },
             { name: "Exams & Prep", path: "/ask-debate/exams-prep", icon: <FaBook /> },
             { name: "Topic Agent", path: "/ask-debate/topic-agent", icon: <FaRobot /> },
@@ -786,7 +787,7 @@ const menuData = {
             { name: "Nutrition & Health", path: "/fitness/nutrition", icon: <FaHeartbeat /> },
             { name: "Workout with Intention", path: "/fitness/workout", icon: <FaRunning /> },
             { name: "Mental Strength & Resilience", path: "/fitness/mental", icon: <FaBrain /> },
-            { name: "Women’s Fitness Tips", path: "/fitness/women", icon: <FaFemale /> },
+            { name: "Women Fitness", path: "/fitness/women", icon: <FaFemale /> },
           ],
         },
       ],
@@ -800,7 +801,7 @@ const menuData = {
             { name: "Understanding the Menstrual Cycle", path: "/girls/menstrual", icon: <FaFemale /> },
             { name: "Puberty & Changes", path: "/girls/puberty", icon: <FaBrain /> },
             { name: "Confidence & Modesty", path: "/girls/confidence", icon: <FaSmile /> },
-            { name: "Women’s Rights in Islam", path: "/girls/women-rights", icon: <FaHandsHelping /> },
+            { name: "Women Rights in Islam", path: "/girls/women-rights", icon: <FaHandsHelping /> },
             { name: "Role Models in History", path: "/girls/role-models", icon: <FaUsers /> },
             { name: "Mental Health for Girls", path: "/girls/mental-health", icon: <FaHeartbeat /> },
             { name: "FAQs Only for Girls", path: "/girls/faqs", icon: <FaQuestionCircle /> },

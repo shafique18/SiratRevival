@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { FaFacebookF, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const { t } = useTranslation();
+  
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
@@ -43,11 +46,11 @@ export default function Footer() {
         <div>
           <h3 className="text-xl font-bold mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm text-gray-300">
-            <li><a href="/" className="hover:text-green-400">Home</a></li>
-            <li><a href="/quran" className="hover:text-green-400">Quran</a></li>
-            <li><a href="/hadith" className="hover:text-green-400">Hadith</a></li>
-            <li><a href="/news" className="hover:text-green-400">News</a></li>
-            <li><a href="/contact" className="hover:text-green-400">Contact</a></li>
+            <li><a href="/" className="hover:text-green-400"> {t("Home")} </a></li>
+            <li><a href="/quran" className="hover:text-green-400"> {t("Quran") }</a></li>
+            <li><a href="/hadith" className="hover:text-green-400"> {t("Hadith")}</a></li>
+            <li><a href="/news" className="hover:text-green-400">{t("News")}</a></li>
+            <li><a href="/contact" className="hover:text-green-400">{t("Contact us")}</a></li>
           </ul>
         </div>
 
