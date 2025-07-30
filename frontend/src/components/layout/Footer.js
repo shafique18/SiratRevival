@@ -44,7 +44,7 @@ export default function Footer() {
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+          <h3 className="text-xl font-bold mb-4">{t("Quick Links")}</h3>
           <ul className="space-y-2 text-sm text-gray-300">
             <li><a href="/" className="hover:text-green-400"> {t("Home")} </a></li>
             <li><a href="/quran" className="hover:text-green-400"> {t("Quran") }</a></li>

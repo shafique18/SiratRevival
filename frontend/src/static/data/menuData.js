@@ -1007,7 +1007,7 @@ const menuData = {
           links: [
             { name: "Contributor", path: "/articles/lifestyle", icon: <FaFileAlt /> },
             { name: "Partner", path: "/articles/history", icon: <FaFileAlt /> },
-            { name: " tech-Savvy", path: "/articles/history", icon: <FaFileAlt /> },
+            { name: "Tech-Savvy", path: "/articles/history", icon: <FaFileAlt /> },
           ],
         },
       ],
@@ -1018,9 +1018,9 @@ const menuData = {
         {
           heading: "News",
           links: [
-            { name: "Global Islamic news", path: "/articles/lifestyle", icon: <FaFileAlt /> },
-            { name: "Sirat Revival platform updates", path: "/articles/history", icon: <FaFileAlt /> },
-            { name: "New content releases", path: "/articles/history", icon: <FaFileAlt /> },
+            { name: "Global Islamic News", path: "/articles/lifestyle", icon: <FaFileAlt /> },
+            { name: "Sirat Revival Platform Updates", path: "/articles/history", icon: <FaFileAlt /> },
+            { name: "New Content Releases", path: "/articles/history", icon: <FaFileAlt /> },
             { name: "Campaigns", path: "/articles/history", icon: <FaFileAlt /> },
           ],
         },
