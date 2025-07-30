@@ -73,7 +73,7 @@ export default function MainHome() {
             {t("index_support_text")}
           </p>
           <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-8 rounded-full shadow-md transition transform hover:scale-105">
-            Donate Now
+            {t("index_donate_button")}
           </button>
         </section>
       </main>

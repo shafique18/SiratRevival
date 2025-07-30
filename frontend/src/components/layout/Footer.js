@@ -56,7 +56,7 @@ export default function Footer() {
 
         {/* Newsletter */}
         <div>
-          <h3 className="text-xl font-bold mb-4">{t("Newsletter")}</h3>
+          <h3 className="text-xl font-bold mb-4">{t("footer_Newsletter")}</h3>
           <p className="text-sm text-gray-400 mb-3">
             {t("footer_newsletter_text")}
           </p>
