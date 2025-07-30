@@ -369,5 +369,25 @@
   "index_donate_button":"अभी दान करें",
   "qura_card_title":"आज की आयत",
   "news_card_title":"इस्लामी समाचार",
-  "hadith_card_title":"आज की हदीस"
+  "hadith_card_title":"आज की हदीस",
+  "team_Section_title":"टीम से मिलो",
+  "prayers": {
+    "Fajr": "फज्र",
+    "Sunrise": "सूर्योदय",
+    "Dhuhr": "ज़ुहर",
+    "Asr": "असर",
+    "Sunset": "सूर्यास्त",
+    "Maghrib": "मग़रिब",
+    "Isha": "ईशा",
+    "Imsak": "इमसाक",
+    "Midnight": "मध्य रात्रि",
+    "Firstthird": "पहला तिहाई",
+    "Lastthird": "अंतिम तिहाई"
+    },
+  "prayerTimes": {
+    "title": "नमाज़ के समय",
+    "timezone": "समय क्षेत्र",
+    "prayer_loading":"नमाज़ के समय लोड हो रहे हैं..."
+  },
+  "bismillah":"ईश्वर के नाम पर, जो अत्यंत दयालु और कृपालु है"
 }

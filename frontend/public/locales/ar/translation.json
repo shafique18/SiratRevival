@@ -369,5 +369,24 @@
   "index_donate_button":"تبرع الآن",
   "qura_card_title":"آية اليوم",
   "news_card_title":"أخبار إسلامية",
-  "hadith_card_title":"حديث اليوم"
+  "hadith_card_title":"حديث اليوم",
+  "team_Section_title":"تعرف على الفريق",
+  "prayers": {
+    "Fajr": "الفجر",
+    "Sunrise": "الشروق",
+    "Dhuhr": "الظهر",
+    "Asr": "العصر",
+    "Sunset": "غروب الشمس",
+    "Maghrib": "المغرب",
+    "Isha": "العشاء",
+    "Imsak": "الإمساك",
+    "Midnight": "منتصف الليل",
+    "Firstthird": "الثلث الأول",
+    "Lastthird": "الثلث الأخير"
+    },
+  "prayerTimes": {
+    "title": "أوقات الصلاة",
+    "timezone": "المنطقة الزمنية",
+    "prayer_loading":"جاري تحميل أوقات الصلاة..."
+  }
 }

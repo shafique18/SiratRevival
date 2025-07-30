@@ -369,5 +369,25 @@
   "index_donate_button":"Şimdi Bağış Yap",
   "qura_card_title":"Günün Ayeti",
   "news_card_title":"İslam Haberleri",
-  "hadith_card_title":"Günün Hadisi"
+  "hadith_card_title":"Günün Hadisi",
+  "team_Section_title":"Ekiple Tanışın",
+  "prayers": {
+    "Fajr": "İmsak",
+    "Sunrise": "Güneş",
+    "Dhuhr": "Öğle",
+    "Asr": "İkindi",
+    "Sunset": "Gün batımı",
+    "Maghrib": "Akşam",
+    "Isha": "Yatsı",
+    "Imsak": "İmsak",
+    "Midnight": "Gece yarısı",
+    "Firstthird": "İlk üçte bir",
+    "Lastthird": "Son üçte bir"
+    },
+  "prayerTimes": {
+    "title": "Namaz Vakitleri",
+    "timezone": "Zaman dilimi",
+    "prayer_loading":"Namaz vakitleri yükleniyor..."
+  },
+  "bismillah":"Bismillahirrahmanirrahim"
 }

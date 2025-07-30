@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext, forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,7 +12,7 @@ import AuthButtons from "./AuthButtons";
 import logo from "../../static/images/ihdinas.jpg";
 import menuData from "../../static/data/menuData";
 
-export default function Navbar() {
+const Navbar = forwardRef((props, ref) => {
   const { user, isAuthenticated, logout } = useContext(AuthContext);
   const { t } = useTranslation();
 
@@ -36,6 +36,17 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Combine forwarded ref and local navRef for click outside logic
+  useEffect(() => {
+    if (ref) {
+      if (typeof ref === "function") {
+        ref(navRef.current);
+      } else if (typeof ref === "object") {
+        ref.current = navRef.current;
+      }
+    }
+  }, [ref]);
+
   const role = isAuthenticated ? user?.user_role || "member" : "GUEST";
   const menus = menuData[role] || menuData["GUEST"];
 
@@ -44,7 +55,7 @@ export default function Navbar() {
 
   return (
     <nav
-      ref={navRef}
+      ref={navRef} // local ref attached for internal use and forwarded below
       className="fixed top-0 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md z-[1000] border-b border-gray-200 dark:border-gray-800"
       role="navigation"
       aria-label="Main Navigation"
@@ -116,11 +127,13 @@ export default function Navbar() {
               darkMode={darkMode}
               setDarkMode={setDarkMode}
               isAuthenticated={isAuthenticated}
-              logout={logout}  // Pass logout here for mobile menu if needed
+              logout={logout}
             />
           </motion.div>
         )}
       </AnimatePresence>
     </nav>
   );
-}
+});
+
+export default Navbar;

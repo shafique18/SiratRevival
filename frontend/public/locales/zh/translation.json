@@ -369,5 +369,25 @@
   "index_donate_button":"立即捐赠",
   "qura_card_title":"每日经文",
   "news_card_title":"伊斯兰新闻",
-  "hadith_card_title":"每日圣训"
+  "hadith_card_title":"每日圣训",
+  "team_Section_title":"认识团队",
+  "prayers": {
+    "Fajr": "晨礼 (Fajr)",
+    "Sunrise": "日出",
+    "Dhuhr": "晌礼 (Dhuhr)",
+    "Asr": "晡礼 (Asr)",
+    "Sunset": "日落",
+    "Maghrib": "昏礼 (Maghrib)",
+    "Isha": "宵礼 (Isha)",
+    "Imsak": "戒食 (Imsak)",
+    "Midnight": "午夜",
+    "Firstthird": "前三分之一",
+    "Lastthird": "后三分之一"
+    },
+  "prayerTimes": {
+    "title": "礼拜时间",
+    "timezone": "时区",
+    "prayer_loading":"正在加载礼拜时间..."
+  },
+  "bismillah":"以仁慈的真主之名"
 }

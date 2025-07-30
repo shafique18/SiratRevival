@@ -369,6 +369,25 @@
   "index_donate_button":"Dona ora",
   "qura_card_title":"Versetto del giorno",
   "news_card_title":"Notizie islamiche",
-  "hadith_card_title":"Hadith del giorno"
-
+  "hadith_card_title":"Hadith del giorno",
+  "team_Section_title":"Incontra il team",
+  "prayers": {
+    "Fajr": "Fajr",
+    "Sunrise": "Alba",
+    "Dhuhr": "Dhuhr",
+    "Asr": "Asr",
+    "Sunset": "Tramonto",
+    "Maghrib": "Maghrib",
+    "Isha": "Isha",
+    "Imsak": "Imsak",
+    "Midnight": "Mezzanotte",
+    "Firstthird": "Primo terzo",
+    "Lastthird": "Ultimo terzo"
+    },
+  "prayerTimes": {
+    "title": "Orari di preghiera",
+    "timezone": "Fuso orario",
+    "prayer_loading":"Caricamento degli orari di preghiera..."
+  },
+  "bismillah":"Nel nome di Allah, il Compassionevole, il Misericordioso"
 }

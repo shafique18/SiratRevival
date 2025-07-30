@@ -9,6 +9,7 @@ module.exports = {
         extend: {
             fontFamily: {
             sans: ['Poppins', 'sans-serif'],
+            arabic: ["'Scheherazade New'", "serif"],
             },
             transform: ['group-hover'],
         },

@@ -369,5 +369,25 @@
   "index_donate_button":"今すぐ寄付する",
   "qura_card_title":"今日の聖句",
   "news_card_title":"イスラム教ニュース",
-  "hadith_card_title":"今日のハディース"
+  "hadith_card_title":"今日のハディース",
+  "team_Section_title":"チームメンバー紹介",
+  "prayers": {
+    "Fajr": "ファジュル",
+    "Sunrise": "日の出",
+    "Dhuhr": "ズフル",
+    "Asr": "アスル",
+    "Sunset": "日没",
+    "Maghrib": "マグリブ",
+    "Isha": "イシャー",
+    "Imsak": "イムサーク",
+    "Midnight": "真夜中",
+    "Firstthird": "最初の三分の一",
+    "Lastthird": "最後の三分の一"
+    },
+  "prayerTimes": {
+    "title": "礼拝時間",
+    "timezone": "タイムゾーン",
+    "prayer_loading":"礼拝時間を読み込み中..."
+  },
+  "bismillah":"アッラーフ・アル・ラフマーン・アル・ラヒーム"
 }

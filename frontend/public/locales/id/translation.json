@@ -369,6 +369,25 @@
   "index_donate_button":"Donasi Sekarang",
   "qura_card_title":"Ayat Hari Ini",
   "news_card_title":"Berita Islam",
-  "hadith_card_title":"Hadits Hari Ini"
-
+  "hadith_card_title":"Hadits Hari Ini",
+  "team_Section_title":"Kenali Tim Kami",
+  "prayers": {
+    "Fajr": "Subuh",
+    "Sunrise": "Matahari Terbit",
+    "Dhuhr": "Dzuhur",
+    "Asr": "Ashar",
+    "Sunset": "Matahari Terbenam",
+    "Maghrib": "Maghrib",
+    "Isha": "Isya",
+    "Imsak": "Imsak",
+    "Midnight": "Tengah malam",
+    "Firstthird": "Sepertiga pertama",
+    "Lastthird": "Sepertiga terakhir"
+    },
+  "prayerTimes": {
+    "title": "Waktu Sholat",
+    "timezone": "Zona waktu",
+    "prayer_loading":"Memuat waktu sholat..."
+  },
+  "bismillah":"Dengan nama Allah, Yang Maha Pengasih, Yang Maha Penyayang."
 }

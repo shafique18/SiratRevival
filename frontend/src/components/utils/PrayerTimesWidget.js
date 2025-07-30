@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Clock, ChevronLeft, ChevronRight, Sun, Moon, Sunrise, Sunset, Star, Watch } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const prayerIcons = {
   Fajr: <Moon className="inline-block mr-2 h-5 w-5 text-green-600" />,
@@ -107,22 +108,9 @@ const PrayerTimesWidget = ({ isDesktop, isOpen, toggleOpen }) => {
     };
   }, []);
 
-  const formatPrayerName = (name) => {
-    const mapping = {
-      Fajr: "Fajr",
-      Sunrise: "Sunrise",
-      Dhuhr: "Dhuhr",
-      Asr: "Asr",
-      Sunset: "Sunset",
-      Maghrib: "Maghrib",
-      Isha: "Isha",
-      Imsak: "Imsak",
-      Midnight: "Midnight",
-      Firstthird: "First Third",
-      Lastthird: "Last Third",
-    };
-    return mapping[name] || name.replace(/([A-Z])/g, " $1").trim();
-  };
+const formatPrayerName = (name) => {
+  return t(`prayers.${name}`);
+};
 
   const handleToggle = () => {
     const newOpen = !widgetOpen;
@@ -132,6 +120,7 @@ const PrayerTimesWidget = ({ isDesktop, isOpen, toggleOpen }) => {
       sessionStorage.setItem("prayerWidgetOpen", newOpen.toString());
     }
   };
+  const { t } = useTranslation();
 
   const openUpwards = dragY > window.innerHeight * 0.65;
 
@@ -187,12 +176,12 @@ const PrayerTimesWidget = ({ isDesktop, isOpen, toggleOpen }) => {
       >
         <div className="flex items-center gap-3 mb-6 text-green-700 dark:text-green-400 font-semibold text-2xl select-none">
           <Clock className="h-7 w-7" />
-          <span>Prayer Times</span>
+          <span>{t("prayerTimes.title")}</span>
         </div>
         <div className="space-y-3 text-gray-900 dark:text-gray-100 text-base font-medium leading-relaxed">
           {Object.entries(times).length === 0 ? (
             <p className="italic text-gray-500 dark:text-gray-400">
-              Loading prayer times...
+              {t("prayerTimes.prayer_loading")}
             </p>
           ) : (
             Object.entries(times).map(([key, value]) => (
@@ -211,7 +200,7 @@ const PrayerTimesWidget = ({ isDesktop, isOpen, toggleOpen }) => {
         </div>
         {city && (
           <p className="mt-6 text-xs text-center text-gray-500 dark:text-gray-400 italic select-none tracking-wide">
-            Timezone: <span className="font-semibold">{city}</span>
+            {t("prayerTimes.timezone")}: <span className="font-semibold">{city}</span>
           </p>
         )}
       </aside>

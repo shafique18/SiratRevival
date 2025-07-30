@@ -369,5 +369,25 @@
   "index_donate_button":"ابھی عطیہ کریں۔",
   "qura_card_title":"دن کی آیت",
   "news_card_title":"اسلامی خبریں",
-  "hadith_card_title":"دن کی حدیث"
+  "hadith_card_title":"دن کی حدیث",
+  "team_Section_title":"ٹیم سے ملو",
+  "prayers": {
+    "Fajr": "فجر",
+    "Sunrise": "طلوع آفتاب",
+    "Dhuhr": "ظہر",
+    "Asr": "عصر",
+    "Sunset": "غروب آفتاب",
+    "Maghrib": "مغرب",
+    "Isha": "عشاء",
+    "Imsak": "امساک",
+    "Midnight": "آدھی رات",
+    "Firstthird": "پہلا تہائی",
+    "Lastthird": "آخری تہائی"
+    },
+  "prayerTimes": {
+    "title": "نماز کے اوقات",
+    "timezone": "ٹائم زون",
+    "prayer_loading":"نماز کے اوقات لوڈ ہو رہے ہیں..."
+  },
+  "bismillah":"خدا کے نام سے جو بڑا مہربان نہایت رحم والا ہے۔"
 }
