@@ -351,5 +351,19 @@
   "Feedback": "反馈",
   "Suggestions": "建议",
   "Report": "报告",
-  "FAQs": "常见问题"
+  "FAQs": "常见问题",
+  "footer_left_about_text": "一个通过古兰经、圣训与现代意识唤醒伊斯兰知识的平台。",
+  "footer_Newsletter": "订阅简讯",
+  "footer_newsletter_text": "每天获取伊斯兰智慧与最新动态。",
+  "Subscribe": "订阅",
+  "index_quran_verse_title": "重拾信息",
+  "index_quran_verse_text": "SiratRevival 是一个自发发起的项目，致力于跨年龄、跨语言复兴基础的伊斯兰理解。我们的目标是帮助每一位穆斯林将伊斯兰视为完整的生活方式，而不仅是宗教仪式。",
+  "index_hadith_title": "向圣人 ﷺ 学习",
+  "index_hadith_text": "探索圣训中永恒的智慧。简洁、有洞察力且具有启发性的传述，引导日常行为与品格。",
+  "index_news_title": "保持了解",
+  "index_news_text": "获取来自穆斯林世界的精选相关新闻。关注对全球穆斯林社群重要的当前议题。",
+  "index_about_title": "关于此应用",
+  "index_about_text": "一个致力于伊斯兰知识与觉醒的现代数字平台。从古兰经与圣训到实时新闻，一切尽在一个美观直观的体验中。",
+  "index_support_title": "支持我们的工作",
+  "index_support_text": "我们依赖您的慷慨支持来推动这一项目的发展。每一笔捐款都帮助我们建设一个更有知识和联系的穆斯林社群。"
 }

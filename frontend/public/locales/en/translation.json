@@ -351,5 +351,19 @@
   "Feedback": "Feedback",
   "Suggestions": "Suggestions",
   "Report": "Report",
-  "FAQs": "FAQs"
+  "FAQs": "FAQs",
+  "footer_left_about_text":"A platform to revive Islamic knowledge through Quran, Hadith, and modern-day awareness.",
+  "footer_Newsletter":"Newsletter",
+  "footer_newsletter_text":"Get daily Islamic wisdom and updates.",
+  "Subscribe":"Subscribe",
+  "index_quran_verse_title":"Reviving the Message",
+  "index_quran_verse_text":"SiratRevival is a self-sponsored initiative reviving foundational Islamic understanding across ages and languages. Our aim is to help every Muslim see Islam not just as rituals—but as a holistic way of life.",
+  "index_hadith_title":"Learn from the Prophet ﷺ",
+  "index_hadith_text":"Explore the timeless wisdom of the Hadith. Short, insightful, and transformative narrations that guide everyday character and behavior.",
+  "index_news_title":"Stay Informed",
+  "index_news_text":"Get curated, relevant news from the Muslim world. Stay engaged with current issues that matter to our global Ummah.",
+  "index_about_title":"About This Application",
+  "index_about_text":"A modern digital platform dedicated to Islamic knowledge and awareness. From Quran and Hadith to real-time news, everything you need in one beautiful, intuitive experience.",
+  "index_support_title":"Support Our Work",
+  "index_support_text":"We rely on your generous support to keep this initiative growing. Every donation helps us build a more informed, connected Ummah."
 }

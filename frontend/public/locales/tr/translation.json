@@ -351,5 +351,20 @@
   "Feedback": "Geri Bildirim",
   "Suggestions": "Öneriler",
   "Report": "Bildir",
-  "FAQs": "Sıkça Sorulan Sorular"
+  "FAQs": "Sıkça Sorulan Sorular",
+  "footer_left_about_text": "Kur’an, Hadis ve modern farkındalıkla İslami bilgiyi canlandıran bir platform.",
+  "footer_Newsletter": "Bülten",
+  "footer_newsletter_text": "Günlük İslami bilgelik ve güncellemeleri alın.",
+  "Subscribe": "Abone Ol",
+  "index_quran_verse_title": "Mesajı Canlandırmak",
+  "index_quran_verse_text": "SiratRevival, çağlar ve diller arasında temel İslami anlayışı yeniden canlandıran bağımsız bir girişimdir. Amacımız, her Müslümanın İslam'ı sadece ritüeller olarak değil, bütünsel bir yaşam tarzı olarak görmesini sağlamaktır.",
+  "index_hadith_title": "Peygamber'den ﷺ Öğrenin",
+  "index_hadith_text": "Hadislerin zamansız bilgeliğini keşfedin. Günlük karakter ve davranışlara rehberlik eden kısa, anlamlı ve dönüştürücü rivayetler.",
+  "index_news_title": "Bilgili Kalın",
+  "index_news_text": "Müslüman dünyasından özenle seçilmiş, ilgili haberleri alın. Küresel ümmetimiz için önemli olan güncel meselelerle bağlantıda kalın.",
+  "index_about_title": "Bu Uygulama Hakkında",
+  "index_about_text": "Kur’an’dan Hadis’e, gerçek zamanlı haberlere kadar her şeyi sunan modern bir dijital İslami bilgi platformu. Her şey güzel ve sezgisel bir deneyimde bir arada.",
+  "index_support_title": "Çalışmamıza Destek Olun",
+  "index_support_text": "Bu girişimin büyümesi için cömert desteğinize güveniyoruz. Her bağış, daha bilgili ve bağlantılı bir ümmet inşa etmemize yardımcı olur."
+
 }

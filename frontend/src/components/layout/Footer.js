@@ -38,7 +38,7 @@ export default function Footer() {
         <div>
           <h3 className="text-xl font-bold mb-4">SiratRevival</h3>
           <p className="text-sm text-gray-400">
-            A platform to revive Islamic knowledge through Quran, Hadith, and modern-day awareness.
+            {t("footer_left_about_text")}
           </p>
         </div>
 
@@ -56,14 +56,14 @@ export default function Footer() {
 
         {/* Newsletter */}
         <div>
-          <h3 className="text-xl font-bold mb-4">Newsletter</h3>
+          <h3 className="text-xl font-bold mb-4">{t("Newsletter")}</h3>
           <p className="text-sm text-gray-400 mb-3">
-            Get daily Islamic wisdom and updates.
+            {t("footer_newsletter_text")}
           </p>
           <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
             <input
               type="email"
-              placeholder="Your email"
+              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -73,7 +73,7 @@ export default function Footer() {
               type="submit"
               className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md"
             >
-              Subscribe
+              {t("Subscribe")}
             </button>
           </form>
           {message && (
