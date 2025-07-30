@@ -18,6 +18,11 @@ import HomeYoung from "./pages/young/homeyoung";
 import HomeAdult from "./pages/adult/homeadult";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ErrorBoundary from "./components/utils/ErrorBoundary";
+import AboutIntro from "./components/aboutus/AboutIntro";
+import Contributors from "./components/aboutus/Contributors";
+import PurposeObjective from "./components/aboutus/PurposeObjective";
+import VisionMission from "./components/aboutus/VisionMission";
+import WhySirat from "./components/aboutus/WhySirat";
 
 
 
@@ -30,6 +35,11 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Home />} />
+              <Route path="/abutus/intro" element={<AboutIntro />} />
+              <Route path="/abutus/purpose-objective" element={<PurposeObjective />} />
+              <Route path="/abutus/vision-mission" element={<VisionMission />} />
+              <Route path="/abutus/why-sirat-revival" element={<WhySirat />} />
+              <Route path="/abutus/contributors" element={<Contributors />} />
 
               <Route element={<ProtectedRoute allowedRoles={["GROUP_0_5"]} />}>
                 <Route path="/kids/homekids" element={<HomeKid />} />

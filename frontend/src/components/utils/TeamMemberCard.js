@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
+import avatar from "../../static/images/avatar.png";
 
 const platformIcons = {
   linkedin: FaLinkedin,
@@ -13,7 +14,7 @@ export default function TeamMemberCard({ member }) {
   return (
     <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl p-6 shadow-md text-center flex flex-col items-center space-y-4 max-w-xs w-full mx-auto transition hover:shadow-xl">
       <img
-        src={image}
+        src={image != 'NA' || avatar }
         alt={`Photo of ${name}`}
         className="w-28 h-28 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg"
         loading="lazy"

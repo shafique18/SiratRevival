@@ -48,3 +48,4 @@ def get_team_members(db: Session = Depends(get_db)):
     return db.query(TeamMember).all()
 
 from . import sidebar
+from . import contributors

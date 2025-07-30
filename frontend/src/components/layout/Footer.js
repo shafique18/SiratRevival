@@ -11,13 +11,11 @@ export default function Footer() {
   const handleSubscribe = async (e) => {
     e.preventDefault();
     try {
-      console.log("Hi");
       const res = await fetch('http://localhost:8000/content/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
-      console.log(res);
 
       const data = await res.json();
       if (res.ok) {

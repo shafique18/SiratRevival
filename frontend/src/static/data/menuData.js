@@ -1,4 +1,5 @@
 // src/data/menuData.js
+import { patch } from "@mui/material";
 import { FaVideo,
   FaBook,
   FaBookOpen,
@@ -974,13 +975,14 @@ const menuData = {
         {
           heading: "About us",
           links: [
-            { name: "Purpose & Objective", path: "/articles/lifestyle", icon: <FaFileAlt /> },
-            { name: "Vision & Mission", path: "/articles/history", icon: <FaFileAlt /> },
-            { name: "Why is the Sirat Revival?", path: "/articles/history", icon: <FaFileAlt /> },
-            { name: "Contributors", path: "/articles/history", icon: <FaFileAlt /> },
+            { name: "Purpose & Objective", path: "/abutus/purpose-objective", icon: <FaFileAlt /> },
+            { name: "Vision & Mission", path: "/abutus/vision-mission", icon: <FaFileAlt /> },
+            { name: "Why is the Sirat Revival?", path: "/abutus/why-sirat-revival", icon: <FaFileAlt /> },
+            { name: "Contributors", path: "/abutus/contributors", icon: <FaFileAlt /> },
           ],
         },
       ],
+      path:"/abutus/intro",
     },
     {
       title: "Explore",

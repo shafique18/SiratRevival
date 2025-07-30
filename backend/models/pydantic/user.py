@@ -167,6 +167,19 @@ class User(UserBase):
 
 # --- Authentication & token models from old code ---
 
+class Contributor(UserBase):
+    id: int
+    username: str
+    first_name: str
+    last_name: str
+    user_role: UserRole
+    bio: Optional[str] = None
+    profile_picture: Optional[str] = None
+
+    model_config = {
+        "from_attributes": True
+    }
+
 class UserLogin(BaseModel):
     email: EmailStr
     password: str

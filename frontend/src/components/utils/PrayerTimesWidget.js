@@ -19,7 +19,7 @@ const prayerIcons = {
 const PrayerTimesWidget = ({ isDesktop, isOpen, toggleOpen }) => {
   const [times, setTimes] = useState({});
   const [city, setCity] = useState("");
-  const [dragY, setDragY] = useState(100);
+  const [dragY, setDragY] = useState(180);
   const draggingRef = useRef(false);
   const startYRef = useRef(0);
   const startDragYRef = useRef(0);
@@ -84,7 +84,7 @@ const PrayerTimesWidget = ({ isDesktop, isOpen, toggleOpen }) => {
     const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
     let newY = startDragYRef.current + (clientY - startYRef.current);
 
-    const minY = 40;
+    const minY = 50;
     const maxY = window.innerHeight - 56 - 40;
     newY = Math.max(minY, Math.min(maxY, newY));
 
