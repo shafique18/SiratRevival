@@ -366,6 +366,9 @@
   "index_about_text": "Platform digital modern yang didedikasikan untuk pengetahuan dan kesadaran Islam. Dari Al-Qur’an dan Hadis hingga berita real-time, semua yang Anda butuhkan dalam satu pengalaman yang indah dan intuitif.",
   "index_support_title": "Dukung Pekerjaan Kami",
   "index_support_text": "Kami bergantung pada dukungan dermawan Anda untuk terus mengembangkan inisiatif ini. Setiap donasi membantu membangun umat yang lebih terhubung dan berpengetahuan.",
-  "index_donate_button":"Donasi Sekarang"
+  "index_donate_button":"Donasi Sekarang",
+  "qura_card_title":"Ayat Hari Ini",
+  "news_card_title":"Berita Islam",
+  "hadith_card_title":"Hadits Hari Ini"
 
 }

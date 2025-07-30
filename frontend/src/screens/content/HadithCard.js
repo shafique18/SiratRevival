@@ -5,10 +5,12 @@ import 'swiper/css';
 import { Autoplay } from 'swiper/modules';
 import hadith1 from "../../static/images/hadith1.jpeg";
 import hadith2 from "../../static/images/hadith2.jpg";
+import { useTranslation } from "react-i18next";
 
 export default function HadithCard({ className = "" }) {
   const [hadith, setHadith] = useState(null);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const cachedHadith = sessionStorage.getItem("hadithOfTheDay");
@@ -86,7 +88,7 @@ export default function HadithCard({ className = "" }) {
 
       <div className="p-5 md:p-6 text-center">
         <h2 className="text-xl md:text-2xl font-bold mb-3 text-gray-900 dark:text-gray-100">
-          📜 Hadith of the Day
+          📜 {t("hadith_card_title")}
         </h2>
         <motion.p
           className="text-gray-700 dark:text-gray-300 italic leading-relaxed mb-3"

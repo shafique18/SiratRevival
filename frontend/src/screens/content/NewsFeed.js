@@ -5,11 +5,13 @@ import 'swiper/css';
 import { Autoplay } from 'swiper/modules';
 import news1 from "../../static/images/news1.jpg";
 import news2 from "../../static/images/news2.jpg";
+import { useTranslation } from "react-i18next";
 
 export default function NewsFeed({ className = "" }) {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function load() {
@@ -73,7 +75,7 @@ export default function NewsFeed({ className = "" }) {
 
       <div className="p-5 md:p-6 text-center">
         <h2 className="text-xl md:text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">
-          📰 Islamic News
+          📰 {t("news_card_title")}
         </h2>
         {news.map((article, i) => (
           <motion.div

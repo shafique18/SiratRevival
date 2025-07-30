@@ -5,10 +5,12 @@ import 'swiper/css';
 import { Autoplay } from 'swiper/modules';
 import quran1 from "../../static/images/quran1.jpg";
 import quran2 from "../../static/images/quran2.jpeg";
+import { useTranslation } from "react-i18next";
 
 export default function QuranVerseCard({ className = "" }) {
   const [verse, setVerse] = useState(null);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const cachedVerse = sessionStorage.getItem('quranVerse');
@@ -86,7 +88,7 @@ export default function QuranVerseCard({ className = "" }) {
 
       <div className="p-6 text-center">
         <h2 className="text-2xl font-extrabold mb-2 text-gray-800 dark:text-gray-100">
-          📖 Verse of the Day
+          📖 {t("qura_card_title")}
         </h2>
         <motion.p className="text-xl italic text-gray-700 dark:text-gray-300 mb-4">
           {verse.arabic}

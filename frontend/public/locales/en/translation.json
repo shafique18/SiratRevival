@@ -366,5 +366,8 @@
   "index_about_text":"A modern digital platform dedicated to Islamic knowledge and awareness. From Quran and Hadith to real-time news, everything you need in one beautiful, intuitive experience.",
   "index_support_title":"Support Our Work",
   "index_support_text":"We rely on your generous support to keep this initiative growing. Every donation helps us build a more informed, connected Ummah.",
-  "index_donate_button":"Donate Now"
+  "index_donate_button":"Donate Now",
+  "qura_card_title":"Verse of the Day",
+  "news_card_title":"Islamic News",
+  "hadith_card_title":"Hadith of the Day"
 }

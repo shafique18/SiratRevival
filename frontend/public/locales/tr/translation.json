@@ -366,5 +366,8 @@
   "index_about_text": "Kur’an’dan Hadis’e, gerçek zamanlı haberlere kadar her şeyi sunan modern bir dijital İslami bilgi platformu. Her şey güzel ve sezgisel bir deneyimde bir arada.",
   "index_support_title": "Çalışmamıza Destek Olun",
   "index_support_text": "Bu girişimin büyümesi için cömert desteğinize güveniyoruz. Her bağış, daha bilgili ve bağlantılı bir ümmet inşa etmemize yardımcı olur.",
-  "index_donate_button":"Şimdi Bağış Yap"
+  "index_donate_button":"Şimdi Bağış Yap",
+  "qura_card_title":"Günün Ayeti",
+  "news_card_title":"İslam Haberleri",
+  "hadith_card_title":"Günün Hadisi"
 }

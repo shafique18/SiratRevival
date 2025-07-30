@@ -366,6 +366,8 @@
   "index_about_text": "Eine moderne digitale Plattform, die sich dem islamischen Wissen und Bewusstsein widmet. Vom Koran und den Hadithen bis hin zu aktuellen Nachrichten – alles in einer schönen, intuitiven Anwendung.",
   "index_support_title": "Unterstütze unsere Arbeit",
   "index_support_text": "Wir sind auf deine großzügige Unterstützung angewiesen, um diese Initiative auszubauen. Jede Spende hilft uns, eine informierte und vernetzte Ummah aufzubauen.",
-  "index_donate_button":"Jetzt spenden"
-
+  "index_donate_button":"Jetzt spenden",
+  "qura_card_title":"Vers des Tages",
+  "news_card_title":"Islamische Nachrichten",
+  "hadith_card_title":"Hadith des Tages"
 }

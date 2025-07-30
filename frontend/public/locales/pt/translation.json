@@ -366,5 +366,8 @@
   "index_about_text": "Uma plataforma digital moderna dedicada ao conhecimento e conscientização islâmica. Do Alcorão e Hadith às notícias em tempo real — tudo que você precisa em uma experiência bonita e intuitiva.",
   "index_support_title": "Apoie Nosso Trabalho",
   "index_support_text": "Contamos com o seu apoio generoso para manter esta iniciativa crescendo. Cada doação nos ajuda a construir uma Ummah mais informada e conectada.",
-  "index_donate_button":"Faça uma doação agora"
+  "index_donate_button":"Faça uma doação agora",
+  "qura_card_title":"Versículo do dia",
+  "news_card_title":"Notícias islâmicas",
+  "hadith_card_title":"Hadith do dia"
 }
