@@ -13,49 +13,49 @@ def seed_data(db: Session):
         {
             "name": "Amina Khalid",
             "role": "UI/UX Designer",
-            "image": "/images/amina.jpg",
+            "image": "NA",
             "description": "Crafts delightful user experiences and sleek interfaces.",
             "social_links": [
-                {"platform": "linkedin", "url": "https://linkedin.com/in/amina"},
-                {"platform": "twitter", "url": "https://twitter.com/amina"},
+                {"platform": "linkedin", "url": "https://linkedin.com/in/sample-amina"},
+                {"platform": "twitter", "url": "https://twitter.com/sample-amina"},
             ],
         },
         {
             "name": "Bilal Khan",
             "role": "Backend Developer",
-            "image": "/images/bilal.jpg",
+            "image": "NA",
             "description": "Ensures robust server-side logic and database integrity.",
             "social_links": [
-                {"platform": "github", "url": "https://github.com/bilalkhan"},
+                {"platform": "github", "url": "https://github.com/sample-bilalkhan"},
             ],
         },
         {
             "name": "Fatima Noor",
             "role": "Frontend Developer",
-            "image": "/images/fatima.jpg",
+            "image": "NA",
             "description": "Builds interactive and responsive frontend components.",
             "social_links": [
-                {"platform": "linkedin", "url": "https://linkedin.com/in/fatima"},
-                {"platform": "github", "url": "https://github.com/fatima"},
+                {"platform": "linkedin", "url": "https://linkedin.com/in/sample-fatima"},
+                {"platform": "github", "url": "https://github.com/sample-fatima"},
             ],
         },
         {
             "name": "Yusuf Rahman",
             "role": "Project Manager",
-            "image": "/images/yusuf.jpg",
+            "image": "NA",
             "description": "Keeps everything running smoothly and on schedule.",
             "social_links": [
-                {"platform": "linkedin", "url": "https://linkedin.com/in/yusuf"},
+                {"platform": "linkedin", "url": "https://linkedin.com/in/sample-yusuf"},
             ],
         },
         {
             "name": "Zainab Ali",
             "role": "Content Strategist",
-            "image": "/images/zainab.jpg",
+            "image": "NA",
             "description": "Curates and crafts powerful Islamic content for all audiences.",
             "social_links": [
-                {"platform": "twitter", "url": "https://twitter.com/zainab"},
-                {"platform": "linkedin", "url": "https://linkedin.com/in/zainab"},
+                {"platform": "twitter", "url": "https://twitter.com/sample-zainab"},
+                {"platform": "linkedin", "url": "https://linkedin.com/in/sample-zainab"},
             ],
         },
     ]

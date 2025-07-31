@@ -23,6 +23,7 @@ import Contributors from "./components/aboutus/Contributors";
 import PurposeObjective from "./components/aboutus/PurposeObjective";
 import VisionMission from "./components/aboutus/VisionMission";
 import WhySirat from "./components/aboutus/WhySirat";
+import GlobalIslamicNews from "./pages/common/GlobalIslamicNews"
 
 
 
@@ -35,11 +36,13 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Home />} />
-              <Route path="/abutus/intro" element={<AboutIntro />} />
-              <Route path="/abutus/purpose-objective" element={<PurposeObjective />} />
-              <Route path="/abutus/vision-mission" element={<VisionMission />} />
-              <Route path="/abutus/why-sirat-revival" element={<WhySirat />} />
-              <Route path="/abutus/contributors" element={<Contributors />} />
+              <Route path="/aboutus/intro" element={<AboutIntro />} />
+              <Route path="/aboutus/purpose-objective" element={<PurposeObjective />} />
+              <Route path="/aboutus/vision-mission" element={<VisionMission />} />
+              <Route path="/aboutus/why-sirat-revival" element={<WhySirat />} />
+              <Route path="/aboutus/contributors" element={<Contributors />} />
+              <Route path="/content/GlobalIslamicNews" element={<GlobalIslamicNews />} />
+
 
               <Route element={<ProtectedRoute allowedRoles={["GROUP_0_5"]} />}>
                 <Route path="/kids/homekids" element={<HomeKid />} />

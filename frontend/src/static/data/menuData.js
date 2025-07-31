@@ -975,14 +975,14 @@ const menuData = {
         {
           heading: "About us",
           links: [
-            { name: "Purpose & Objective", path: "/abutus/purpose-objective", icon: <FaFileAlt /> },
-            { name: "Vision & Mission", path: "/abutus/vision-mission", icon: <FaFileAlt /> },
-            { name: "Why is the Sirat Revival?", path: "/abutus/why-sirat-revival", icon: <FaFileAlt /> },
-            { name: "Contributors", path: "/abutus/contributors", icon: <FaFileAlt /> },
+            { name: "Purpose & Objective", path: "/aboutus/purpose-objective", icon: <FaFileAlt /> },
+            { name: "Vision & Mission", path: "/aboutus/vision-mission", icon: <FaFileAlt /> },
+            { name: "Why is the Sirat Revival?", path: "/aboutus/why-sirat-revival", icon: <FaFileAlt /> },
+            { name: "Contributors", path: "/aboutus/contributors", icon: <FaFileAlt /> },
           ],
         },
       ],
-      path:"/abutus/intro",
+      path:"/aboutus/intro",
     },
     {
       title: "Explore",
@@ -1020,7 +1020,7 @@ const menuData = {
         {
           heading: "News",
           links: [
-            { name: "Global Islamic News", path: "/articles/lifestyle", icon: <FaFileAlt /> },
+            { name: "Global Islamic News", path: "/content/GlobalIslamicNews", icon: <FaFileAlt /> },
             { name: "Sirat Revival Platform Updates", path: "/articles/history", icon: <FaFileAlt /> },
             { name: "New Content Releases", path: "/articles/history", icon: <FaFileAlt /> },
             { name: "Campaigns", path: "/articles/history", icon: <FaFileAlt /> },

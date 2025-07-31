@@ -20,6 +20,7 @@ const Navbar = forwardRef((props, ref) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState(null);
   const navRef = useRef(null);
+  
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -63,7 +64,7 @@ const Navbar = forwardRef((props, ref) => {
       {/* Top Row */}
       <div className="container mx-auto px-4 md:px-6 flex flex-wrap items-center justify-between gap-y-2 h-auto py-3">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 flex-shrink-0" aria-label="Sirat Revival Home">
+        <Link to="/" className="flex items-center gap-1 flex-shrink-0" aria-label="Sirat Revival Home">
           <img src={logo} alt="Sirat Revival Logo" className="h-10 w-auto rounded-md" />
           <span className="text-xl font-bold text-green-600 dark:text-green-400 whitespace-nowrap">
             SIRAT REVIVAL
@@ -80,7 +81,7 @@ const Navbar = forwardRef((props, ref) => {
         </div>
 
         {/* Right Utilities */}
-        <div className="hidden md:flex items-center gap-4 ml-auto">
+        <div className="hidden md:flex items-center gap-2 ml-auto">
           <LanguageSwitcher />
           <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
           <AuthButtons isAuthenticated={isAuthenticated} user={user} logout={logout} />

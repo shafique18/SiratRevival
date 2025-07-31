@@ -4,6 +4,7 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
+from dotenv import load_dotenv
 
 from datetime import datetime
 import requests
@@ -70,7 +71,8 @@ def seed_hadith(session):
 def seed_news(session):
     # Example: Fetch news from a public API like NewsAPI.org with Islamic keyword
     # You need to get your own API key from newsapi.org
-    api_key = "e1c9d2d5b2034d05a55085ce9eb829d"
+    load_dotenv(dotenv_path=r"C:\Users\shafi\Documents\Shafique\Education\Revival\SiratRevival\.env")
+    api_key = os.getenv("newsapi")
     url = f"https://newsapi.org/v2/everything?q=Islamic&quran&language=en&sortBy=publishedAt&apiKey={api_key}"
     try:
         response = requests.get(url)

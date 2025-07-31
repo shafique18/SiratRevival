@@ -107,8 +107,13 @@ class NewsArticle(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
-    link = Column(String, nullable=False)
-    source = Column(String, nullable=False)
+    author = Column(String, nullable=True)
+    description = Column(Text, nullable=True)
+    content = Column(Text, nullable=True)
+    link = Column(String, nullable=False, unique=True)
+    image_url = Column(String, nullable=True)
+    source_id = Column(String, nullable=True)
+    source_name = Column(String, nullable=False)
     date = Column(DateTime, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

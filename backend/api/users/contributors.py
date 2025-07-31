@@ -8,10 +8,11 @@ from backend.models.pydantic.user import Contributor
 
 @router.get("/contributors", response_model=List[Contributor])
 def get_contributors(db: Session = Depends(get_db)):
-    users = db.query(UserDB).filter(
-        UserDB.user_role.in_([UserRole.WRITER, UserRole.REVIEWER, UserRole.SCHOLAR])
-    ).all()
+    try:
+        users = db.query(UserDB).filter(
+            UserDB.user_role.in_([UserRole.WRITER, UserRole.REVIEWER, UserRole.SCHOLAR])
+        ).all()
 
-    resp = [Contributor.from_orm(user) for user in users]
-    print(resp)
-    return resp
+        return [Contributor.from_orm(user) for user in users]
+    except Exception as e:
+        print(str(e))

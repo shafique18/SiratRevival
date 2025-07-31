@@ -26,17 +26,28 @@ def get_hadith_today(db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="No hadith found")
     return {"text": hadith.text, "source": hadith.source}
 
+
 @router.get("/islamic-news")
-def get_islamic_news(db: Session = Depends(get_db), limit: int = 5):
-    articles = (db.query(NewsArticle)
-                  .order_by(NewsArticle.date.desc())
-                  .limit(limit).all())
+def get_islamic_news(db: Session = Depends(get_db), limit: int = 30):
+    articles = (
+        db.query(NewsArticle)
+        .order_by(NewsArticle.date.desc())
+        .limit(limit)
+        .all()
+    )
     return [
         {
+            "id": art.id,
             "title": art.title,
+            "author": art.author,
+            "description": art.description,
+            "content": art.content,
             "link": art.link,
-            "source": art.source,
-            "date": art.date.isoformat()
+            "image_url": art.image_url,
+            "source_id": art.source_id,
+            "source_name": art.source_name,
+            "date": art.date.isoformat(),
+            "created_at": art.created_at.isoformat() if art.created_at else None
         }
         for art in articles
     ]

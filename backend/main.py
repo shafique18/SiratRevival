@@ -1,8 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+from worker.scheduler import start_news_scheduler, stop_news_scheduler
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    start_news_scheduler()
+    yield
+    # Shutdown (optional)
+    stop_news_scheduler()
 
-app = FastAPI(title="SiratRevival API")
+app = FastAPI(title="SiratRevival API", lifespan=lifespan)
 
 
 origins = [
@@ -29,6 +38,8 @@ from backend.api.analytics import router as analytics_router
 from backend.api.admin import router as admin_router
 from fastapi.responses import JSONResponse
 from fastapi import Request
+
+
 
 
 

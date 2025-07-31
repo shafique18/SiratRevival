@@ -10,11 +10,11 @@ const BismillahSection = ({ navbarHeight }) => {
       style={{ top: navbarHeight }} // position right below navbar
     >
       <div className="flex flex-wrap justify-center items-center gap-4 px-4">
-        <span className="text-green-700 dark:text-green-400 text-xl md:text-2xl font-arabic leading-relaxed tracking-widest">
-          بِسْمِ ٱللّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-        </span>
         <span className="text-gray-700 dark:text-gray-300 text-base md:text-lg italic">
           {t("bismillah")}
+        </span>
+        <span className="text-green-700 dark:text-green-400 text-xl md:text-2xl font-arabic leading-relaxed tracking-widest">
+          بِسْمِ ٱللّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
         </span>
       </div>
     </div>
