@@ -19,11 +19,9 @@ import HomeAdult from "./pages/adult/homeadult";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ErrorBoundary from "./components/utils/ErrorBoundary";
 import AboutIntro from "./components/aboutus/AboutIntro";
-import Contributors from "./components/aboutus/Contributors";
-import PurposeObjective from "./components/aboutus/PurposeObjective";
-import VisionMission from "./components/aboutus/VisionMission";
-import WhySirat from "./components/aboutus/WhySirat";
+import ContactUsPage from "./components/contactus/ContactUsPage";
 import GlobalIslamicNews from "./pages/common/GlobalIslamicNews"
+
 
 
 
@@ -36,11 +34,8 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Home />} />
-              <Route path="/aboutus/intro" element={<AboutIntro />} />
-              <Route path="/aboutus/purpose-objective" element={<PurposeObjective />} />
-              <Route path="/aboutus/vision-mission" element={<VisionMission />} />
-              <Route path="/aboutus/why-sirat-revival" element={<WhySirat />} />
-              <Route path="/aboutus/contributors" element={<Contributors />} />
+              <Route path="/aboutus" element={<AboutIntro />} />
+              <Route path="/contactus" element={<ContactUsPage />} />
               <Route path="/content/GlobalIslamicNews" element={<GlobalIslamicNews />} />
 
 

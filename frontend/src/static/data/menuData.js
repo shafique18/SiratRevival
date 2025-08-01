@@ -975,14 +975,15 @@ const menuData = {
         {
           heading: "About us",
           links: [
-            { name: "Purpose & Objective", path: "/aboutus/purpose-objective", icon: <FaFileAlt /> },
-            { name: "Vision & Mission", path: "/aboutus/vision-mission", icon: <FaFileAlt /> },
-            { name: "Why is the Sirat Revival?", path: "/aboutus/why-sirat-revival", icon: <FaFileAlt /> },
-            { name: "Contributors", path: "/aboutus/contributors", icon: <FaFileAlt /> },
+            { name: "Introduction", path: "/aboutus#intro", icon: <FaFileAlt /> },
+            { name: "Purpose & Objective", path: "/aboutus#purpose-objective", icon: <FaFileAlt /> },
+            { name: "Vision & Mission", path: "/aboutus#vision-mission", icon: <FaFileAlt /> },
+            { name: "Why is the Sirat Revival?", path: "/aboutus#why-sirat-revival", icon: <FaFileAlt /> },
+            { name: "Contributors", path: "/aboutus#contributors", icon: <FaFileAlt /> },
           ],
         },
       ],
-      path:"/aboutus/intro",
+      path:"/aboutus#intro",
     },
     {
       title: "Explore",
@@ -1034,11 +1035,11 @@ const menuData = {
         {
           heading: "Contact us",
           links: [
-            { name: "General", path: "/articles/lifestyle", icon: <FaFileAlt /> },
-            { name: "Feedback", path: "/articles/history", icon: <FaFileAlt /> },
-            { name: "Suggestions", path: "/articles/history", icon: <FaFileAlt /> },
-            { name: "Report", path: "/articles/history", icon: <FaFileAlt /> },
-            { name: "FAQs", path: "/articles/history", icon: <FaFileAlt /> },
+              { name: "General", path: "/contactus#general", icon: "📄" },
+              { name: "Feedback", path: "/contactus#feedback", icon: "✉️" },
+              { name: "Suggestions", path: "/contactus#suggestions", icon: "💡" },
+              { name: "Report", path: "/contactus#report", icon: "⚠️" },
+              { name: "FAQs", path: "/contactus#faqs", icon: "❓" },
           ],
         },
       ],

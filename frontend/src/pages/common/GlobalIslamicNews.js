@@ -1,51 +1,51 @@
-import { useEffect, useState, lazy, Suspense } from "react";
+import { useEffect, useState, lazy, Suspense, useCallback, memo } from "react";
 import Layout from "../../components/layout/Layout";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import fallbackImage from "../../static/images/fallback.jpg";
 
 const Modal = lazy(() => import("../../components/common/NewsModal"));
 
-const NewsCard = ({ article, onReadMore, onToggleBookmark, isBookmarked }) => {
-  return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col relative">
-      <img
-        src={article.image_url || fallbackImage}
-        alt={article.title}
-        className="w-full aspect-[16/9] object-cover"
-        loading="lazy"
-      />
-      <div className="absolute top-3 right-3 z-10">
-        <button onClick={() => onToggleBookmark(article)} aria-label="Toggle bookmark">
-          {isBookmarked ? (
-            <BookmarkCheck className="w-6 h-6 text-yellow-400" />
-          ) : (
-            <Bookmark className="w-6 h-6 text-white hover:text-yellow-300" />
-          )}
-        </button>
-      </div>
-      <div className="p-4 flex flex-col flex-1">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
-          {article.title}
-        </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 flex-grow line-clamp-5">
-          {article.description}
-        </p>
-        <div className="mt-4 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-          <span>{new Date(article.date).toLocaleDateString()}</span>
-          <span>{article.source_name}</span>
-        </div>
-        <button
-          onClick={() => onReadMore(article)}
-          className="mt-4 self-start text-blue-600 dark:text-blue-400 hover:underline font-semibold"
-          aria-label={`Read more about ${article.title}`}
-        >
-          Read More
-        </button>
-      </div>
+const NewsCard = memo(({ article, onReadMore, onToggleBookmark, isBookmarked }) => (
+  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col relative">
+    <img
+      src={article.image_url || fallbackImage}
+      alt={article.title}
+      className="w-full aspect-[16/9] object-cover"
+      loading="lazy"
+      decoding="async"
+      fetchpriority="low"
+    />
+    <div className="absolute top-3 right-3 z-10">
+      <button onClick={() => onToggleBookmark(article)} aria-label="Toggle bookmark">
+        {isBookmarked ? (
+          <BookmarkCheck className="w-6 h-6 text-yellow-400" />
+        ) : (
+          <Bookmark className="w-6 h-6 text-white hover:text-yellow-300" />
+        )}
+      </button>
     </div>
-  );
-};
+    <div className="p-4 flex flex-col flex-1">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
+        {article.title}
+      </h3>
+      <p className="text-sm text-gray-600 dark:text-gray-300 flex-grow line-clamp-5">
+        {article.description}
+      </p>
+      <div className="mt-4 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+        <span>{new Date(article.date).toLocaleDateString()}</span>
+        <span>{article.source_name}</span>
+      </div>
+      <button
+        onClick={() => onReadMore(article)}
+        className="mt-4 self-start text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+        aria-label={`Read more about ${article.title}`}
+      >
+        Read More
+      </button>
+    </div>
+  </div>
+));
 
 export default function GlobalIslamicNews() {
   const [news, setNews] = useState([]);
@@ -57,19 +57,38 @@ export default function GlobalIslamicNews() {
   const [bookmarks, setBookmarks] = useState([]);
   const [showBookmarks, setShowBookmarks] = useState(false);
 
-  // Load bookmarks from localStorage
+  // Load showBookmarks state from localStorage on mount
   useEffect(() => {
-    const saved = localStorage.getItem("bookmarkedArticles");
-    if (saved) {
-      setBookmarks(JSON.parse(saved));
+    const savedShowBookmarks = localStorage.getItem("showBookmarks");
+    if (savedShowBookmarks === "true") {
+      setShowBookmarks(true);
     }
   }, []);
 
-  // Persist bookmarks to localStorage
+  // Load bookmarks from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("bookmarkedArticles");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setBookmarks(parsed);
+      } catch {
+        localStorage.removeItem("bookmarkedArticles");
+      }
+    }
+  }, []);
+
+  // Persist bookmarks to localStorage on change
   useEffect(() => {
     localStorage.setItem("bookmarkedArticles", JSON.stringify(bookmarks));
   }, [bookmarks]);
 
+  // Persist showBookmarks state on change
+  useEffect(() => {
+    localStorage.setItem("showBookmarks", showBookmarks.toString());
+  }, [showBookmarks]);
+
+  // Fetch news data on mount
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -77,56 +96,69 @@ export default function GlobalIslamicNews() {
         if (!res.ok) throw new Error("Failed to fetch news");
         const json = await res.json();
         setNews(json.slice(0, 100));
-        setFilteredNews(json.slice(0, 100));
-      } catch (err) {
+        // Initialize filteredNews based on showBookmarks state
+        if (!showBookmarks) {
+          setFilteredNews(json.slice(0, 100));
+        }
+      } catch {
         setError("Failed to load news. Please try again.");
       } finally {
         setLoading(false);
       }
     };
     fetchNews();
-  }, []);
+  }, [showBookmarks]);
 
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-    const sourceList = showBookmarks ? bookmarks : news;
-    const filtered = sourceList.filter((article) =>
-      article.title.toLowerCase().includes(query) ||
-      article.description?.toLowerCase().includes(query) ||
-      article.content?.toLowerCase().includes(query)
-    );
-    setFilteredNews(filtered);
-  };
+  // Update filteredNews when searchQuery, showBookmarks, news, or bookmarks change
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      const sourceList = showBookmarks ? bookmarks : news;
+      const filtered = sourceList.filter(
+        (article) =>
+          article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          article.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          article.content?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredNews(filtered);
+    }, 300);
 
-  const handleToggleBookmark = (article) => {
-    const exists = bookmarks.some((a) => a.link === article.link);
-    if (exists) {
-      const updated = bookmarks.filter((a) => a.link !== article.link);
-      setBookmarks(updated);
+    return () => clearTimeout(delayDebounce);
+  }, [searchQuery, showBookmarks, news, bookmarks]);
+
+  const handleSearchChange = (e) => setSearchQuery(e.target.value);
+
+  const handleToggleBookmark = useCallback(
+    (article) => {
+      setBookmarks((prevBookmarks) => {
+        const exists = prevBookmarks.some((a) => a.link === article.link);
+        if (exists) {
+          return prevBookmarks.filter((a) => a.link !== article.link);
+        }
+        return [...prevBookmarks, article];
+      });
       if (showBookmarks) {
         setFilteredNews((prev) => prev.filter((a) => a.link !== article.link));
       }
-    } else {
-      const updated = [...bookmarks, article];
-      setBookmarks(updated);
-    }
-  };
+    },
+    [showBookmarks]
+  );
 
   const handleTabToggle = () => {
-    setShowBookmarks((prev) => !prev);
-    const sourceList = !showBookmarks ? bookmarks : news;
-    const filtered = sourceList.filter((article) =>
-      article.title.toLowerCase().includes(searchQuery) ||
-      article.description?.toLowerCase().includes(searchQuery) ||
-      article.content?.toLowerCase().includes(searchQuery)
-    );
-    setFilteredNews(filtered);
+    setShowBookmarks((prev) => {
+      const newShowBookmarks = !prev;
+      const sourceList = newShowBookmarks ? bookmarks : news;
+      const filtered = sourceList.filter(
+        (article) =>
+          article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          article.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          article.content?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredNews(filtered);
+      return newShowBookmarks;
+    });
   };
 
-  const getTitle = () => {
-    return showBookmarks ? "Bookmarked Articles" : "Global Islamic News";
-  };
+  const getTitle = () => (showBookmarks ? "Bookmarked Articles" : "Global Islamic News");
 
   return (
     <Layout>
@@ -140,8 +172,9 @@ export default function GlobalIslamicNews() {
             type="text"
             placeholder="Search articles..."
             value={searchQuery}
-            onChange={handleSearch}
+            onChange={handleSearchChange}
             className="w-full md:w-1/2 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            aria-label="Search articles"
           />
           <button
             onClick={handleTabToggle}
@@ -155,19 +188,13 @@ export default function GlobalIslamicNews() {
           </button>
         </div>
 
-        {loading && (
-          <p className="text-center text-gray-500 dark:text-gray-400">Loading news...</p>
-        )}
+        {loading && <p className="text-center text-gray-500 dark:text-gray-400">Loading news...</p>}
 
-        {error && (
-          <p className="text-center text-red-600 dark:text-red-400">{error}</p>
-        )}
+        {error && <p className="text-center text-red-600 dark:text-red-400">{error}</p>}
 
         {!loading && !error && filteredNews.length === 0 && (
           <p className="text-center text-gray-500 dark:text-gray-400">
-            {showBookmarks
-              ? "No bookmarked news for this session."
-              : "No articles found."}
+            {showBookmarks ? "No bookmarked news." : "No articles found."}
           </p>
         )}
 
@@ -175,9 +202,9 @@ export default function GlobalIslamicNews() {
           <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {filteredNews.map((article, i) => (
               <NewsCard
-                key={i}
+                key={article.link || i}
                 article={article}
-                onReadMore={(art) => setModalArticle(art)}
+                onReadMore={setModalArticle}
                 onToggleBookmark={handleToggleBookmark}
                 isBookmarked={bookmarks.some((a) => a.link === article.link)}
               />

@@ -49,3 +49,4 @@ def get_team_members(db: Session = Depends(get_db)):
 
 from . import sidebar
 from . import contributors
+from . import contactus
