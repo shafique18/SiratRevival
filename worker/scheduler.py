@@ -12,11 +12,8 @@ def start_news_scheduler():
         finally:
             db.close()
 
-    job()
-
     # Schedule job at 6 AM and 6 PM
     scheduler.add_job(job, 'cron', hour=6, minute=0)
-    scheduler.add_job(job, 'cron', hour=18, minute=0)
 
     scheduler.start()
     print("✅ News scheduler started")
