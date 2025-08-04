@@ -819,7 +819,7 @@ const menuData = {
   ADMIN: [
     {
       title: "Users",
-      path: "/admin/users",
+      path: "/admin",
       icon: <FaUsers />,
     },
     {

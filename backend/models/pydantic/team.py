@@ -32,3 +32,6 @@ class InvolvementRequestCreate(BaseModel):
     email: EmailStr
     role: RoleEnum
     message: str
+
+class RejectRequestBody(BaseModel):
+    message: str

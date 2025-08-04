@@ -25,7 +25,6 @@ def submit_request(
         db: Session = Depends(get_db),
     ):
 
-    print(f"Received request: {data}")
     normal_roles = {
         "GROUP_0_5", "GROUP_6_15", "GROUP_16_25", "GROUP_26_PLUS"
     }
@@ -33,7 +32,6 @@ def submit_request(
     # 1. Get user by email
     user: Optional[UserDB] = db.query(UserDB).filter(UserDB.email == data.email).first()
     if not user:
-        print("Not found")
         raise HTTPException(
             status_code=400,
             detail="No user found with this email. Please register before submitting a request."
@@ -41,9 +39,7 @@ def submit_request(
 
     # 2. Check that user has at least one normal role
     user_role = user.user_role
-    print(user_role)
     if user_role not in normal_roles:
-        print("error")
         raise HTTPException(
             status_code=400,
             detail="You must be registered with a valid user role before requesting contributor access."
@@ -51,8 +47,6 @@ def submit_request(
 
     # 3. Validate role
     if data.role not in RoleEnum.__members__:
-        print("role")
-        print(data.role)
         raise HTTPException(status_code=400, detail="Invalid role.")
 
     # 4. Submit request
