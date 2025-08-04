@@ -7,6 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 from backend.db.session import engine, Base
 from backend.management.seeder import run_all_seeders
 
+
 # Optional: Automatically import all models
 from backend.models import sqlalchemy  # assuming __init__.py loads all models in app.models.sqlalchemy
 
@@ -29,5 +30,6 @@ def run_seeders():
         traceback.print_exc()
 
 if __name__ == "__main__":
+    print("Starting")
     create_tables()
     run_seeders()

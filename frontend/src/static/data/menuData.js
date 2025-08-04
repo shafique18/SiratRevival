@@ -1008,9 +1008,9 @@ const menuData = {
         {
           heading: "Get Involved",
           links: [
-            { name: "Contributor", path: "/articles/lifestyle", icon: <FaFileAlt /> },
-            { name: "Partner", path: "/articles/history", icon: <FaFileAlt /> },
-            { name: "Tech-Savvy", path: "/articles/history", icon: <FaFileAlt /> },
+            { name: "Contributor", path: "/get-involved#contributor", icon: <FaFileAlt /> },
+            { name: "Partner", path: "/get-involved#partner", icon: <FaFileAlt /> },
+            { name: "Tech-Savvy", path: "/get-involved#tech-savvy", icon: <FaFileAlt /> },
           ],
         },
       ],

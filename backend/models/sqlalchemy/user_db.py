@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum, Text
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum, Text,ForeignKey
 from sqlalchemy.orm import relationship
 from backend.db.session import Base
 import enum
@@ -28,6 +28,14 @@ class UserRole(str, enum.Enum):
 class AccountType(str, enum.Enum):
     PERSONAL = "Personal"
     ORGANIZATION = "Organization"
+
+class RoleEnum(enum.Enum):
+    WRITER = "WRITER"
+    REVIEWER = "REVIEWER"
+    SCHOLAR = "SCHOLAR"
+    PARTNER = "PARTNER"
+    TECH = "TECH"
+
 
 
 class UserDB(Base):
@@ -131,6 +139,7 @@ class UserDB(Base):
     # Application-Specific
     user_role = Column(Enum(UserRole, name="user_role", schema="siratRevival"), nullable=False)
     account_type = Column(Enum(AccountType, name="account_type", schema="siratRevival"), nullable=True)
+    involvement_requests = relationship("InvolvementRequest", back_populates="users")
     skill_level = Column(String, nullable=True) # Not required
 
     # Payment & Financial Info
@@ -157,3 +166,13 @@ class Subscriber(Base):
     subscribed_at = Column(DateTime, nullable=False)
 
 
+class InvolvementRequest(Base):
+    __tablename__ = "involvement_requests"
+    __table_args__ = {"schema": "siratRevival"}
+    id = Column(Integer, primary_key=True, index=True)
+    user_email = Column(String, ForeignKey("siratRevival.users.email"), nullable=False)
+    role = Column(Enum(RoleEnum, name="request_role_enum", schema="siratRevival"), nullable=False)
+    message = Column(Text, nullable=False)
+    is_approved = Column(Boolean, default=False)
+
+    users = relationship("UserDB", back_populates="involvement_requests")

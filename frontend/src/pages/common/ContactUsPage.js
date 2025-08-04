@@ -180,84 +180,56 @@ const FormSection = ({ id, title, description, endpoint, illustration }) => {
   );
 };
 
+const ParallaxLayer = ({ z, children, className }) => {
+  return (
+    <motion.div
+      className={`absolute inset-0 ${className}`}
+      style={{
+        transform: `translateZ(${z}px)`,
+      }}
+      animate={{
+        x: [0, z * 0.2, 0],
+        y: [0, z * -0.2, 0],
+        scale: [1, 1.02, 1],
+      }}
+      transition={{
+        duration: 8 - z * 0.5,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 const GeneralSection = () => {
   return (
     <section
       id="general"
-      className="relative w-full py-24 px-6 md:px-20 bg-white dark:bg-gray-900 overflow-hidden"
+      className="relative w-full py-24 px-6 md:px-20 bg-white dark:bg-gray-950 overflow-hidden perspective-[800px]"
     >
-      {/* Modern organic blobs with soft gradients & animations */}
-      <svg
-        className="absolute top-0 left-0 w-full h-full pointer-events-none"
-        viewBox="0 0 800 400"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <defs>
-          <radialGradient id="blobGradient1" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#2563eb" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="blobGradient2" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="blobGradient3" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="#0d9488" stopOpacity="0" />
-          </radialGradient>
-        </defs>
+      {/* 3D Parallax Background Layers */}
+      <div className="absolute inset-0 pointer-events-none transform-style-preserve-3d">
+        <ParallaxLayer z={-100}>
+          <div className="w-96 h-96 bg-blue-500/20 blur-3xl rounded-full absolute top-10 left-20 animate-pulse" />
+        </ParallaxLayer>
+        <ParallaxLayer z={-60}>
+          <div className="w-72 h-72 bg-purple-500/20 blur-2xl rounded-full absolute bottom-20 right-32 animate-pulse" />
+        </ParallaxLayer>
+        <ParallaxLayer z={-40}>
+          <div className="w-48 h-48 bg-teal-500/20 blur-2xl rounded-full absolute top-1/3 left-1/2 animate-pulse" />
+        </ParallaxLayer>
+      </div>
 
-        {/* Blob 1 */}
-        <motion.path
-          fill="url(#blobGradient1)"
-          initial={{ scale: 1, translateX: 0, translateY: 0 }}
-          animate={{
-            scale: [1, 1.05, 1],
-            translateX: [0, 10, 0],
-            translateY: [0, -10, 0],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          d="M170 60c35-20 90-10 110 40s-10 110-45 130-90 0-110-40 10-110 45-130z"
-          opacity="0.7"
-        />
-
-        {/* Blob 2 */}
-        <motion.path
-          fill="url(#blobGradient2)"
-          initial={{ scale: 1, translateX: 0, translateY: 0 }}
-          animate={{
-            scale: [1, 1.1, 1],
-            translateX: [0, -15, 0],
-            translateY: [0, 10, 0],
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          d="M620 280c40-15 85 5 95 50s-20 95-60 110-85-5-95-50 20-95 60-110z"
-          opacity="0.6"
-        />
-
-        {/* Blob 3 */}
-        <motion.path
-          fill="url(#blobGradient3)"
-          initial={{ scale: 1, translateX: 0, translateY: 0 }}
-          animate={{
-            scale: [1, 0.95, 1],
-            translateX: [0, 12, 0],
-            translateY: [0, 8, 0],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          d="M390 50c50 10 80 40 70 85s-60 70-110 60-80-40-70-85 60-70 110-60z"
-          opacity="0.5"
-        />
-      </svg>
-
+      {/* Foreground Content */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="relative max-w-7xl mx-auto flex flex-col lg:flex-row items-start gap-20"
+        className="relative z-10 max-w-7xl mx-auto flex flex-col lg:flex-row items-start gap-20"
       >
-        {/* Left side: Heading and description */}
+        {/* Left: Heading and Text */}
         <div className="lg:w-1/2 text-left">
           <h1 className="text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
             Contact Us
@@ -267,7 +239,7 @@ const GeneralSection = () => {
           </p>
         </div>
 
-        {/* Right side: Contact details */}
+        {/* Right: Contact Info */}
         <div className="lg:w-1/2 text-gray-800 dark:text-gray-200 max-w-md">
           <h2 className="text-3xl font-semibold mb-6">Get in Touch</h2>
           <div className="space-y-5 text-left">

@@ -18,8 +18,9 @@ import HomeYoung from "./pages/young/homeyoung";
 import HomeAdult from "./pages/adult/homeadult";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ErrorBoundary from "./components/utils/ErrorBoundary";
-import AboutIntro from "./components/aboutus/AboutIntro";
-import ContactUsPage from "./components/contactus/ContactUsPage";
+import AboutIntro from "./pages/common/AboutIntro";
+import GetInvolvedPage from "./pages/common/GetInvolvedPage";
+import ContactUsPage from "./pages/common/ContactUsPage";
 import GlobalIslamicNews from "./pages/common/GlobalIslamicNews"
 
 
@@ -35,6 +36,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Home />} />
               <Route path="/aboutus" element={<AboutIntro />} />
+              <Route path="/get-involved" element={<GetInvolvedPage />} />
               <Route path="/contactus" element={<ContactUsPage />} />
               <Route path="/content/GlobalIslamicNews" element={<GlobalIslamicNews />} />
 

@@ -71,79 +71,104 @@ export default function AdminDashboard() {
     }
   };
 
+  const totalUsers = users.length;
+  const totalContributors = users.filter(u => u.roles.includes("contributor")).length;
+  const pendingContributors = users.filter(u => u.roles.includes("contributor") && !u.isverified).length;
+
   return (
     <Layout>
-    <div className="max-w-5xl mx-auto p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-      </div>
+      <div className="max-w-6xl mx-auto p-6 space-y-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+        </div>
 
-      <Transition show={!!notify} className="mb-4" enter="transition-opacity duration-300"
-                  enterFrom="opacity-0" enterTo="opacity-100">
-        <div className="bg-green-100 text-green-800 py-2 px-4 rounded">{notify}</div>
-      </Transition>
+        <Transition show={!!notify} className="mb-4" enter="transition-opacity duration-300"
+                    enterFrom="opacity-0" enterTo="opacity-100">
+          <div className="bg-green-100 text-green-800 py-2 px-4 rounded">{notify}</div>
+        </Transition>
 
-      {/* User Search & Table */}
-      <div className="space-y-4">
-        <input
-          type="text"
-          placeholder="Search by email..."
-          value={search}
-          onChange={(e) => { setSearch(e.target.value); fetchUsers(e.target.value); }}
-          className="w-full p-2 border rounded"
-        />
-        <table className="w-full text-left border">
-          <thead className="bg-gray-200"><tr>
-            <th className="p-2">ID</th><th>Email</th><th>Roles</th><th>Approve</th>
-          </tr></thead>
-          <tbody>
-            {users.map(u => (
-              <tr key={u.id} className="border-t">
-                <td className="p-2">{u.id}</td>
-                <td>{u.email}</td>
-                <td>{u.roles.join(', ')}</td>
-                <td>
-                  {u.isverified ? (
-                    <button
-                      className="bg-green-600 text-white px-3 py-1 rounded cursor-not-allowed"
-                      disabled
-                    >
-                      Approved
-                    </button>
-                  ) : (
-                    <button
-                      className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-                      onClick={() => approve(u.id)}
-                    >
-                      Unapproved
-                    </button>
-                  )}
-                </td>
+        {/* Top Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-white shadow p-4 rounded-lg text-center">
+            <p className="text-gray-500">Total Users</p>
+            <p className="text-2xl font-bold">{totalUsers}</p>
+          </div>
+          <div className="bg-white shadow p-4 rounded-lg text-center">
+            <p className="text-gray-500">Pending Contributors</p>
+            <p className="text-2xl font-bold">{pendingContributors}</p>
+          </div>
+          <div className="bg-white shadow p-4 rounded-lg text-center">
+            <p className="text-gray-500">Total Contributors</p>
+            <p className="text-2xl font-bold">{totalContributors}</p>
+          </div>
+        </div>
+
+        {/* User Search & Table */}
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Search by email..."
+            value={search}
+            onChange={(e) => { setSearch(e.target.value); fetchUsers(e.target.value); }}
+            className="w-full p-2 border rounded"
+          />
+          <table className="w-full text-left border">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="p-2">ID</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Approve</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {users.map(u => (
+                <tr key={u.id} className="border-t">
+                  <td className="p-2">{u.id}</td>
+                  <td>{u.email}</td>
+                  <td>{u.roles.join(', ')}</td>
+                  <td>
+                    {u.isverified ? (
+                      <button
+                        className="bg-green-600 text-white px-3 py-1 rounded cursor-not-allowed"
+                        disabled
+                      >
+                        Approved
+                      </button>
+                    ) : (
+                      <button
+                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                        onClick={() => approve(u.id)}
+                      >
+                        Unapproved
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-      {/* Scheduling Form */}
-      <div className="border-t pt-6 space-y-4">
-        <h2 className="text-xl font-semibold">Schedule Content</h2>
-        <input type="text" placeholder="Title" value={schedule.title}
-               onChange={(e) => setSchedule(s => ({...s, title: e.target.value}))}
-               className="w-full p-2 border rounded"/>
-        <textarea placeholder="Content" value={schedule.content}
-               onChange={(e) => setSchedule(s => ({...s, content: e.target.value}))}
-               className="w-full p-2 border rounded"/>
-        <input type="text" placeholder="Visible to (comma separated age groups)"
-               value={schedule.visible_to.join(',')}
-               onChange={(e) => setSchedule(s => ({...s, visible_to: e.target.value.split(',').map(s=>s.trim())}))}
-               className="w-full p-2 border rounded"/>
-        <button onClick={scheduleItem}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-          Schedule
-        </button>
+        {/* Scheduling Form */}
+        <div className="border-t pt-6 space-y-4">
+          <h2 className="text-xl font-semibold">Schedule Content</h2>
+          <input type="text" placeholder="Title" value={schedule.title}
+                onChange={(e) => setSchedule(s => ({...s, title: e.target.value}))}
+                className="w-full p-2 border rounded"/>
+          <textarea placeholder="Content" value={schedule.content}
+                onChange={(e) => setSchedule(s => ({...s, content: e.target.value}))}
+                className="w-full p-2 border rounded"/>
+          <input type="text" placeholder="Visible to (comma separated age groups)"
+                value={schedule.visible_to.join(',')}
+                onChange={(e) => setSchedule(s => ({...s, visible_to: e.target.value.split(',').map(s=>s.trim())}))}
+                className="w-full p-2 border rounded"/>
+          <button onClick={scheduleItem}
+                  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            Schedule
+          </button>
+        </div>
       </div>
-    </div>
     </Layout>
   );
 }

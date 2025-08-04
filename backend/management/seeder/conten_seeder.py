@@ -73,7 +73,7 @@ def seed_news(session):
     # You need to get your own API key from newsapi.org
     load_dotenv(dotenv_path=r"C:\Users\shafi\Documents\Shafique\Education\Revival\SiratRevival\.env")
     api_key = os.getenv("newsapi")
-    url = f"https://newsapi.org/v2/everything?q=Islamic&quran&language=en&sortBy=publishedAt&apiKey={api_key}"
+    url = f"https://newsapi.org/v2/everything?q=Islamic&quran&language=en&sortBy=publishedAt&pageSize=30&apiKey={api_key}"
     try:
         response = requests.get(url)
         if response.status_code == 200:

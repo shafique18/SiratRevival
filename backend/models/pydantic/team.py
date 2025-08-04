@@ -1,6 +1,14 @@
 # team.py
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, HttpUrl, EmailStr
 from typing import List, Optional
+from enum import Enum
+
+class RoleEnum(str, Enum):
+    WRITER = "WRITER"
+    REVIEWER = "REVIEWER"
+    SCHOLAR = "SCHOLAR"
+    PARTNER = "PARTNER"
+    TECH = "TECH"
 
 class SocialLink(BaseModel):
     platform: str
@@ -19,3 +27,8 @@ class TeamMember(BaseModel):
 
     class Config:
         orm_mode = True
+
+class InvolvementRequestCreate(BaseModel):
+    email: EmailStr
+    role: RoleEnum
+    message: str
