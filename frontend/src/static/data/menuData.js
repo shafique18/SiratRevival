@@ -980,10 +980,10 @@ const menuData = {
             { name: "Vision & Mission", path: "/aboutus#vision-mission", icon: <FaFileAlt /> },
             { name: "Why is the Sirat Revival?", path: "/aboutus#why-sirat-revival", icon: <FaFileAlt /> },
             { name: "Contributors", path: "/aboutus#contributors", icon: <FaFileAlt /> },
+            { name: "Get Involved", path: "/get-involved", icon: <FaFileAlt /> },
           ],
         },
       ],
-      path:"/aboutus#intro",
     },
     {
       title: "Explore",
@@ -998,19 +998,6 @@ const menuData = {
             { name: "Posts", path: "/articles/history", icon: <FaFileAlt /> },
             { name: "Discussion", path: "/articles/history", icon: <FaFileAlt /> },
             { name: "Today on Islamic history", path: "/articles/history", icon: <FaFileAlt /> },
-          ],
-        },
-      ],
-    },
-    {
-      title: "Get Involved",
-      columns: [
-        {
-          heading: "Get Involved",
-          links: [
-            { name: "Contributor", path: "/get-involved#contributor", icon: <FaFileAlt /> },
-            { name: "Partner", path: "/get-involved#partner", icon: <FaFileAlt /> },
-            { name: "Tech-Savvy", path: "/get-involved#tech-savvy", icon: <FaFileAlt /> },
           ],
         },
       ],

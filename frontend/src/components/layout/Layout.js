@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import PrayerTimesWidget from "../utils/PrayerTimesWidget";
 import BismillahSection from "./BismillahSection";
 import AuthContext from "../../context/AuthContext";
+import { Toaster } from "react-hot-toast";
 
 const Layout = ({ children }) => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -41,6 +42,7 @@ const Layout = ({ children }) => {
     <div className="overflow-x-hidden">
       <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
         <Navbar ref={navbarRef} />
+         <Toaster position="top-center" reverseOrder={false} />
 
         {/* Spacer equal to Navbar height */}
         <div style={{ height: navbarHeight }} />

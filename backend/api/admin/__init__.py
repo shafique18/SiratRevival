@@ -62,43 +62,38 @@ def approve_request(
     db: Session = Depends(get_db),
     admin=Depends(role_required(["admin"]))
 ):
-    # 1. Fetch the request
     req = db.query(InvolvementRequest).filter_by(id=request_id).first()
     if not req:
         raise HTTPException(status_code=404, detail="Request not found")
-    
-    # 2. Fetch the user
+
     user = db.query(User).filter_by(email=req.user_email).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    
-    # 3. Mark request approved
+
     req.is_approved = True
 
-    # 4. Update user_role if applicable
-    if req.role in ["WRITER", "REVIEWER", "SCHOLAR"]:
-        # Assign enum member safely
-        try:
-            user.user_role = UserRole(req.role.value)
-        except KeyError:
-            raise HTTPException(status_code=400, detail="Invalid role in request")
+    # Debug prints
+    print(f"Request role: {req.role} ({req.role.name} / {req.role.value})")
+    print(f"UserRole members: {[r.name for r in UserRole]}")
 
-    # 5. Handle PARTNER role
-    elif req.role == "PARTNER":
+    if req.role.name in ["WRITER", "REVIEWER", "SCHOLAR"]:
+        # Assign user_role by name (assuming UserRole names match RoleEnum names)
+        user.user_role = UserRole[req.role.name]
+        db.add(user)  # make sure user is tracked by session
+
+    elif req.role.name == "PARTNER":
         partner = Partner(user_id=user.id, message=req.message)
         db.add(partner)
 
-    # 6. Handle TECH role
-    elif req.role == "TECH":
+    elif req.role.name == "TECH":
         team_member = TeamMember(
             name=user.username,
-            role=req.role,
+            role=req.role.value,
             image="",
             description=req.message
         )
         db.add(team_member)
 
-    # 7. Commit all changes once after all modifications
     db.commit()
 
     # 8. Send notification emails

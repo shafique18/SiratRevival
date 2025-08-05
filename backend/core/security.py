@@ -2,7 +2,7 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
 from fastapi.security import OAuth2PasswordBearer
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Header
 from typing import List
 from sqlalchemy.orm import Session, joinedload
 from backend.core.config import settings
@@ -56,3 +56,10 @@ def role_required(required_roles: List[str]):
 
         return user
     return dependency
+
+
+def get_language(lang: str = None, accept_language: str = Header(None), settings = settings):
+    if lang in settings.SUPPORTED_LANGS:
+        return lang
+    # parse accept_language header fallback
+    return settings.DEFAULT_LANGS
