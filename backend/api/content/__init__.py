@@ -6,4 +6,7 @@ router = APIRouter(tags=["content"])
 def list_articles():
     return [{"id": 1, "title": "What is Islam?"}]
 
+
 from . import quran_hadith_news
+from . import subscribe
+from . import pillars

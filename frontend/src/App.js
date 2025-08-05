@@ -22,6 +22,7 @@ import AboutIntro from "./pages/common/AboutIntro";
 import GetInvolvedPage from "./pages/common/GetInvolvedPage";
 import ContactUsPage from "./pages/common/ContactUsPage";
 import GlobalIslamicNews from "./pages/common/GlobalIslamicNews"
+import PillarsOfIslam from "./screens/explore/PillarsOfIslam"
 
 
 
@@ -39,6 +40,7 @@ function App() {
               <Route path="/get-involved" element={<GetInvolvedPage />} />
               <Route path="/contactus" element={<ContactUsPage />} />
               <Route path="/content/GlobalIslamicNews" element={<GlobalIslamicNews />} />
+              <Route path="/content/Pillars" element={<PillarsOfIslam />} />
 
 
               <Route element={<ProtectedRoute allowedRoles={["GROUP_0_5"]} />}>

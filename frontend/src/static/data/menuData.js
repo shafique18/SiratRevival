@@ -991,7 +991,7 @@ const menuData = {
         {
           heading: "Explore",
           links: [
-            { name: "Pillars of Islam", path: "/articles/lifestyle", icon: <FaFileAlt /> },
+            { name: "Pillars of Islam", path: "/content/Pillars", icon: <FaFileAlt /> },
             { name: "Quran", path: "/articles/history", icon: <FaFileAlt /> },
             { name: "Hadith", path: "/articles/history", icon: <FaFileAlt /> },
             { name: "Scholars", path: "/articles/history", icon: <FaFileAlt /> },
