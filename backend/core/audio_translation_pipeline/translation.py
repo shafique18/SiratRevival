@@ -25,8 +25,8 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 whisper_base = WhisperModel.from_pretrained(settings.WHISPER_MODEL).to(device)
 whisper_processor = WhisperProcessor.from_pretrained(settings.WHISPER_MODEL)
 whisper_model = WhisperForConditionalGeneration.from_pretrained(settings.WHISPER_MODEL).to(device)
-seamless_processor = AutoProcessor.from_pretrained(settings.SEAMLESS_MODEL).to(device)
-seamless_model = SeamlessM4Tv2Model.from_pretrained(settings.SEAMLESS_MODEL).to(device)
+seamless_processor = AutoProcessor.from_pretrained(settings.SEAMLESS_MODEL)
+seamless_model = SeamlessM4Tv2Model.from_pretrained(settings.SEAMLESS_MODEL)
 
 def extract_youtube_shorts_id(url: str) -> str:
     parsed_url = urlparse(url)
