@@ -9,31 +9,30 @@ from urllib.parse import urlparse
 import torch
 import torchaudio
 from yt_dlp import YoutubeDL
-from transformers import AutoProcessor, SeamlessM4Tv2Model, WhisperProcessor, WhisperForConditionalGeneration, WhisperModel, pipeline
+from transformers import (
+    AutoProcessor, SeamlessM4Tv2Model,
+    WhisperProcessor, WhisperForConditionalGeneration,
+    pipeline
+)
 
 from backend.core.config import settings
 
-# Setup
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 os.environ["HF_HUB_DISABLE_SYMLINKS"] = "1"
-
-# Ensure audio directory exists
 settings.AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 
-# Preload models
 device = "cuda" if torch.cuda.is_available() else "cpu"
-whisper_base = WhisperModel.from_pretrained(settings.WHISPER_MODEL).to(device)
 whisper_processor = WhisperProcessor.from_pretrained(settings.WHISPER_MODEL)
 whisper_model = WhisperForConditionalGeneration.from_pretrained(settings.WHISPER_MODEL).to(device)
 seamless_processor = AutoProcessor.from_pretrained(settings.SEAMLESS_MODEL)
 seamless_model = SeamlessM4Tv2Model.from_pretrained(settings.SEAMLESS_MODEL)
 
+asr = pipeline("automatic-speech-recognition", model=settings.WHISPER_MODEL, device=0, return_timestamps="word")
+
 def extract_youtube_shorts_id(url: str) -> str:
     parsed_url = urlparse(url)
     path_parts = parsed_url.path.strip("/").split("/")
-    if len(path_parts) >= 2 and path_parts[0] == "shorts":
-        return path_parts[1]
-    return None
+    return path_parts[1] if len(path_parts) >= 2 and path_parts[0] == "shorts" else None
 
 def download_youtube_audio(youtube_url: str) -> str:
     audio_id = str(uuid.uuid4())
@@ -56,67 +55,57 @@ def download_youtube_audio(youtube_url: str) -> str:
         raise FileNotFoundError(f"Failed to find WAV output for {audio_id}")
     return str(final_path[0])
 
-asr = pipeline("automatic-speech-recognition", model="openai/whisper-base", device=0)
+def transcribe_with_segments(audio_path: str):
+    result = asr(audio_path)
+    return result.get("chunks", [])
 
-def detect_language_whisper(audio_path: str) -> str:
-    result = asr(audio_path, return_timestamps=True)
-    detected_lang = result.get("language", "unknown")
-    print(f"[INFO] Detected language (Whisper): {detected_lang}")
-    return detected_lang
+def detect_language_of_text(text: str) -> str:
+    import langdetect
+    try:
+        return langdetect.detect(text)
+    except:
+        return "unknown"
 
-# def detect_language_whisper(audio_path: str) -> str:
-#     waveform, sr = torchaudio.load(audio_path)
-#     if sr != 16000:
-#         waveform = torchaudio.functional.resample(waveform, sr, 16000)
-#     waveform = waveform.mean(dim=0)
+def split_audio_segment(audio_path, start_time, end_time, output_path):
+    waveform, sr = torchaudio.load(audio_path)
+    start_sample = int(start_time * sr)
+    end_sample = int(end_time * sr)
+    segment = waveform[:, start_sample:end_sample]
+    torchaudio.save(output_path, segment, sr)
 
-#     inputs = whisper_processor(waveform, sampling_rate=16000, return_tensors="pt")
-#     input_features = inputs.input_features.to(device)
+def translate_urdu_segments(audio_path: str, segments: List[dict], output_dir: Path):
+    urdu_segments = [seg for seg in segments if detect_language_of_text(seg["text"]) == "ur"]
+    translations = {}
 
-#     with torch.no_grad():
-#         # Encode audio
-#         encoder_outputs = whisper_base.encoder(input_features=input_features)
-        
-#         # Predict language token with decoder
-#         decoder_input_ids = torch.tensor([[whisper_processor.tokenizer.lang_to_id["<|en|>"]]], device=device)
-#         logits = whisper_base.decoder(
-#             input_ids=decoder_input_ids,
-#             encoder_hidden_states=encoder_outputs.last_hidden_state
-#         ).logits
+    for i, segment in enumerate(urdu_segments):
+        start = segment["timestamp"][0]
+        end = segment["timestamp"][1]
+        text = segment["text"]
+        segment_audio_path = output_dir / f"urdu_segment_{i}.wav"
+        split_audio_segment(audio_path, start, end, segment_audio_path)
 
-#         language_probs = torch.softmax(logits[:, 0, :], dim=-1)
-#         language_token = torch.argmax(language_probs, dim=-1)
-#         language_str = whisper_processor.tokenizer.convert_ids_to_tokens(language_token)[0]
-#         lang = language_str.strip("<|>").replace("_", "-")
-#         print(f"[INFO] Detected language (Whisper): {lang}")
-#         return lang
+        for lang in settings.TRANSLATE_LANGUAGES:
+            print(f"  - Translating Urdu segment {i} to {lang}...")
+            waveform, sample_rate = torchaudio.load(segment_audio_path)
+            if sample_rate != 16000:
+                waveform = torchaudio.functional.resample(waveform, sample_rate, 16000)
+            inputs = seamless_processor(audios=waveform.squeeze(), sampling_rate=16000, return_tensors="pt")
+            inputs = {k: v.to("cpu") for k, v in inputs.items()}
+            output = seamless_model.generate(**inputs, tgt_lang=lang, generate_speech=True)
 
-def transcribe_audio(audio_path: str) -> str:
-    waveform, sample_rate = torchaudio.load(audio_path)
-    if sample_rate != 16000:
-        waveform = torchaudio.functional.resample(waveform, sample_rate, 16000)
-    waveform = waveform.mean(dim=0)
-    inputs = whisper_processor(waveform, sampling_rate=16000, return_tensors="pt")
-    input_features = inputs.input_features.to(device)
-    predicted_ids = whisper_model.generate(input_features)
-    transcription = whisper_processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
-    return transcription
+            translated_audio_path = output_dir / f"translated_segment_{i}_{lang}.wav"
+            torchaudio.save(str(translated_audio_path), output.audio[0].unsqueeze(0), 16000)
 
-def translate_speech(audio_path: str, tgt_lang: str) -> str:
-    waveform, sample_rate = torchaudio.load(audio_path)
-    if sample_rate != 16000:
-        waveform = torchaudio.functional.resample(waveform, sample_rate, 16000)
-    inputs = seamless_processor(audios=waveform.squeeze(),sampling_rate=16000, return_tensors="pt")
-    inputs = {k: v.to(device) for k, v in inputs.items()}
-    output = seamless_model.generate(**inputs, tgt_lang=tgt_lang, generate_speech=True)
-    translated_audio_path = settings.AUDIO_DIR / f"{uuid.uuid4()}_{tgt_lang}.wav"
-    torchaudio.save(str(translated_audio_path), output.audio[0].unsqueeze(0), 16000)
-    return str(translated_audio_path)
+            translations[f"segment_{i}_{lang}"] = {
+                "original_text": text,
+                "translated_audio_path": str(translated_audio_path)
+            }
+    return translations
 
-def save_content_translation(original_text, translations_dict, track):
+def save_content_translation(original_segments, translations_dict, track):
     CT_FILE = Path(f"Pillar_{track}.json")
     data = {
-        "original_text": original_text,
+        "urdu_segments": original_segments,
         "translations": translations_dict
     }
     existing = []
@@ -133,28 +122,22 @@ def process_youtube_audio(youtube_urls: List[str]):
         print("[1] Downloading audio...")
         audio_path = download_youtube_audio(youtube_url)
 
-        print("[2] Detecting language...")
-        detected_lang = detect_language_whisper(audio_path)
+        print("[2] Transcribing with timestamps...")
+        segments = transcribe_with_segments(audio_path)
+        for seg in segments:
+            seg["language"] = detect_language_of_text(seg["text"])
 
-        print("[3] Transcribing with Whisper...")
-        transcript = transcribe_audio(audio_path)
-        print(f"[INFO] Transcription: {transcript}")
-
-        print("[4] Translating & synthesizing into 13 languages...")
-        translations = {}
-        for lang in settings.TRANSLATE_LANGUAGES:
-            print(f"  - Translating to {lang}...")
-            translated_audio = translate_speech(audio_path, lang)
-            translations[lang] = {
-                "translated_url": translated_audio
-            }
+        print("[3] Filtering and translating Urdu segments...")
+        output_dir = settings.AUDIO_DIR / "segments"
+        output_dir.mkdir(exist_ok=True)
+        translations = translate_urdu_segments(audio_path, segments, output_dir)
 
         short_name = extract_youtube_shorts_id(youtube_url)
-        print("[5] Storing translation data...")
-        save_content_translation(transcript, translations, short_name)
+        print("[4] Saving data...")
+        urdu_segments = [seg for seg in segments if seg["language"] == "ur"]
+        save_content_translation(urdu_segments, translations, short_name)
         print("✅ Done.")
 
-# === Entry Point ===
 if __name__ == "__main__":
     yt_urls = [
         "https://www.youtube.com/shorts/wwCk7qgMm7g?feature=share",
