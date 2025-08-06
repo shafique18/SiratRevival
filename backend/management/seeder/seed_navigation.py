@@ -146,6 +146,6 @@ def seed_all(session: Session):
     print("✅ Professional Islamic LMS seed completed.")
 
 if __name__ == "__main__":
-    from app.db.session import Session
+    from backend.db.session import Session
     with Session(engine) as session:
         seed_all(session)

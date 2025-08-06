@@ -31,7 +31,7 @@ class SubMenuDB(Base):
     menu_id = Column(Integer, ForeignKey("siratRevival.menus.id"), nullable=False)
     path = Column(String, nullable=False)  # frontend route path
     type = Column(
-        Enum("static", "learning", name="submenu_type", schema="siratRevival"),
+        Enum("static", "learning","machine", name="submenu_type", schema="siratRevival"),
         nullable=False
     )
     learning_path_id = Column(Integer, ForeignKey("siratRevival.learning_paths.id"), nullable=True)

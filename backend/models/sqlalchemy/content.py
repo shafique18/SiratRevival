@@ -38,7 +38,7 @@ class ContentTranslation(Base):
     language = Column(String, nullable=False)
     translated_text = Column(Text)  # For text-based content
     translated_url = Column(String)  # If it's a translated file/audio/video
-    translation_type = Column(Enum('machine', 'human', 'verified', name="submenu_type", schema="siratRevival"), default='machine')
+    translation_type = Column(Enum('machine', 'human', 'verified', name="translation_type", schema="siratRevival"), default='machine')
     created_at = Column(DateTime, default=datetime.utcnow)
 
     content = relationship("ContentDB", back_populates="translations")
