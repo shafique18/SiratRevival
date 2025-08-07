@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import Navbar from "../navbar/Navbar";
 import Footer from "./Footer";
 import PrayerTimesWidget from "../utils/PrayerTimesWidget";
+import AudioVisualizer from "../utils/AudioVisualizer";
 import BismillahSection from "./BismillahSection";
 import AuthContext from "../../context/AuthContext";
 import { Toaster } from "react-hot-toast";

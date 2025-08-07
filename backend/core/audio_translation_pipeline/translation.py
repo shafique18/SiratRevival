@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import List
 from urllib.parse import urlparse
 import torch
+torch.cuda.empty_cache()
 import torchaudio
 from yt_dlp import YoutubeDL
 from transformers import (
@@ -21,13 +22,14 @@ os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 os.environ["HF_HUB_DISABLE_SYMLINKS"] = "1"
 settings.AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+# device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cpu"
 whisper_processor = WhisperProcessor.from_pretrained(settings.WHISPER_MODEL)
 whisper_model = WhisperForConditionalGeneration.from_pretrained(settings.WHISPER_MODEL).to(device)
 seamless_processor = AutoProcessor.from_pretrained(settings.SEAMLESS_MODEL)
-seamless_model = SeamlessM4Tv2Model.from_pretrained(settings.SEAMLESS_MODEL)
+seamless_model = SeamlessM4Tv2Model.from_pretrained(settings.SEAMLESS_MODEL).to(device)
 
-asr = pipeline("automatic-speech-recognition", model=settings.WHISPER_MODEL, device=0, return_timestamps="word")
+asr = pipeline("automatic-speech-recognition", model=settings.WHISPER_MODEL, device=device, return_timestamps="word")
 
 def extract_youtube_shorts_id(url: str) -> str:
     parsed_url = urlparse(url)
@@ -56,7 +58,7 @@ def download_youtube_audio(youtube_url: str) -> str:
     return str(final_path[0])
 
 def transcribe_with_segments(audio_path: str):
-    result = asr(audio_path)
+    result = asr(audio_path,chunk_length_s=30, batch_size=1)
     return result.get("chunks", [])
 
 def detect_language_of_text(text: str) -> str:
@@ -90,11 +92,12 @@ def translate_urdu_segments(audio_path: str, segments: List[dict], output_dir: P
             if sample_rate != 16000:
                 waveform = torchaudio.functional.resample(waveform, sample_rate, 16000)
             inputs = seamless_processor(audios=waveform.squeeze(), sampling_rate=16000, return_tensors="pt")
-            inputs = {k: v.to("cpu") for k, v in inputs.items()}
+            inputs = {k: v.to(device) for k, v in inputs.items()}
             output = seamless_model.generate(**inputs, tgt_lang=lang, generate_speech=True)
+            print(output)
 
             translated_audio_path = output_dir / f"translated_segment_{i}_{lang}.wav"
-            torchaudio.save(str(translated_audio_path), output.audio[0].unsqueeze(0), 16000)
+            torchaudio.save(str(translated_audio_path), output.unsqueeze(0), 16000)
 
             translations[f"segment_{i}_{lang}"] = {
                 "original_text": text,

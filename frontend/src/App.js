@@ -1,6 +1,7 @@
 import React from "react";
 import Unauthorized from "./pages/auth/Unauthorized"; // Add this at the top
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ParallaxProvider } from 'react-scroll-parallax';
 import { AuthProvider } from "./context/AuthContext";
 import { LanguageProvider } from "./context/LanguageContext";
 import Home from "./pages/index";
@@ -32,6 +33,7 @@ function App() {
     <ErrorBoundary>
       <LanguageProvider>
         <AuthProvider>
+          <ParallaxProvider>
           <Router>
             <Routes>
               <Route path="/login" element={<Login />} />
@@ -78,6 +80,7 @@ function App() {
               <Route path="*" element={<Home />} />
             </Routes>
           </Router>
+          </ParallaxProvider>
         </AuthProvider>
       </LanguageProvider>
     </ErrorBoundary>
