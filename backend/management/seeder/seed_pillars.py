@@ -1,41 +1,36 @@
-# Adjust import paths
-import os, sys
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
-from sqlalchemy.orm import Session
-from datetime import datetime
-from backend.models.sqlalchemy.navigation import LearningPathDB, ModuleDB
-from backend.models.sqlalchemy.content import ContentDB, ContentTranslation  # Adjust import paths
-from backend.db.session import SessionLocal  
+import os
+import sys
 import uuid
+from datetime import datetime
+from sqlalchemy.orm import Session
+import json
+
+# Adjust import paths
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+
+from backend.models.sqlalchemy.navigation import LearningPathDB, ModuleDB
+from backend.models.sqlalchemy.content import ContentDB, ContentTranslation
+from backend.db.session import SessionLocal
 
 # Supported languages
 LANGUAGES = [
     "en", "es", "fr", "de", "it", "pt", "ur", "zh", "ja", "ar", "hi", "tr", "id"
 ]
 
-# Base English texts for the pillar sections
-pillar_sections = {
-    "Introduction": "The Five Pillars of Islam are the foundation of a Muslim's faith and practices.",
-    "First Pillar": "Shahada: The declaration of faith – 'There is no god but Allah, and Muhammad is His messenger.'",
-    "Second Pillar": "Salah: Performing the five daily prayers.",
-    "Third Pillar": "Zakat: Giving to charity and supporting those in need.",
-    "Fourth Pillar": "Sawm: Fasting during the month of Ramadan.",
-    "Fifth Pillar": "Hajj: The pilgrimage to Mecca, which every Muslim should perform at least once if able."
-}
+# Detailed content for each pillar with numbered points + references
+with open("frontend/src/static/data/pillar_seeding_data.json", "r", encoding="utf-8") as f:
+    pillar_contents = json.load(f)
 
+# Translate + dummy audio URL for translation
 def fake_translate(text, lang):
-    """
-    Simulate translation and audio URL generation.
-    """
     translated_text = f"[{lang.upper()}] {text}"
     audio_url = f"https://example.com/audio/{lang}/{uuid.uuid4()}.mp3"
     return translated_text, audio_url
 
-def seed_pillars(db: Session):
 
+def seed_pillars(db: Session):
     try:
-        # 1. Create or get LearningPath
+        # 1. Learning Path
         learning_path = db.query(LearningPathDB).filter_by(title="Islamic Foundations").first()
         if not learning_path:
             learning_path = LearningPathDB(
@@ -47,7 +42,7 @@ def seed_pillars(db: Session):
             db.refresh(learning_path)
             print("Created LearningPath:", learning_path.title)
 
-        # 2. Create or get Module linked to LearningPath
+        # 2. Module
         module = db.query(ModuleDB).filter_by(title="PILLARS").first()
         if not module:
             module = ModuleDB(
@@ -60,23 +55,26 @@ def seed_pillars(db: Session):
             db.refresh(module)
             print("Created Module:", module.title)
 
-        # 3. Create contents for each pillar section with translations
-        for section_title, base_text in pillar_sections.items():
-            content = ContentDB(
+        # 3. Seed Pillars content with translations, audio, and video
+        for index, (pillar_title, pillar_data) in enumerate(pillar_contents.items()):
+            base_html = pillar_data["content"]
+
+            # TEXT Content
+            text_content = ContentDB(
                 module_id=module.id,
                 type="text",
-                html_content=base_text
+                html_content=base_html
             )
-            db.add(content)
+            db.add(text_content)
             db.commit()
-            db.refresh(content)
-            print(f"Created Content for section: {section_title}")
+            db.refresh(text_content)
+            print(f"Created Text Content for pillar: {pillar_title}")
 
-            # Add translations for all languages
+            # Translations
             for lang in LANGUAGES:
-                translated_text, audio_url = fake_translate(base_text, lang)
+                translated_text, audio_url = fake_translate(base_html, lang)
                 translation = ContentTranslation(
-                    content_id=content.id,
+                    content_id=text_content.id,
                     language=lang,
                     translated_text=translated_text,
                     translated_url=audio_url,
@@ -84,11 +82,36 @@ def seed_pillars(db: Session):
                     created_at=datetime.utcnow()
                 )
                 db.add(translation)
-
             db.commit()
-            print(f"Added translations for section: {section_title}")
+            print(f"Added translations for pillar: {pillar_title}")
 
-        print("✅ Pillars content seeded successfully.")
+            # AUDIO Content (from frontend/src/static/audio)
+            audio_filename = f"pillar_{index + 1}.mp3"
+            audio_path =  audio_filename
+
+            audio_content = ContentDB(
+                module_id=module.id,
+                type="audio",
+                content_url=audio_path
+            )
+            db.add(audio_content)
+            db.commit()
+            print(f"Added audio content: {audio_path}")
+
+            # VIDEO Content (from frontend/src/static/video)
+            video_filename = f"pillar_{index + 1}.mp4"
+            video_path = video_filename
+
+            video_content = ContentDB(
+                module_id=module.id,
+                type="video",
+                content_url=video_path
+            )
+            db.add(video_content)
+            db.commit()
+            print(f"Added video content: {video_path}")
+
+        print("✅ Pillars content seeded successfully with detailed pointers, references, audio, and video content URLs.")
 
     except Exception as e:
         db.rollback()
@@ -96,6 +119,7 @@ def seed_pillars(db: Session):
 
     finally:
         db.close()
+
 
 if __name__ == "__main__":
     db = SessionLocal()

@@ -15,7 +15,7 @@ class ContentDB(Base):
 
     id = Column(Integer, primary_key=True)
     module_id = Column(Integer, ForeignKey("siratRevival.modules.id"), nullable=False)
-    type = Column(Enum("video", "text", "pdf", "link", name="content_type", schema="siratRevival"), nullable=False)
+    type = Column(Enum("video","audio", "text", "pdf", "link", name="content_type", schema="siratRevival"), nullable=False)
     content_url = Column(String, nullable=True)
     html_content = Column(Text, nullable=True)
 

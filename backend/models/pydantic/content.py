@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 class SectionTranslation(BaseModel):
     language: str
@@ -10,6 +10,8 @@ class PillarSection(BaseModel):
     section_key: str
     title: str
     translations: List[SectionTranslation]
+    audioPath: Optional[str] = None
+    videoPath: Optional[str] = None
 
 class PillarsResponse(BaseModel):
     sections: List[PillarSection]
