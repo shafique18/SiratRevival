@@ -555,5 +555,4 @@ const PillarsPage = () => {
   );
 };
 
-
 export default PillarsPage;
