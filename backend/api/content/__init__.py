@@ -10,3 +10,4 @@ def list_articles():
 from . import quran_hadith_news
 from . import subscribe
 from . import pillars
+from . import quran
