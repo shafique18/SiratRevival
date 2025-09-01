@@ -25,6 +25,7 @@ import ContactUsPage from "./pages/common/ContactUsPage";
 import GlobalIslamicNews from "./pages/common/GlobalIslamicNews"
 import PillarsOfIslam from "./screens/explore/PillarsOfIslam"
 import Quran from "./screens/explore/Quran"
+import Hadith from "./screens/explore/Hadith"
 
 
 
@@ -45,6 +46,7 @@ function App() {
               <Route path="/content/GlobalIslamicNews" element={<GlobalIslamicNews />} />
               <Route path="/content/Pillars" element={<PillarsOfIslam />} />
               <Route path="/content/Quran" element={<Quran />} />
+              <Route path="/content/Hadith" element={<Hadith />} />
 
 
               <Route element={<ProtectedRoute allowedRoles={["GROUP_0_5"]} />}>

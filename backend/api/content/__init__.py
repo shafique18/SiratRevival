@@ -11,3 +11,4 @@ from . import quran_hadith_news
 from . import subscribe
 from . import pillars
 from . import quran
+from . import hadith

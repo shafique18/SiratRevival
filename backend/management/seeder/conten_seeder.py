@@ -35,7 +35,9 @@ def seed_hadith(session):
     # Example: Fetch Hadith from a public API (Sunnah.com unofficial API or similar)
     # This is a placeholder URL, replace with a real API if available
     try:
-        response = requests.get("https://api.sunnah.com/v1/hadiths", headers={"X-API-Key": "YOUR_API_KEY"})
+        load_dotenv(dotenv_path=r"C:\Users\shafi\Documents\Shafique\Education\Revival\SiratRevival\.env")
+        api_key = os.getenv("HadithAPI")
+        response = requests.get("https://hadithapi.com/api/hadiths", headers={"apiKey": api_key})
         if response.status_code == 200:
             hadiths = response.json().get("data", [])
             for h in hadiths:
@@ -72,7 +74,7 @@ def seed_news(session):
     # Example: Fetch news from a public API like NewsAPI.org with Islamic keyword
     # You need to get your own API key from newsapi.org
     load_dotenv(dotenv_path=r"C:\Users\shafi\Documents\Shafique\Education\Revival\SiratRevival\.env")
-    api_key = os.getenv("newsapi")
+    api_key = os.getenv("NEWSAPI")
     url = f"https://newsapi.org/v2/everything?q=Islamic&quran&language=en&sortBy=publishedAt&pageSize=30&apiKey={api_key}"
     try:
         response = requests.get(url)

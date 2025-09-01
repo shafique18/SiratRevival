@@ -86,6 +86,7 @@ class Hadith(Base):
     chapter = Column(String)
     number = Column(String)
     source = Column(String)  # Bukhari, Muslim, etc.
+    topic = Column(String, nullable=True)
     is_today = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     translations = relationship("HadithTranslation", back_populates="hadith")
