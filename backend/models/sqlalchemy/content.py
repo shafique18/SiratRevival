@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, ForeignKey, Enum, UniqueConstraint, Index, JSON
 from enum import Enum as PyEnum 
 from sqlalchemy.sql import func
 from backend.db.session import Base
@@ -8,38 +8,98 @@ from backend.models.sqlalchemy.user_db import UserRole
 from backend.models.sqlalchemy.navigation import ModuleDB
 
 # Purpose: Islamic core texts.
+class ContentMedium(PyEnum):
+    ARTICLE = "article"
+    VIDEO = "video"
+    AUDIO = "audio"
+    BOOK = "book"
+    LINK = "link"
+    PDF = "pdf"
+    OTHER = "other"
+
+class Scholar(Base):
+    __tablename__ = "scholars"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False, index=True)
+    slug = Column(String(255), unique=True, index=True)  # e.g. url-safe name
+    bio = Column(Text)
+    website = Column(String(1024))
+    photo_url = Column(String(1024))
+    country = Column(String(128))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    contents = relationship("Content", back_populates="scholar", cascade="all, delete-orphan")
+
+    __table_args__ = (UniqueConstraint('name', 'website', name='uq_scholar_name_website'),)
 
 class ContentDB(Base):
     __tablename__ = "contents"
-    __table_args__ = {"schema": "siratRevival"}
+    __table_args__ = (
+        {"schema": "siratRevival"},
+        UniqueConstraint("external_id", "source", name="uq_contents_external_source"),
+        Index("idx_contents_published_at", "published_at"),
+        Index("idx_contents_slug", "slug")
+    )
 
     id = Column(Integer, primary_key=True)
     module_id = Column(Integer, ForeignKey("siratRevival.modules.id"), nullable=False)
-    type = Column(Enum("video","audio", "text", "pdf", "link", name="content_type", schema="siratRevival"), nullable=False)
+
+    # Type of content
+    type = Column(Enum(ContentMedium, name="content_type", schema="siratRevival"), nullable=False)
+
+    title = Column(String(500), nullable=True)
+    slug = Column(String(250), nullable=True, index=True)  # SEO friendly
     content_url = Column(String, nullable=True)
+    thumbnail = Column(String, nullable=True)
     html_content = Column(Text, nullable=True)
+    summary = Column(Text, nullable=True)
 
+    # External metadata for ingestion
+    external_id = Column(String(255), nullable=True)  # YouTube ID, Alim slug, etc.
+    source = Column(String(100), nullable=True)  # e.g., 'alim', 'islamqa', 'yaqeen'
+    metadata = Column(JSON, default={})  # Store extra scraped metadata
+
+    published_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    is_active = Column(Boolean, default=True)
+
+    # Relationships
     module = relationship("ModuleDB", back_populates="contents")
-    translations = relationship("ContentTranslation", back_populates="content")
-    topic_links = relationship("TopicContent", back_populates="content")
-    figure_links = relationship("FigureContent", back_populates="content")
-    versions = relationship("ContentVersion", back_populates="content")
+    translations = relationship("ContentTranslation", back_populates="content", cascade="all, delete-orphan")
+    topic_links = relationship("TopicContent", back_populates="content", cascade="all, delete-orphan")
+    figure_links = relationship("FigureContent", back_populates="content", cascade="all, delete-orphan")
+    versions = relationship("ContentVersion", back_populates="content", cascade="all, delete-orphan")
 
+
+# --- Content Translation Table ---
 class ContentTranslation(Base):
-
-    # Purpose: Store multilingual content for all content types (text, audio, video, PDFs, etc.).
-    # Multilingual support
-
+    """
+    Stores multilingual content for all content types.
+    Supports both text translations and alternative URLs (audio/video/PDF versions).
+    """
     __tablename__ = 'content_translations'
-    __table_args__ = {"schema": "siratRevival"}
+    __table_args__ = (
+        {"schema": "siratRevival"},
+        UniqueConstraint("content_id", "language", name="uq_content_translation_lang")
+    )
 
     id = Column(Integer, primary_key=True)
-    content_id = Column(Integer, ForeignKey('siratRevival.contents.id'))
-    language = Column(String, nullable=False)
-    translated_text = Column(Text)  # For text-based content
-    translated_url = Column(String)  # If it's a translated file/audio/video
-    translation_type = Column(Enum('machine', 'human', 'verified', name="translation_type", schema="siratRevival"), default='machine')
+    content_id = Column(Integer, ForeignKey('siratRevival.contents.id', ondelete="CASCADE"))
+
+    language = Column(String(10), nullable=False)  # e.g., 'en', 'ar', 'ur'
+    translated_text = Column(Text, nullable=True)
+    translated_url = Column(String, nullable=True)
+
+    translation_type = Column(
+        Enum('machine', 'human', 'verified', name="translation_type", schema="siratRevival"),
+        default='machine'
+    )
+
     created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     content = relationship("ContentDB", back_populates="translations")
 

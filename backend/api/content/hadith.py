@@ -5,7 +5,7 @@ from fastapi import Query, HTTPException
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import func
 from backend.db.session import SessionLocal
-from backend.models.sqlalchemy import Hadith, HadithTranslation
+from backend.models.sqlalchemy.content import Hadith, HadithTranslation
 from backend.utils.category_map import infer_category, DISPLAY_ORDER
 
 
